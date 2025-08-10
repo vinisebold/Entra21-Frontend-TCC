@@ -1,1 +1,59 @@
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/400.css";
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #9fa86d;
+  --color-surface-container: #f4f3f1;
+  --color-surface-container2: #e5e5e5;
+  --color-outline: #7d835a;
+  --color-secundary: #e4ecba;
+  --color-on-surface: #1b1c1e;
+  --color-on-surface-variant: #53544f;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.icone {
+  width: 22px;
+  height: 22px;
+
+}
+
+.title-medium {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  font-weight: 600;
+}
+
+.body-large {
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0%;
+  font-weight: 400;
+}
+
+.body-medium {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  font-weight: 400;
+}
+
+.label-medium {
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0%;
+  font-weight: 500;
+}
+
+.label-medium {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0%;
+  font-weight: 400;
+}
