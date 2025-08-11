@@ -6,56 +6,52 @@ import { CommonModule } from '@angular/common';
   selector: 'app-navbar',
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
-  template: `
-    <div class="w-48 bg-[#F4F3F1]">
-      <nav>
-        <div class="flex items-center justify-between p-3 mb-4">
-          <div class="flex items-center space-x-3">
-            <div
-              class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-medium"
-              style="background-color: #9fa86d"
-            >
-              {{ userInitials() }}
-            </div>
-            <span class="text-gray-800 text-sm font-medium">{{ userName() }}</span>
-          </div>
-          <div
-            class="px-2 py-1 rounded text-xs font-medium"
-            style="background-color: #e5e5e5; color: #666666"
-          >
-            IC
-          </div>
-        </div>
-
-        <div class="space-y-2 p-2">
-          @for (item of menuItems; track item.route) {
-            <div
-              class="flex items-center justify-between px-4 py-3 rounded-xl cursor-pointer transition-colors text-on-surface-variant"
-              routerLink="{{ item.route }}"
-              routerLinkActive="bg-primary text-white"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
-              <span class="text-sm title-medium">{{ item.label }}</span>
-              <svg class="icone">
-                <use [attr.href]="item.icon"></use>
-              </svg>
-            </div>
-          }
-        </div>
-      </nav>
-    </div>
-  `,
+  templateUrl: './nav-bar.html',
+  host: {
+    class: 'block bg-[#F4F3F1] h-full transition-all duration-200 ease-in-out',
+    '[class.w-56]': '!collapsed()',
+    '[class.w-16]': 'collapsed()',
+  },
 })
 export class NavBar {
-  // Signals para reatividade
-  userName = signal('Guest User');
-  userInitials = signal('GU');
+  private readonly storageKey = 'sidebar-collapsed';
 
-  // Menu dinâmico como array
-  menuItems = [
+  // Estado local com sinais
+  readonly userName = signal('Guest User');
+  readonly collapsed = signal<boolean>(this.hydrateCollapsed());
+
+  // Menu
+  readonly menuItems = [
     { label: 'Início', route: '/inicio', icon: '/sprite.svg#icon-home' },
-    { label: 'Inventário', route: '/inventario', icon: '/sprite.svg#icon-inventario' },
+    {
+      label: 'Inventário',
+      route: '/inventario',
+      icon: '/sprite.svg#icon-inventario',
+    },
     { label: 'Cadastro', route: '/cadastro', icon: '/sprite.svg#icon-pessoas' },
-    { label: 'Financeiro', route: '/financeiro', icon: '/sprite.svg#icon-dinheiro' },
-  ];
+    {
+      label: 'Financeiro',
+      route: '/financeiro',
+      icon: '/sprite.svg#icon-dinheiro',
+    },
+  ] as const;
+
+  toggle(): void {
+    this.collapsed.update((v) => !v);
+    this.persistCollapsed();
+  }
+
+  private hydrateCollapsed(): boolean {
+    try {
+      return localStorage.getItem(this.storageKey) === '1';
+    } catch {
+      return false;
+    }
+  }
+
+  private persistCollapsed(): void {
+    try {
+      localStorage.setItem(this.storageKey, this.collapsed() ? '1' : '0');
+    } catch {}
+  }
 }

@@ -1,0 +1,61 @@
+<nav class="h-full overflow-hidden">
+  <div class="flex items-center justify-between p-3 mt-2 mb-8">
+    <div class="flex items-center space-x-2">
+      <div
+        class="w-8 h-8 rounded-xl flex items-center justify-center text-white text-sm font-medium shrink-0"
+        style="background-color: #9fa86d"
+        aria-hidden="true"
+      >
+        <svg class="icone" aria-hidden="true" focusable="false">
+          <use [attr.href]="'/sprite.svg#icon-home'"></use>
+        </svg>
+      </div>
+
+      <span
+        class="text-on-surface title-medium truncate w-26"
+        [class.hidden]="collapsed()"
+      >
+        {{ userName() }}
+      </span>
+    </div>
+
+    <button
+      type="button"
+      class="px-3 py-1 rounded text-xs font-medium focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary text-on-surface-variant cursor-pointer"
+      (click)="toggle()"
+      [attr.aria-pressed]="collapsed()"
+      [attr.aria-label]="collapsed() ? 'Expandir sidebar' : 'Colapsar sidebar'"
+      title="Alternar sidebar"
+    >
+      <svg
+        class="icone text-on-surface-variant"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <use [attr.href]="'/sprite.svg#icon-sidebar'"></use>
+      </svg>
+    </button>
+  </div>
+
+  <div class="space-y-1 p-2">
+    @for (item of menuItems; track item.route) {
+    <a
+      class="flex items-center gap-3 px-4 py-4 rounded-full cursor-pointer transition-colors text-on-surface-variant [&:not(.bg-primary)]:hover:bg-surface-container2"
+      [routerLink]="item.route"
+      routerLinkActive="bg-primary text-white shadow-md"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [class.justify-center]="collapsed()"
+      [class.justify-between]="!collapsed()"
+      [attr.aria-label]="collapsed() ? item.label : null"
+      [attr.title]="collapsed() ? item.label : null"
+    >
+      <span class="text-sm title-medium" [class.hidden]="collapsed()">
+        {{ item.label }}
+      </span>
+      <svg class="icone" aria-hidden="true" focusable="false">
+        <use [attr.href]="item.icon"></use>
+      </svg>
+    </a>
+    }
+  </div>
+</nav>

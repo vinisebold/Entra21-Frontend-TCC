@@ -1,10 +1,12 @@
 @import "@fontsource/inter/600.css";
 @import "@fontsource/inter/500.css";
 @import "@fontsource/inter/400.css";
+@import "@fontsource/inter/200.css";
 @import "tailwindcss";
 
 @theme {
   --color-primary: #9fa86d;
+  --color-primary2: #AAB37A;
   --color-surface-container: #f4f3f1;
   --color-surface-container2: #e5e5e5;
   --color-outline: #7d835a;
@@ -20,7 +22,6 @@ body {
 .icone {
   width: 22px;
   height: 22px;
-
 }
 
 .title-medium {
@@ -44,15 +45,15 @@ body {
   font-weight: 400;
 }
 
-.label-medium {
+.label-large {
   font-size: 14px;
-  line-height: 16px;
+  line-height: 20px;
   letter-spacing: 0%;
   font-weight: 500;
 }
 
 .label-medium {
-  font-size: 11px;
+  font-size: 14px;
   line-height: 16px;
   letter-spacing: 0%;
   font-weight: 400;

@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormularioProduto } from '../../components/formulario-produto/formulario-produto';
+
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [],
+  imports: [FormularioProduto],
   templateUrl: './lista-produtos.html',
-  styleUrl: './lista-produtos.scss'
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListaProdutos {
 

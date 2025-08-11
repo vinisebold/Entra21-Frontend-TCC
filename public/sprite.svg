@@ -115,4 +115,32 @@
       fill="currentColor" />
   </symbol>
 
+  <symbol id="icon-sidebar" viewBox="0 0 23 22">
+  <path 
+    d="M21.97 14V8C21.97 3 19.97 1 14.97 1H8.96997C3.96997 1 1.96997 3 1.96997 8V14C1.96997 19 3.96997 21 8.96997 21H14.97C19.97 21 21.97 19 21.97 14Z" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round" 
+    stroke-linejoin="round" 
+    fill="none" 
+  />
+  <path 
+    d="M7.96997 1V21" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round" 
+    stroke-linejoin="round" 
+    fill="none" 
+  />
+  <path 
+    d="M14.97 8.43994L12.41 10.9999L14.97 13.5599" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round" 
+    stroke-linejoin="round" 
+    fill="none" 
+  />
+</symbol>
+
+
 </svg>
