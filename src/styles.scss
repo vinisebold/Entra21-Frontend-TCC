@@ -5,24 +5,41 @@
 @import "tailwindcss";
 
 @theme {
+  // Cores
   --color-primary: #9fa86d;
-  --color-primary2: #AAB37A;
+  --color-primary2: #aab37a;
+  --color-surface: #ffffff;
   --color-surface-container: #f4f3f1;
   --color-surface-container2: #e5e5e5;
   --color-outline: #7d835a;
-  --color-secundary: #E5E8D1;
-  --color-secundary2: #CED2B8;
+  --color-secundary: #e5e8d1;
+  --color-secundary2: #ced2b8;
   --color-on-surface: #1b1c1e;
   --color-on-surface-variant: #53544f;
+
+  // Shadows
+  --shadow-btn: 0 2px 10px 0px rgba(0, 0, 0, 0.2);
 }
 
 body {
   font-family: "Inter", sans-serif;
 }
 
-.icone {
+.icone{
   width: 22px;
   height: 22px;
+}
+
+.icone-38{
+  width: 34px;
+  height: 34px;
+}
+
+.title-big {
+  font-size: 34px;
+  line-height: 28px;
+  letter-spacing: 0%;
+  font-weight: 600;
 }
 
 .title-medium {
@@ -58,4 +75,10 @@ body {
   line-height: 16px;
   letter-spacing: 0%;
   font-weight: 400;
+}
+
+/* Scrollbar global */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ffffff #e5e5e5;
 }
