@@ -1,34 +1,12 @@
 import { Component } from '@angular/core';
-import { Botao } from '../../../../shared/components/botao/botao';
-import { FormularioCliente } from '../../../cadastros/components/formulario-cliente/formulario-cliente';
-import { FormularioFornecedor } from '../../../cadastros/components/formulario-fornecedor/formulario-fornecedor';
+import { ListaClientes } from "../../components/lista-clientes/lista-clientes";
+import { ListaFornecedores } from "../../components/lista-fornecedores/lista-fornecedores";
 
 @Component({
   selector: 'app-pagina-cadastros',
-  imports: [FormularioCliente, FormularioFornecedor, Botao],
+  imports: [ListaClientes, ListaFornecedores],
   templateUrl: './pagina-cadastros.html',
   styleUrl: './pagina-cadastros.scss',
 })
 export class PaginaCadastros {
-  // MODAL DO FORNECEDOR
-  mostrarModalFornecedor = false;
-
-  abrirFornecedorModal() {
-    this.mostrarModalFornecedor = true;
-  }
-
-  closeFornecedorModal() {
-    this.mostrarModalFornecedor = false;
-  }
-
-  // MODAL DO CLIENTE
-  mostrarModalClient = false;
-
-  abrirClientModal() {
-    this.mostrarModalClient = true;
-  }
-
-  closeClientModal() {
-    this.mostrarModalClient = false;
-  }
 }
