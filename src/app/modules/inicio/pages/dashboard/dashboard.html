@@ -1,1 +1,18 @@
-<p>dashboard works!</p>
+<app-botao
+  label="Adicionar Cliente"
+  (buttonClick)="abrirClientModal()"
+></app-botao>
+
+@if (mostrarModalClient) {
+<app-formulario-cliente (fechar)="closeClientModal()"></app-formulario-cliente>
+}
+
+<app-botao
+  label="Adicionar Fornecedor"
+  (buttonClick)="abrirFornecedorModal()"
+></app-botao>
+@if (mostrarModalFornecedor) {
+<app-formulario-fornecedor
+  (fechar)="closeFornecedorModal()"
+></app-formulario-fornecedor>
+}

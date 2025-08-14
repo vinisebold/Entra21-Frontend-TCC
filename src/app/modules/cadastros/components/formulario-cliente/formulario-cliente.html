@@ -1,1 +1,148 @@
-<p>formulario-cliente works!</p>
+<div class="fixed inset-0 z-50 flex items-end justify-end p-4">
+  <div
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="dialog-title"
+    class="w-full max-w-md rounded-2xl bg-[#FBFAF7] shadow-[0_12px_30px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between px-5 py-4">
+      <h2 id="dialog-title" class="text-lg font-semibold text-neutral-800">
+        Editar Cliente
+      </h2>
+      <button
+        aria-label="Fechar"
+        (click)="closeClientModal()"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-300"
+      >
+        <svg
+          class="icone text-on-surface-variant"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <use [attr.href]="'/sprite.svg#icon-sidebar'"></use>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="px-5 pb-5">
+      <form class="space-y-5">
+        <!-- Nome -->
+        <div class="space-y-2">
+          <label
+            for="nome"
+            class="block text-[0.95rem] font-medium text-neutral-700"
+            >Nome</label
+          >
+          <input
+            id="nome"
+            type="text"
+            placeholder="Informe o nome do cliente..."
+            class="h-11 w-full rounded-full border border-neutral-200 bg-white px-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 shadow-[inset_0_1px_0_rgba(0,0,0,0.02)] focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+          />
+        </div>
+
+        <!-- Descrição -->
+        <div class="space-y-2">
+          <label
+            for="descricao"
+            class="block text-[0.95rem] font-medium text-neutral-700"
+            >Descrição</label
+          >
+          <input
+            id="descricao"
+            type="text"
+            placeholder="Informe a descrição..."
+            class="h-11 w-full rounded-full border border-neutral-200 bg-white px-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+          />
+        </div>
+
+        <!-- Telefone & CPF -->
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <!-- Telefone -->
+          <div class="space-y-2">
+            <label
+              for="telefone"
+              class="block text-[0.95rem] font-medium text-neutral-700"
+              >Telefone</label
+            >
+            <div class="relative">
+              <span
+                class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+              >
+                <svg
+                  class="icone text-on-surface-variant"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <use [attr.href]="'/sprite.svg#icon-sidebar'"></use>
+                </svg>
+              </span>
+              <input
+                id="telefone"
+                type="tel"
+                inputmode="numeric"
+                placeholder="(47) 00000 - 0000"
+                class="h-11 w-full rounded-full border border-neutral-200 bg-white pl-11 pr-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+              />
+            </div>
+          </div>
+
+          <!-- CPF -->
+          <div class="space-y-2">
+            <label
+              for="cpf"
+              class="block text-[0.95rem] font-medium text-neutral-700"
+              >CPF</label
+            >
+            <div class="relative">
+              <span
+                class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400"
+              >
+                <svg
+                  class="icone text-on-surface-variant"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <use [attr.href]="'/sprite.svg#icon-sidebar'"></use>
+                </svg>
+              </span>
+              <input
+                id="cpf"
+                type="text"
+                inputmode="numeric"
+                placeholder="000.000.000-00"
+                class="h-11 w-full rounded-full border border-neutral-200 bg-white pl-12 pr-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="flex items-center justify-between pt-2">
+          <button
+            type="submit"
+            class="inline-flex items-center gap-2 rounded-full bg-[#9AA56B] px-5 py-3 text-sm font-semibold text-white shadow-[0_2px_0_rgba(0,0,0,0.06)] hover:bg-[#8D9C61] focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40 active:translate-y-px"
+          >
+            <svg
+              class="icone text-on-surface-variant"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <use [attr.href]="'/sprite.svg#icon-sidebar'"></use>
+            </svg>
+            <span>Salvar</span>
+          </button>
+          <button
+            type="button"
+            (click)="closeClientModal()"
+            class="px-4 py-2 text-sm font-medium text-neutral-500 hover:text-neutral-700"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
