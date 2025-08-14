@@ -10,26 +10,5 @@ import { FormularioFornecedor } from "../../../cadastros/components/formulario-f
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  
-  // MODAL DO FORNECEDOR
-  mostrarModalFornecedor = false;
 
-  abrirFornecedorModal() {
-    this.mostrarModalFornecedor = true;
-  }
-
-  closeFornecedorModal() {
-    this.mostrarModalFornecedor = false;
-  }
-
-  // MODAL DO CLIENTE
-  mostrarModalClient = false;
-
-  abrirClientModal() {
-    this.mostrarModalClient = true;
-  }
-
-  closeClientModal() {
-    this.mostrarModalClient = false;
-  }
 }

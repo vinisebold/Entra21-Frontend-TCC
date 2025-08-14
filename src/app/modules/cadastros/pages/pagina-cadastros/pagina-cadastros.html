@@ -1,3 +1,11 @@
+@if (mostrarModalClient) {
+<app-formulario-cliente (fechar)="closeClientModal()"></app-formulario-cliente>
+} @if (mostrarModalFornecedor) {
+<app-formulario-fornecedor
+  (fechar)="closeFornecedorModal()"
+></app-formulario-fornecedor>
+}
+
 <div class="grid grid-cols-1 gap-8 md:grid-cols-2 mx-14">
   <section
     role="region"
@@ -15,7 +23,10 @@
       <h2 class="title-big leading-none text-on-surface">Fornecedores</h2>
 
       <div class="ms-auto">
-        <app-botao label="'Adicionar Cliente'"></app-botao>
+        <app-botao
+          label="Adicionar Cliente"
+          (buttonClick)="abrirClientModal()"
+        ></app-botao>
       </div>
     </header>
 
@@ -234,7 +245,10 @@
       <h2 class="title-big leading-none text-on-surface">Fornecedores</h2>
 
       <div class="ms-auto">
-        <app-botao label="'Adicionar Fornecedor'"></app-botao>
+        <app-botao
+          label="Adicionar Fornecedor"
+          (buttonClick)="abrirFornecedorModal()"
+        ></app-botao>
       </div>
     </header>
 
