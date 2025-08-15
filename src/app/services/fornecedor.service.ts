@@ -1,0 +1,17 @@
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { FornecedorModel } from '../models/fornecedor.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FornecedorService {
+
+  private http = inject(HttpClient)
+  private apiUrl = 'https://entra21-backend-tcc-production.up.railway.app/api/fornecedores'; 
+
+  getFornecedores(): Observable<FornecedorModel[]> {
+    return this.http.get<FornecedorModel[]>(this.apiUrl);
+  }
+}
