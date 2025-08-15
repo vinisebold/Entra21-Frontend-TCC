@@ -14,7 +14,7 @@ import { FornecedorModel } from '../../../../models/fornecedor.model'; // Import
         class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
       >
         <svg class="icone" aria-hidden="true" focusable="false">
-          <use [attr.href]="'/sprite.svg#icon-telefone'"></use>
+          <use [attr.href]="'/sprite.svg#icon-phone'"></use>
         </svg>
         {{ fornecedor().telefone }}
       </span>
@@ -22,7 +22,7 @@ import { FornecedorModel } from '../../../../models/fornecedor.model'; // Import
         class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
       >
         <svg class="icone" aria-hidden="true" focusable="false">
-          <use [attr.href]="'/sprite.svg#icon-documento'"></use>
+          <use [attr.href]="'/sprite.svg#icon-identidade'"></use>
         </svg>
         {{ fornecedor().cnpj }}
       </span>
