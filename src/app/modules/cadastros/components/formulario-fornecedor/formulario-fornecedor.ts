@@ -5,8 +5,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FornecedorService } from '../../../../services/fornecedor.service';
-import { FornecedorModel } from '../../../../models/fornecedor.model';
+import { FornecedorService } from '../../services/fornecedor.service';
+import { FornecedorModel } from '../../models/fornecedor.model';
 
 @Component({
   selector: 'app-formulario-fornecedor',

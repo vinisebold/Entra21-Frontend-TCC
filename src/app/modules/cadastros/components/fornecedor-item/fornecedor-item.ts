@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FornecedorModel } from '../../../../models/fornecedor.model'; // Importe a interface que já criamos
+import { FornecedorModel } from '../../models/fornecedor.model'; // Importe a interface que já criamos
 
 @Component({
   selector: 'app-fornecedor-item',

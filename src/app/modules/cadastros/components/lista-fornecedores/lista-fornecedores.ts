@@ -3,8 +3,8 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@ang
 import { Botao } from '../../../../shared/components/botao/botao';
 import { FormularioFornecedor } from '../../../cadastros/components/formulario-fornecedor/formulario-fornecedor';
 import { FornecedorItem } from '../fornecedor-item/fornecedor-item';
-import { FornecedorModel } from '../../../../models/fornecedor.model';
-import { FornecedorService } from '../../../../services/fornecedor.service';
+import { FornecedorModel } from '../../models/fornecedor.model';
+import { FornecedorService } from '../../services/fornecedor.service';
 
 @Component({
   selector: 'app-lista-fornecedores',
