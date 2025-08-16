@@ -7,10 +7,12 @@ import {
 } from '@angular/forms';
 import { FornecedorService } from '../../services/fornecedor.service';
 import { FornecedorModel } from '../../models/fornecedor.model';
+import { TelefoneMask } from '../../../../shared/directives/telefone-mask';
+import { CnpjMask } from '../../../../shared/directives/cnpj-mask';
 
 @Component({
   selector: 'app-formulario-fornecedor',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, TelefoneMask, CnpjMask ],
   templateUrl: './formulario-fornecedor.html',
   styleUrl: './formulario-fornecedor.scss',
 })

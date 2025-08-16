@@ -8,7 +8,7 @@
     <!-- Header -->
     <div class="flex items-center justify-between px-5 py-4">
       <h2 id="dialog-title" class="text-lg font-semibold text-neutral-800">
-        Editar Cliente
+        Adicionar Cliente
       </h2>
       <button
         aria-label="Fechar"
@@ -82,8 +82,8 @@
               <input
                 id="telefone"
                 type="tel"
-                inputmode="numeric"
-                placeholder="(47) 00000 - 0000"
+                appTelefoneMask
+                placeholder="(00) 00000-0000"
                 class="h-11 w-full rounded-full border border-neutral-200 bg-white pl-11 pr-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
               />
             </div>
@@ -112,6 +112,7 @@
                 id="cpf"
                 type="text"
                 inputmode="numeric"
+                appCpfMask
                 placeholder="000.000.000-00"
                 class="h-11 w-full rounded-full border border-neutral-200 bg-white pl-12 pr-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
               />

@@ -2,22 +2,25 @@ import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  FormControl,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { ClienteService } from '../../services/cliente.service';
 import { ClienteModel } from '../../models/cliente.model';
+import { TelefoneMask } from '../../../../shared/directives/telefone-mask';
+import { CpfMask } from '../../../../shared/directives/cpf-mask';
 
 @Component({
   selector: 'app-formulario-cliente',
-  imports: [ ReactiveFormsModule ],
+  imports: [ReactiveFormsModule, TelefoneMask, CpfMask],
   templateUrl: './formulario-cliente.html',
   styleUrl: './formulario-cliente.scss',
 })
 export class FormularioCliente {
   @Output() fechar = new EventEmitter<void>();
   @Output() salvo = new EventEmitter<void>();
-
+  
   private fb = inject(FormBuilder);
   private clienteService = inject(ClienteService);
 
@@ -53,7 +56,7 @@ export class FormularioCliente {
       },
       error: (err) => {
         console.error('Erro ao salvar cliente:', err);
-        // Aqui você pode adicionar uma lógica para mostrar um erro ao usuário
+        // Aqui pode add lógica para mostrar um erro ao usuário
       },
     });
   }
