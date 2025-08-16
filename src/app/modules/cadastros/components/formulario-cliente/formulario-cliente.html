@@ -12,7 +12,7 @@
       </h2>
       <button
         aria-label="Fechar"
-        (click)="closeClientModal()"
+        (click)="onFecharClick()"
         class="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-300"
       >
         <svg
@@ -136,7 +136,7 @@
           </button>
           <button
             type="button"
-            (click)="closeClientModal()"
+            (click)="onFecharClick()"
             class="px-4 py-2 text-sm font-medium text-neutral-500 hover:text-neutral-700"
           >
             Cancelar

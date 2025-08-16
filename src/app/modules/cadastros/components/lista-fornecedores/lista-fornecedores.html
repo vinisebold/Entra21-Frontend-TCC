@@ -36,7 +36,10 @@
       aria-label="Lista de Fornecedores"
     >
       @for (fornecedor of fornecedores(); track fornecedor.id) {
-      <li role="listitem" class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2">
+      <li
+        role="listitem"
+        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
+      >
         <app-fornecedor-item [fornecedor]="fornecedor" />
       </li>
       } @empty {

@@ -1,5 +1,5 @@
-@if (mostrarModalClient) {
-<app-formulario-cliente (fechar)="closeClientModal()"></app-formulario-cliente>
+@if (mostrarModalCliente()) {
+<app-formulario-cliente (fechar)="closeClienteModal()"></app-formulario-cliente>
 }
 
 <section
@@ -20,7 +20,7 @@
     <div class="ms-auto">
       <app-botao
         label="Adicionar Cliente"
-        (buttonClick)="abrirClientModal()"
+        (buttonClick)="abrirClienteModal()"
       ></app-botao>
     </div>
   </header>
@@ -28,199 +28,22 @@
   <div class="flex-1 rounded-lg px-4">
     <ul
       role="list"
-      style="max-height: calc(100vh - 200px);"
+      style="max-height: calc(100vh - 200px)"
       class="flex flex-col overflow-y-auto"
       aria-label="Lista de Fornecedores"
     >
+      @for (cliente of clientes(); track cliente.id) {
       <li
         role="listitem"
         class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
       >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
+        <app-cliente-item [cliente]="cliente" />
       </li>
-      <li
-        role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
-      >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
-      </li>
-      <li
-        role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
-      >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
-      </li>
-      <li
-        role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
-      >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
-      </li>
-      <li
-        role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
-      >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
-      </li>
-      <li
-        role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
-      >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
-      </li>
-      <li
-        role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
-      >
-        <div class="title-medium text-on-surface">Nome Fornecedor</div>
-        <div class="mb-4 body-large text-on-surface-variant">
-          curta descrição
-        </div>
-        <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            (00) 99999-9999
-          </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
-            <svg class="icone" aria-hidden="true" focusable="false">
-              <use [attr.href]="'/sprite.svg#icon-pessoas'"></use>
-            </svg>
-            55.444.333/0001-22
-          </span>
-        </div>
-      </li>
+      } @empty {
+      <p class="p-8 text-center body-large text-on-surface-variant">
+        Nenhum fornecedor encontrado.
+      </p>
+      }
     </ul>
   </div>
 </section>

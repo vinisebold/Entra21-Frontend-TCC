@@ -9,7 +9,7 @@ import { FornecedorModel } from '../models/fornecedor.model';
 export class FornecedorService {
   private http = inject(HttpClient);
   private apiUrl =
-    'https://entra21-backend-tcc-production.up.railway.app/api/fornecedores';
+    'https://gleam.up.railway.app/api/fornecedores';
 
   getFornecedores(): Observable<FornecedorModel[]> {
     return this.http.get<FornecedorModel[]>(this.apiUrl);

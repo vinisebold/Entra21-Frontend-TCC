@@ -58,7 +58,7 @@ export class FormularioFornecedor {
     this.fornecedorService.addFornecedor(novoFornecedor).subscribe({
       next: (response) => {
         console.log('Fornecedor salvo com sucesso!', response);
-        this.salvo.emit(); // 5. Avisa o componente pai que salvou com sucesso!
+        this.salvo.emit();
       },
       error: (err) => {
         console.error('Erro ao salvar fornecedor:', err);

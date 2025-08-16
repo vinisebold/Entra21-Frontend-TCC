@@ -1,9 +1,9 @@
 export interface FornecedorModel {
   id: number;
   nome: string;
-  cnpj: string;
-  telefone: string;
   descricao: string;
+  telefone: string;
+  cnpj: string;
   codigoAnel?: string;
   codigoBracelete?: string;
   codigoColar?: string;
