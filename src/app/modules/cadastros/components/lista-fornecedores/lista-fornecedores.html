@@ -38,9 +38,36 @@
       @for (fornecedor of fornecedores(); track fornecedor.id) {
       <li
         role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
+        class="group relative rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
       >
         <app-fornecedor-item [fornecedor]="fornecedor" />
+
+        <div
+          class="absolute top-4 right-4 flex opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+        >
+          <!-- Editar -->
+          <button
+            type="button"
+            aria-label="Editar Fornecedor"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-gray-100"
+          >
+            <svg class="w-6 h-6" aria-hidden="true">
+              <use [attr.href]="'/sprite.svg#icon-editar'"></use>
+            </svg>
+          </button>
+
+          <!-- Excluir -->
+          <button
+            type="button"
+            aria-label="Excluir Fornecedor"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-gray-100"
+            (click)="deletarFornecedor(fornecedor.id)"
+          >
+            <svg class="w-10 h-10" aria-hidden="true">
+              <use [attr.href]="'/sprite.svg#icon-trash'"></use>
+            </svg>
+          </button>
+        </div>
       </li>
       } @empty {
       <p class="p-8 text-center body-large text-on-surface-variant">

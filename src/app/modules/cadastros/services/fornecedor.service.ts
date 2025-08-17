@@ -8,8 +8,7 @@ import { FornecedorModel } from '../models/fornecedor.model';
 })
 export class FornecedorService {
   private http = inject(HttpClient);
-  private apiUrl =
-    'https://gleam.up.railway.app/api/fornecedores';
+  private apiUrl = 'https://gleam.up.railway.app/api/fornecedores';
 
   getFornecedores(): Observable<FornecedorModel[]> {
     return this.http.get<FornecedorModel[]>(this.apiUrl);
@@ -17,5 +16,9 @@ export class FornecedorService {
 
   addFornecedor(fornecedor: FornecedorModel): Observable<FornecedorModel> {
     return this.http.post<FornecedorModel>(this.apiUrl, fornecedor);
+  }
+
+  deleteFornecedor(id: string | number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

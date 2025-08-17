@@ -9,7 +9,7 @@ import { FornecedorModel } from '../../models/fornecedor.model';
     <div class="mb-4 body-large text-on-surface-variant">
       {{ fornecedor().descricao }}
     </div>
-    <div class="mt-2 flex items-center gap-3">
+    <div class="mt-2 flex flex-col gap-1">
       <span
         class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
       >
