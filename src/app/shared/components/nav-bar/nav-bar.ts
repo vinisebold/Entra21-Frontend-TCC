@@ -1,12 +1,13 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, CommonModule],
+  imports: [RouterLink, RouterLinkActive, NgOptimizedImage],
   templateUrl: './nav-bar.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block bg-[#F4F3F1] h-full transition-all duration-200 ease-in-out',
     '[class.w-56]': '!collapsed()',
@@ -16,11 +17,10 @@ import { CommonModule } from '@angular/common';
 export class NavBar {
   private readonly storageKey = 'sidebar-collapsed';
 
-  // Estado local com sinais
-  readonly userName = signal('Guest User');
+  readonly userName = signal('Usuario');
   readonly collapsed = signal<boolean>(this.hydrateCollapsed());
+  readonly logoHovered = signal(false);
 
-  // Menu
   readonly menuItems = [
     { label: 'Início', route: '/inicio', icon: '/sprite.svg#icon-home' },
     {
@@ -39,6 +39,14 @@ export class NavBar {
   toggle(): void {
     this.collapsed.update((v) => !v);
     this.persistCollapsed();
+  }
+
+  // 1. NOVO MÉTODO: Expande a sidebar se ela estiver colapsada.
+  // Será chamado ao clicar no fundo da nav.
+  expandOnBackgroundClick(): void {
+    if (this.collapsed()) {
+      this.toggle();
+    }
   }
 
   private hydrateCollapsed(): boolean {
