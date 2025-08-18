@@ -38,7 +38,7 @@
       @for (cliente of clientes(); track cliente.id) {
       <li
         role="listitem"
-        class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
+        class="group relative rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2"
       >
         <app-cliente-item [cliente]="cliente" />
 
@@ -65,7 +65,7 @@
           >
             <svg class="w-10 h-10" aria-hidden="true">
               <use [attr.href]="'/sprite.svg#icon-trash'"></use>
-            </svg>
+            </svg>  
           </button>
         </div>
       </li>
