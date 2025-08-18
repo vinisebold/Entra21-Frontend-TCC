@@ -37,7 +37,9 @@ export class ListaFornecedores implements OnInit {
 
   deletarFornecedor(id: number): void {
     this.fornecedorService.deleteFornecedor(id).subscribe(() => {
-      this.fornecedores.update((lista: FornecedorModel[]) => lista.filter((f : FornecedorModel) => f.id !== id));
+      this.fornecedores.update((lista: FornecedorModel[]) =>
+        lista.filter((f: FornecedorModel) => f.id !== id)
+      );
     });
   }
 

@@ -14,38 +14,45 @@ import { ClienteService } from '../../services/cliente.service';
 
 @Component({
   selector: 'app-lista-clientes',
-  imports: [FormularioCliente, Botao, ClienteItem],
+  imports: [ FormularioCliente, Botao, ClienteItem ],
   templateUrl: './lista-clientes.html',
   styleUrl: './lista-clientes.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListaClientes {
+export class ListaClientes implements OnInit{
   private clienteService = inject(ClienteService);
-  clientes = signal<ClienteModel[]>([]);
-  mostrarModalCliente = signal(false);
-
-  // ngOnInit é chamado uma vez quando o componente é criado
-  ngOnInit(): void {
-    this.carregarClientes();
-  }
-
-  carregarClientes(): void {
-    this.clienteService.getClientes().subscribe((dados) => {
-      this.clientes.set(dados);
-    });
-  }
-
-  // --- MÉTODOS PARA O MODAL ---
-  abrirClienteModal(): void {
-    this.mostrarModalCliente.set(true);
-  }
-
-  closeClienteModal(): void {
-    this.mostrarModalCliente.set(false);
-  }
-
-  // Este método é chamado quando o formulário avisa que salvou um novo fornecedor
-  onClienteSalvo(): void {
-    this.closeClienteModal();
-    this.carregarClientes();
-  }
+    clientes = signal<ClienteModel[]>([]);
+    mostrarModalCliente = signal(false);
+  
+    // ngOnInit é chamado uma vez quando o componente é criado
+    ngOnInit(): void {
+      this.carregarClientes();
+    }
+  
+    carregarClientes(): void {
+      this.clienteService.getClientes().subscribe((dados) => {
+        this.clientes.set(dados);
+      });
+    }
+  
+    deletarCliente(id: number): void {
+      this.clienteService.deleteCliente(id).subscribe(() => {
+        this.clientes.update((lista: ClienteModel[]) => lista.filter((f : ClienteModel) => f.id !== id));
+      });
+    }
+  
+    // --- MÉTODOS PARA O MODAL ---
+    abrirClienteModal(): void {
+      this.mostrarModalCliente.set(true);
+    }
+  
+    closeClienteModal(): void {
+      this.mostrarModalCliente.set(false);
+    }
+  
+    // Este método é chamado quando o formulário avisa que salvou um novo cliente
+    onClienteSalvo(): void {
+      this.closeClienteModal();
+      this.carregarClientes();
+    }
 }
