@@ -1,9 +1,13 @@
+@if (mostrarModalProduto()) {
+  <app-formulario-produto (fechar)="closeProdutoModal()"></app-formulario-produto>
+  }
+
 <div class="container mx-auto max-w-[1540px] px-4 bg-white space-y-4">
   <div
     class="toolbar flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2 pt-2 pb-4"
   >
     <app-segmented-control></app-segmented-control>
-    <app-botao label="Adicionar Peça"></app-botao>
+    <app-botao label="Adicionar Peça" (buttonClick)="abrirProdutoModal()"></app-botao>
     
   </div>
   <div class="table-wrapper overflow-x-auto shadow rounded-lg">
