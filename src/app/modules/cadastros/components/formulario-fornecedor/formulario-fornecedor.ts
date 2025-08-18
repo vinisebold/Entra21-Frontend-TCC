@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,16 +16,20 @@ import { FornecedorService } from '../../services/fornecedor.service';
 import { FornecedorModel } from '../../models/fornecedor.model';
 import { TelefoneMask } from '../../../../shared/directives/telefone-mask';
 import { CnpjMask } from '../../../../shared/directives/cnpj-mask';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-formulario-fornecedor',
-  imports: [ReactiveFormsModule, TelefoneMask, CnpjMask ],
+  imports: [ReactiveFormsModule, TelefoneMask, CnpjMask],
   templateUrl: './formulario-fornecedor.html',
   styleUrl: './formulario-fornecedor.scss',
 })
-export class FormularioFornecedor {
+export class FormularioFornecedor{
+  // Adicionado 'implements OnInit' para clareza
   @Output() fechar = new EventEmitter<void>();
   @Output() salvo = new EventEmitter<void>();
+
+  isLoading = signal(false);
 
   private fb = inject(FormBuilder);
   private fornecedorService = inject(FornecedorService);
@@ -50,22 +61,27 @@ export class FormularioFornecedor {
   onSalvarClick(): void {
     this.fornecedorForm.markAllAsTouched();
 
-    if (this.fornecedorForm.invalid) {
-      console.log('Formulário inválido');
+    // Impede o envio se o formulário for inválido ou se já estiver carregando
+    if (this.fornecedorForm.invalid || this.isLoading()) {
       return;
     }
 
+    this.isLoading.set(true);
+
     const novoFornecedor = this.fornecedorForm.value as FornecedorModel;
 
-    this.fornecedorService.addFornecedor(novoFornecedor).subscribe({
-      next: (response) => {
-        console.log('Fornecedor salvo com sucesso!', response);
-        this.salvo.emit();
-      },
-      error: (err) => {
-        console.error('Erro ao salvar fornecedor:', err);
-        // Aqui você pode adicionar uma lógica para mostrar um erro ao usuário
-      },
-    });
+    this.fornecedorService
+      .addFornecedor(novoFornecedor)
+      // O bloco finalize garante que isLoading será false ao final da operação (sucesso ou erro)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (response) => {
+          console.log('Fornecedor salvo com sucesso!', response);
+          this.salvo.emit();
+        },
+        error: (err) => {
+          console.error('Erro ao salvar fornecedor:', err);
+        },
+      });
   }
 }

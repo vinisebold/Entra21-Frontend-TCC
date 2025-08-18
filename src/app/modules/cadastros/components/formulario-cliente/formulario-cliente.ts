@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,13 +25,13 @@ import { finalize } from 'rxjs';
   imports: [ReactiveFormsModule, TelefoneMask, CpfMask],
   templateUrl: './formulario-cliente.html',
   styleUrl: './formulario-cliente.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioCliente {
   fechar = output<void>();
   salvo = output<void>();
-  
-isLoading = signal(false);
+
+  isLoading = signal(false);
 
   private fb = inject(FormBuilder);
   private clienteService = inject(ClienteService);
@@ -35,8 +43,7 @@ isLoading = signal(false);
     telefone: ['', Validators.required],
   });
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onFecharClick(): void {
     this.fechar.emit();
