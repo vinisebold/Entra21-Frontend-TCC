@@ -114,22 +114,26 @@ export class FormularioProduto implements OnInit {
     this.isLoading.set(true);
     const formValues = this.pecaForm.getRawValue();
 
+    // Converte a string de dinheiro (ex: "35,90") para um número (ex: 35.90)
+    const precoCustoString = (formValues.precoCusto as unknown as string) || '0';
+    const precoCustoNumerico = parseFloat(precoCustoString.replace(',', '.'));
+
     const produtoParaSalvar: ProdutoModel = {
       categoria: formValues.tipo,
       nome: formValues.modelo,
       codigoFornecedor: this.idPrefixo() + formValues.pecaId,
       acabamento: formValues.acabamento,
-      precoCusto: formValues.precoCusto,
-      fornecedorId: formValues.fornecedorId!,
+      precoCusto: precoCustoNumerico,
+      idFornecedor: formValues.fornecedorId!,
       precoVenda: null,
     };
-
-    this.produtoService.addProduto(produtoParaSalvar)
+    
+    this.produtoService.addProduto(produtoParaSalvar as any)
       .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (response) => {
           console.log('Produto salvo com sucesso!', response);
-          this.salvo.emit(produtoParaSalvar);
+          this.salvo.emit(response as ProdutoModel);
         },
         error: (err) => console.error('Erro ao salvar produto:', err),
       });

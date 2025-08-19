@@ -15,7 +15,7 @@ export interface ProdutoModel {
 
   categoria: string;
 
-  fornecedorId: number;
+  idFornecedor: number;
 
   fornecedor?: FornecedorModel;
 }
