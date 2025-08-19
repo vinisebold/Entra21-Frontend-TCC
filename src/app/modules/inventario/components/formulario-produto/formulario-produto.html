@@ -1,144 +1,117 @@
-<!-- Modal melhorado -->
-<div class="fixed inset-0 z-50 flex items-end justify-end p-6">
+<div class="fixed inset-0 z-50 flex items-end justify-end p-3">
   <section role="dialog" aria-modal="true" aria-labelledby="modal-title"
-           class="w-full max-w-md rounded-2xl bg-[var(--color-surface-container)] shadow-[0_12px_30px_rgba(0,0,0,0.15)] ring-1 ring-black/5 overflow-hidden">
-    <!-- Header -->
+    class="w-full max-w-md rounded-2xl bg-[var(--color-surface-container)] shadow-[0_12px_30px_rgba(0,0,0,0.15)] ring-1 ring-black/5 overflow-hidden">
     <header class="flex items-center justify-between px-5 py-4">
       <h2 id="modal-title" class="title-medium text-[var(--color-on-surface)]">Adicionar Peça Nova</h2>
       <button type="button" aria-label="Fechar" (click)="onFecharClick()"
-              class="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-container2)] hover:text-[var(--color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--color-outline)]/30">
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-container2)] hover:text-[var(--color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--color-outline)]/30">
         <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </header>
 
-    <!-- Body -->
     <div class="px-5 pb-5">
-      <form class="space-y-5">
-        <!-- Nome da Peça -->
-        <div class="space-y-2">
-          <label class="label-large text-[var(--color-on-surface-variant)]">Nome da Peça</label>
-          <div class="flex overflow-hidden items-center rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
-            <select class="h-11 bg-transparent pl-4 pr-3 text-sm text-[var(--color-on-surface)] outline-none border-r border-[var(--color-surface-container2)]">
-              <option>Peças</option>
-              <option>Acessórios</option>
-              <option>Pingentes</option>
-            </select>
-            <input type="text" placeholder="Informe o modelo da peça..." class="h-11 flex-1 px-4 text-sm placeholder:text-neutral-400 outline-none shadow-[inset_0_1px_0_rgba(0,0,0,0.02)]" />
+      <form class="space-y-5" [formGroup]="pecaForm" (ngSubmit)="onSubmit()">
+
+        <fieldset [disabled]="isLoading()" class="space-y-5 transition-opacity" [class.opacity-50]="isLoading()">
+
+          <div class="space-y-2">
+            <label class="label-large text-[var(--color-on-surface-variant)]">Nome da Peça</label>
+            <div
+              class="flex overflow-hidden items-center rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+              <select formControlName="tipo"
+                class="h-11 bg-transparent pl-4 pr-3 text-sm text-[var(--color-on-surface)] outline-none border-r border-[var(--color-surface-container2)]">
+                @for (tipo of tiposPeca; track tipo) {
+                <option [value]="tipo">{{ tipo }}</option>
+                }
+              </select>
+              <input formControlName="modelo" type="text" placeholder="Informe o modelo da peça..."
+                class="h-11 flex-1 px-4 text-sm placeholder:text-neutral-400 outline-none" />
+            </div>
           </div>
-        </div>
 
-        <!-- Acabamento -->
-        <div class="space-y-2">
-          <label class="label-large ">Acabamento</label>
-          <div class="flex items-center justify-center gap-3 rounded-xl bg-surface p-3">
-            <!-- cada opção -->
-            <label class="relative cursor-pointer">
-              <input type="radio" name="acabamento" value="dourado" class="peer sr-only" checked>
-              <img src="assets/acabamentos/dourado.png" alt="Dourado" class="h-12 w-12 rounded-full object-cover transition peer-checked:ring-4 peer-checked:ring-[var(--color-primary)]" />
-            </label>
-            <label class="relative cursor-pointer">
-              <input type="radio" name="acabamento" value="banho-dourado" class="peer sr-only">
-              <img src="assets/acabamentos/banho-dourado.png" alt="Banho Dourado" class="h-12 w-12 rounded-full object-cover transition peer-checked:ring-4 peer-checked:ring-[var(--color-primary)]" />
-            </label>
-            <label class="relative cursor-pointer">
-              <input type="radio" name="acabamento" value="prata" class="peer sr-only">
-              <img src="assets/acabamentos/prata.png" alt="Prata" class="h-12 w-12 rounded-full object-cover transition peer-checked:ring-4 peer-checked:ring-[var(--color-primary)]" />
-            </label>
-            <label class="relative cursor-pointer">
-              <input type="radio" name="acabamento" value="aco" class="peer sr-only">
-              <img src="assets/acabamentos/aco.png" alt="Aço" class="h-12 w-12 rounded-full object-cover transition peer-checked:ring-4 peer-checked:ring-[var(--color-primary)]" />
-            </label>
-            <label class="relative cursor-pointer">
-              <input type="radio" name="acabamento" value="banho-prata" class="peer sr-only">
-              <img src="assets/acabamentos/banho-prata.png" alt="Banho Prata" class="h-12 w-12 rounded-full object-cover transition peer-checked:ring-4 peer-checked:ring-[var(--color-primary)]" />
-            </label>
+          <div class="space-y-2">
+            <label class="label-large">Acabamento</label>
+            <div class="flex items-center justify-center gap-3 rounded-xl bg-surface p-3">
+              @for (acabamento of acabamentos; track acabamento.valor) {
+              <label class="relative cursor-pointer">
+                <input type="radio" name="acabamento" formControlName="acabamento" [value]="acabamento.valor"
+                  class="peer sr-only">
+                <img [ngSrc]="acabamento.imagem" [alt]="acabamento.alt" width="48" height="48"
+                  class="h-12 w-12 rounded-full object-cover transition peer-checked:ring-4 peer-checked:ring-[var(--color-primary)]" />
+              </label>
+              }
+            </div>
           </div>
-        </div>
 
-        <!-- Fornecedor (segmented) -->
-        <div class="space-y-2">
-          <label class="label-large text-[var(--color-on-surface-variant)]">Fornecedor</label>
-          <div class="grid grid-cols-3 gap-2 rounded-3xl bg-[var(--color-secundary)] p-3">
-            <!-- cada item com peer para estado ativo -->
-            <label class="block">
-              <input type="radio" name="fornecedor" class="peer sr-only" checked>
-              <span class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
-                Fornecedor j
-              </span>
-            </label>
-            <label class="block">
-              <input type="radio" name="fornecedor" class="peer sr-only">
-              <span class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
-                Fornecedor j
-              </span>
-            </label>
-            <label class="block">
-              <input type="radio" name="fornecedor" class="peer sr-only">
-              <span class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
-                Fornecedor j
-              </span>
-            </label>
-            <label class="block">
-              <input type="radio" name="fornecedor" class="peer sr-only">
-              <span class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
-                Fornecedor j
-              </span>
-            </label>
-            <label class="block">
-              <input type="radio" name="fornecedor" class="peer sr-only">
-              <span class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
-                Fornecedor j
-              </span>
-            </label>
-            <label class="block">
-              <input type="radio" name="fornecedor" class="peer sr-only">
-              <span class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
-                Fornecedor j
-              </span>
-            </label>
+          <div class="space-y-2">
+            <label class="label-large text-[var(--color-on-surface-variant)]">Fornecedor</label>
+            <div class="grid grid-cols-3 gap-2 rounded-3xl bg-[var(--color-secundary)] p-3">
+              
+              @for (fornecedor of fornecedores(); track $index) {
+                <label class="block">
+                  <input type="radio" name="fornecedorId" formControlName="fornecedorId" [value]="fornecedor.id"
+                    class="peer sr-only">
+                  <span
+                    class="block cursor-pointer select-none rounded-full px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
+                    {{ fornecedor.nome }}
+                  </span>
+                </label>
+              }
+            </div>
           </div>
-        </div>
 
-        <!-- ID & Preço -->
-        <!-- ID & Preço -->
-<div class="grid grid-cols-2 gap-4">
-  <!-- ID -->
-  <div class="space-y-2">
-    <label class="label-large text-[var(--color-on-surface-variant)]">ID da Peça</label>
-    <div class="relative flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]">
-      <span class="flex h-10 items-center justify-center px-3 text-sm text-[var(--color-on-surface-variant)] bg-[var(--color-surface-container2)]">
-        -
-      </span>
-      <input type="text" placeholder="Informe o ID..." class="h-10 flex-1 px-3 text-sm bg-transparent placeholder:text-neutral-400 outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30" />
-    </div>
-  </div>
-
-  <!-- Preço -->
-  <div class="space-y-2">
-    <label class="label-large text-[var(--color-on-surface-variant)]">Preço de Custo</label>
-    <div class="relative flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]">
-      <span class="ml-2 flex h-7 items-center rounded-md bg-[var(--color-secundary)] px-2 text-xs font-semibold text-[var(--color-outline)] ring-1 ring-[var(--color-secundary2)]">
-        R$
-      </span>
-      <input type="text" inputmode="decimal" placeholder="Informe o custo..." class="h-10 flex-1 px-3 text-sm bg-transparent placeholder:text-neutral-400 outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30" />
-    </div>
-  </div>
-</div>
-
-        <!-- Footer actions inside form for consistent spacing -->
-        <div class="flex items-center justify-between pt-2">
-          <div></div>
-          <div class="flex items-center gap-4">
-            <button type="button" class="px-4 py-2 text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition">Cancelar</button>
-            <button type="submit" class="inline-flex items-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-semibold text-[var(--color-surface)] shadow-[0_2px_0_rgba(0,0,0,0.06)] hover:bg-[var(--color-primary2)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 active:translate-y-px">
-              <svg class="icone" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z" clip-rule="evenodd" />
-              </svg>
-              <span>Salvar</span>
-            </button>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">ID da Peça</label>
+              <div
+                class="flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+                <span
+                  class="flex h-10 items-center justify-center whitespace-nowrap px-3 text-sm font-semibold text-[var(--color-on-surface-variant)] bg-[var(--color-surface-container2)]">
+                  {{ idPrefixo() }}
+                </span>
+                <input formControlName="pecaId" type="text" placeholder="ID..."
+                  class="h-10 min-w-0 flex-1 px-3 text-sm bg-transparent placeholder:text-neutral-400 outline-none" />
+              </div>
+            </div>
+          
+            <div class="space-y-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">Preço de Custo</label>
+              <div
+                class="flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+                <span
+                  class="ml-2 mr-2 flex h-7 items-center rounded-md bg-[var(--color-secundary)] px-2 text-xs font-semibold text-[var(--color-outline)]">R$</span>
+                <input formControlName="precoCusto" type="text" inputmode="decimal" placeholder="0,00"
+                  class="h-10 min-w-0 flex-1 px-3 text-sm bg-transparent placeholder:text-neutral-400 outline-none" appDinheiroMask />
+              </div>
+            </div>
           </div>
+        </fieldset>
+
+        <div class="flex items-center justify-end pt-2 gap-4">
+          <button type="button" (click)="onFecharClick()" [disabled]="isLoading()"
+            class="px-4 py-2 text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition disabled:opacity-50">Cancelar</button>
+
+          <button type="submit" [disabled]="pecaForm.invalid || isLoading()"
+            class="inline-flex min-w-[120px] items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-semibold text-[var(--color-surface)] shadow-[0_2px_0_rgba(0,0,0,0.06)] hover:bg-[var(--color-primary2)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 active:translate-y-px disabled:opacity-50 disabled:cursor-not-allowed">
+            @if (!isLoading()) {
+            <svg class="icone" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.052-.143z"
+                clip-rule="evenodd" />
+            </svg>
+            <span>Salvar</span>
+            } @else {
+            <svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            <span>Salvando...</span>
+            }
+          </button>
         </div>
       </form>
     </div>
