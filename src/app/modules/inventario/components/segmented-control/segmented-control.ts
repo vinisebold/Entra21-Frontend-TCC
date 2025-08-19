@@ -5,7 +5,6 @@ import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
   selector: 'app-segmented-control',
   imports: [],
   templateUrl: './segmented-control.html',
-  styleUrl: './segmented-control.scss'
 })
 export class SegmentedControl {
   opcoes = input.required<FornecedorModel[]>();

@@ -1,72 +1,76 @@
 <div class="table-wrapper overflow-x-auto shadow rounded-lg">
-    <table class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]">
-      <thead class="sticky top-0 bg-surface-container z-10">
-        <tr class="h-11">
-          <th class="w-12 px-3 md:px-4"></th>
-          <th style="width: 120px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
-            ID
-          </th>
-          <th style="width: 34%" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
-            Nome da Peça
-          </th>
-          <th style="width: 140px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-center">
-            Acabamento
-          </th>
-          <th style="width: 160px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
-            Preço de Custo
-          </th>
-          <th style="width: 160px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
-            Preço de Venda
-          </th>
-          <th style="width: 120px"
-            class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left hidden md:table-cell">
-            Lucro
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        @if (isLoading()) {
-          <tr class="h-[52px] md:h-16">
-            <td colspan="7" class="text-center text-on-surface-variant">Carregando produtos...</td>
-          </tr>
-        } @else if (erro()) {
-          <tr class="h-[52px] md:h-16">
-            <td colspan="7" class="text-center text-error">⚠️ {{ erro() }}</td>
-          </tr>
-        } @else {
-          @for (produto of produtos(); track produto.id) {
-            <tr class="h-[52px] md:h-16 hover:bg-surface-container shadow-[0_2px_0px_0px_#e5e5e5]">
-              <td class="px-3 md:px-4">
-                <input type="checkbox" class="w-4 h-4 rounded-sm accent-primary border-outline" />
-              </td>
-              <td class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface">
-                {{ produto.codigoFornecedor }}
-              </td>
-              <td class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface">
-                {{ produto.nome }}
-              </td>
-              <td class="px-3 md:px-4 text-center">
-                <div class="flex items-center justify-center">
-                  <img [ngSrc]="acabamentoImagens[produto.acabamento] || 'assets/acabamentos/default.png'" [alt]="produto.acabamento" width="40"
-                    height="40" class="w-10 h-10 rounded-full object-cover" />
-                </div>
-              </td>
-              <td class="px-3 md:px-4 text-left text-on-surface">
-                {{ produto.precoCusto | currency:'BRL':'R$':'1.2-2':'pt-BR' }}
-              </td>
-              <td class="px-3 md:px-4 text-left text-on-surface">
-                {{ produto.precoVenda | currency:'BRL':'R$':'1.2-2':'pt-BR' }}
-              </td>
-              <td class="px-3 md:px-4 text-left hidden md:table-cell text-on-surface">
-                {{ ((produto.precoVenda ?? 0) - produto.precoCusto) | currency:'BRL':'R$':'1.2-2':'pt-BR' }}
-              </td>
-            </tr>
-          } @empty {
-            <tr class="h-[52px] md:h-16">
-              <td colspan="7" class="text-center text-on-surface-variant">Nenhum produto encontrado para este fornecedor.</td>
-            </tr>
+  <table class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]">
+    <thead class="sticky top-0 bg-surface-container z-10">
+      <tr class="h-11">
+        <th class="w-12 px-3 md:px-4"></th>
+        <th style="width: 120px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+          ID
+        </th>
+        <th style="width: 34%" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+          Nome da Peça
+        </th>
+        <th style="width: 140px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-center">
+          Acabamento
+        </th>
+        <th style="width: 160px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+          Preço de Custo
+        </th>
+        <th style="width: 160px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+          Preço de Venda
+        </th>
+        <th style="width: 120px"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left hidden md:table-cell">
+          Lucro
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (isLoading()) {
+      <tr class="h-[52px] md:h-16">
+        <td colspan="7" class="text-center text-on-surface-variant">Carregando produtos...</td>
+      </tr>
+      } @else if (erro()) {
+      <tr class="h-[52px] md:h-16">
+        <td colspan="7" class="text-center text-error">⚠️ {{ erro() }}</td>
+      </tr>
+      } @else {
+      @for (produto of produtos(); track produto.id) {
+      <tr class="h-[52px] md:h-16 hover:bg-surface-container shadow-[0_2px_0px_0px_#e5e5e5]">
+        <td class="px-3 md:px-4">
+          <input type="checkbox" class="w-4 h-4 rounded-sm accent-primary border-outline" />
+        </td>
+        <td class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface">
+          {{ produto.codigoFornecedor }}
+        </td>
+        <td class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface">
+          {{ produto.nome }}
+        </td>
+        <td class="px-3 md:px-4 text-center">
+          <div class="flex items-center justify-center">
+            <img [ngSrc]="acabamentoImagens[produto.acabamento] || 'assets/acabamentos/default.png'"
+              [alt]="produto.acabamento" width="40" height="40" class="w-10 h-10 rounded-full object-cover" />
+          </div>
+        </td>
+        <td class="px-3 md:px-4 text-left text-on-surface">
+          {{ produto.precoCusto | currency:'BRL':'R$':'1.2-2':'pt-BR' }}
+        </td>
+        <td class="px-3 md:px-4 text-left text-on-surface">
+          @if (produto.precoVenda) {
+          {{ produto.precoVenda | currency:'BRL':'R$' }}
+          } @else {
+          -
           }
-        }
-      </tbody>
-    </table>
-  </div>
+        </td>
+        <td class="px-3 md:px-4 text-left hidden md:table-cell text-on-surface">
+          @let lucro = (produto.precoVenda ?? 0) - produto.precoCusto;
+          @if (!produto.precoVenda || lucro <= 0) { - } @else { {{ lucro | currency:'BRL':'R$' }} } </td>
+      </tr>
+      } @empty {
+      <tr class="h-[52px] md:h-16">
+        <td colspan="7" class="text-center text-on-surface-variant">Nenhum produto encontrado para este fornecedor.</td>
+      </tr>
+      }
+      }
+    </tbody>
+  </table>
+</div>

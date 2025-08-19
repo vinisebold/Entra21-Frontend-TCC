@@ -29,7 +29,6 @@ interface ProdutoFormModel {
   selector: 'app-formulario-produto',
   imports: [ReactiveFormsModule, NgOptimizedImage, DinheiroMaskTsDirective],
   templateUrl: './formulario-produto.html',
-  styleUrl: './formulario-produto.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioProduto implements OnInit {
