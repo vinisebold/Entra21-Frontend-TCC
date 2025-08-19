@@ -1,19 +1,15 @@
 <div class="inline-flex items-center p-1 space-x-1 rounded-full bg-secundary">
-  <button
-    class="rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-md focus:outline-none"
-  >
-    Fornecedor X
-  </button>
-
-  <button
-    class="rounded-full bg-transparent px-5 py-2.5 text-sm font-semibold text-on-surface-variant hover:bg-secundary2 focus:outline-none"
-  >
-    Fornecedor Y
-  </button>
-
-  <button
-    class="rounded-full bg-transparent px-5 py-2.5 text-sm font-semibold text-on-surface-variant hover:bg-secundary2 focus:outline-none"
-  >
-    Fornecedor Z
-  </button>
+  @for (opcao of opcoes(); track opcao.id) {
+    <button
+      (click)="onSelecao(opcao.id)"
+      [class.bg-primary]="opcao.id === opcaoAtivaId()"
+      [class.text-white]="opcao.id === opcaoAtivaId()"
+      [class.shadow-md]="opcao.id === opcaoAtivaId()"
+      [class.bg-transparent]="opcao.id !== opcaoAtivaId()"
+      [class.text-on-surface-variant]="opcao.id !== opcaoAtivaId()"
+      class="rounded-full px-5 py-2.5 text-sm font-semibold focus:outline-none transition-colors hover:bg-secundary2"
+    >
+      {{ opcao.nome }}
+    </button>
+  }
 </div>

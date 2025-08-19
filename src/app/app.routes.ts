@@ -21,8 +21,8 @@ export const routes: Routes = [
         path: 'inventario',
         loadComponent: () =>
           import(
-            './modules/inventario/pages/lista-produtos/lista-produtos'
-          ).then((m) => m.ListaProdutos),
+            './modules/inventario/pages/pagina-inventario/pagina-inventario'
+          ).then((m) => m.PaginaInventario),
       },
 
       {
