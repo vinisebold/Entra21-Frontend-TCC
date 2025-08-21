@@ -12,11 +12,11 @@ export class ListaProdutos {
   isLoading = input<boolean>(false);
   erro = input<string | null>(null);
 
-  acabamentoImagens: { [key: string]: string } = {
-    OURO_PURO: 'assets/acabamentos/dourado.png',
-    BANHADO_OURO: 'assets/acabamentos/banho-dourado.png',
-    PRATA_PURA: 'assets/acabamentos/prata.png',
-    ACO: 'assets/acabamentos/aco.png',
-    BANHADO_PRATA: 'assets/acabamentos/banho-prata.png',
+  acabamentoImagens: { [key: number]: string } = {
+    0: 'assets/acabamentos/dourado.png',
+    1: 'assets/acabamentos/banho-dourado.png',
+    2: 'assets/acabamentos/prata.png',
+    3: 'assets/acabamentos/banho-prata.png',
+    4: 'assets/acabamentos/aco.png',
   };
 }

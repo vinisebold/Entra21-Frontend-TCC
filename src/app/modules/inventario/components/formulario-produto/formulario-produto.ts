@@ -7,7 +7,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
 import { ProdutoModel } from '../../models/produto.model';
 import { ProdutoService } from '../../services/produto.service';
-import { AcabamentoEnum } from '../../enums/acabamento.enum';
 import { DinheiroMaskTsDirective } from "../../../../shared/directives/dinheiro-mask";
 
 interface OpcaoAcabamento {
@@ -46,17 +45,17 @@ export class FormularioProduto implements OnInit {
   tiposPeca = ['Anel', 'Berloque', 'Bracelete', 'Brinco', 'Colar', 'Conjunto', 'Pingente', 'Piercing', 'Pulseira'];
 
   acabamentos: OpcaoAcabamento[] = [
-    { valor: AcabamentoEnum.OURO_PURO, imagem: 'assets/acabamentos/dourado.png', alt: 'Dourado' },
-    { valor: AcabamentoEnum.BANHADO_OURO, imagem: 'assets/acabamentos/banho-dourado.png', alt: 'Banho Dourado' },
-    { valor: AcabamentoEnum.PRATA_PURA, imagem: 'assets/acabamentos/prata.png', alt: 'Prata' },
-    { valor: AcabamentoEnum.BANHADO_PRATA, imagem: 'assets/acabamentos/banho-prata.png', alt: 'Banho Prata' },
-    { valor: AcabamentoEnum.ACO, imagem: 'assets/acabamentos/aco.png', alt: 'Aço' },
+    { valor: 0, imagem: 'assets/acabamentos/dourado.png', alt: 'Dourado' },
+    { valor: 1, imagem: 'assets/acabamentos/banho-dourado.png', alt: 'Banho Dourado' },
+    { valor: 2, imagem: 'assets/acabamentos/prata.png', alt: 'Prata' },
+    { valor: 3, imagem: 'assets/acabamentos/banho-prata.png', alt: 'Banho Prata' },
+    { valor: 4, imagem: 'assets/acabamentos/aco.png', alt: 'Aço' },
   ];
 
   pecaForm: FormGroup<ProdutoFormModel> = this.fb.group({
     tipo: ['Anel', Validators.required],
     modelo: ['', Validators.required],
-    acabamento: [AcabamentoEnum.OURO_PURO, Validators.required],
+    acabamento: [0, Validators.required],
     fornecedorId: [null as number | null, Validators.required],
     pecaId: ['', Validators.required],
     precoCusto: [0, [Validators.required, Validators.min(0.01)]],
