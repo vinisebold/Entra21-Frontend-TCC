@@ -16,7 +16,6 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { ListaProdutos } from "../../components/lista-produtos/lista-produtos";
 
-
 @Component({
   selector: 'app-pagina-inventario',
   imports: [SegmentedControl, ListaProdutos, FormularioProduto, Botao],

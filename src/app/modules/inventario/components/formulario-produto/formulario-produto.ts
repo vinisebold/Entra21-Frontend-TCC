@@ -31,7 +31,6 @@ interface ProdutoFormModel {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioProduto implements OnInit {
-
   fechar = output<void>();
   salvo = output<ProdutoModel>();
 
@@ -40,7 +39,6 @@ export class FormularioProduto implements OnInit {
   fornecedores = signal<FornecedorModel[]>([]);
   private fb = inject(FormBuilder).nonNullable;
   private produtoService = inject(ProdutoService);
-
 
   tiposPeca = ['Anel', 'Berloque', 'Bracelete', 'Brinco', 'Colar', 'Conjunto', 'Pingente', 'Piercing', 'Pulseira'];
 

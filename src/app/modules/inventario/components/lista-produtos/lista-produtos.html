@@ -1,25 +1,52 @@
+@if (mostrarModalVenda() && produtoSelecionado()) {
+<app-formulario-venda
+  [produto]="produtoSelecionado()!"
+  (fechar)="closeVendaModal()"
+  >></app-formulario-venda
+>
+}
+
 <div class="table-wrapper overflow-x-auto shadow rounded-lg">
-  <table class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]">
+  <table
+    class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]"
+  >
     <thead class="sticky top-0 bg-surface-container z-10">
       <tr class="h-11">
         <th class="w-12 px-3 md:px-4"></th>
-        <th style="width: 120px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+        <th
+          style="width: 120px"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left"
+        >
           ID
         </th>
-        <th style="width: 34%" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+        <th
+          style="width: 34%"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left"
+        >
           Nome da Peça
         </th>
-        <th style="width: 140px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-center">
+        <th
+          style="width: 140px"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-center"
+        >
           Acabamento
         </th>
-        <th style="width: 160px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+        <th
+          style="width: 160px"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left"
+        >
           Preço de Custo
         </th>
-        <th style="width: 160px" class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left">
+        <th
+          style="width: 160px"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left"
+        >
           Preço de Venda
         </th>
-        <th style="width: 120px"
-          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left hidden md:table-cell">
+        <th
+          style="width: 120px"
+          class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left hidden md:table-cell"
+        >
           Lucro
         </th>
       </tr>
@@ -27,74 +54,103 @@
     <tbody>
       @if (isLoading()) {
       <tr class="h-[52px] md:h-16">
-        <td colspan="7" class="text-center text-on-surface-variant">Carregando produtos...</td>
+        <td colspan="7" class="text-center text-on-surface-variant">
+          Carregando produtos...
+        </td>
       </tr>
       } @else if (erro()) {
       <tr class="h-[52px] md:h-16">
         <td colspan="7" class="text-center text-error">⚠️ {{ erro() }}</td>
       </tr>
-      } @else {
-      @for (produto of produtos(); track produto.id) {
-      <tr class="group h-[52px] md:h-16 hover:bg-surface-container shadow-[0_2px_0px_0px_#e5e5e5]">
+      } @else { @for (produto of produtos(); track produto.id) {
+      <tr
+        class="group h-[52px] md:h-16 hover:bg-surface-container shadow-[0_2px_0px_0px_#e5e5e5]"
+      >
         <td class="px-3 md:px-4">
-          <input type="checkbox" class="w-4 h-4 rounded-sm accent-primary border-outline" />
+          <input
+            type="checkbox"
+            class="w-4 h-4 rounded-sm accent-primary border-outline"
+          />
         </td>
-        <td class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface">
+        <td
+          class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface"
+        >
           {{ produto.codigoFornecedor }}
         </td>
-        <td class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface">
+        <td
+          class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface"
+        >
           {{ produto.nome }}
         </td>
         <td class="px-3 md:px-4 text-center">
           <div class="flex items-center justify-center">
-            <img [ngSrc]="acabamentoImagens[produto.acabamento] || 'assets/acabamentos/default.png'"
-              [alt]="produto.acabamento" width="40" height="40" class="w-10 h-10 rounded-full object-cover" />
+            <img
+              [ngSrc]="
+                acabamentoImagens[produto.acabamento] ||
+                'assets/acabamentos/default.png'
+              "
+              [alt]="produto.acabamento"
+              width="40"
+              height="40"
+              class="w-10 h-10 rounded-full object-cover"
+            />
           </div>
         </td>
         <td class="px-3 md:px-4 text-left text-on-surface">
-          {{ produto.precoCusto | currency:'BRL':'R$':'1.2-2':'pt-BR' }}
+          {{ produto.precoCusto | currency : "BRL" : "R$" : "1.2-2" : "pt-BR" }}
         </td>
         <td class="px-3 md:px-4 text-left text-on-surface">
           @if (produto.precoVenda) {
-          {{ produto.precoVenda | currency:'BRL':'R$' }}
-          } @else {
-          -
-          }
+          {{ produto.precoVenda | currency : "BRL" : "R$" }}
+          } @else { - }
         </td>
-        <td class="relative px-3 md:px-4 text-left hidden md:table-cell text-on-surface ">
-          @let lucro = (produto.precoVenda ?? 0) - produto.precoCusto;
-          @if (!produto.precoVenda || lucro <= 0) { - } @else { {{ lucro | currency:'BRL':'R$' }} } <div
-            class="absolute top-1/2 right-4 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-[0_0_140px_100px_rgba(255,255,255,1)] bg-white">
-            <button type="button" aria-label="Editar Produto"
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer">
+        <td
+          class="relative px-3 md:px-4 text-left hidden md:table-cell text-on-surface"
+        >
+          @let lucro = (produto.precoVenda ?? 0) - produto.precoCusto; @if
+          (!produto.precoVenda || lucro <= 0) { - } @else {
+          {{ lucro | currency : "BRL" : "R$" }} }
+          <div
+            class="absolute top-1/2 right-4 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-[0_0_140px_100px_rgba(255,255,255,1)] bg-white"
+          >
+            <button
+              type="button"
+              aria-label="Editar Produto"
+              (click)="abrirVendaModal(produto)"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+            >
               <svg class="w-6 h-6" aria-hidden="true">
                 <use [attr.href]="'/sprite.svg#icon-registrar'"></use>
               </svg>
             </button>
-            <button type="button" aria-label="Editar Produto"
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer">
+            <button
+              type="button"
+              aria-label="Editar Produto"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+            >
               <svg class="w-6 h-6" aria-hidden="true">
                 <use [attr.href]="'/sprite.svg#icon-editar'"></use>
               </svg>
             </button>
-            <button type="button" aria-label="Excluir Produto"
-              class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer">
+            <button
+              type="button"
+              aria-label="Excluir Produto"
+              class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+            >
               <svg class="w-10 h-10" aria-hidden="true">
                 <use [attr.href]="'/sprite.svg#icon-trash'"></use>
               </svg>
             </button>
-</div>
-
-
-</td>
-
-</tr>
-} @empty {
-<tr class="h-[52px] md:h-16">
-  <td colspan="7" class="text-center text-on-surface-variant">Nenhum produto encontrado para este fornecedor.</td>
-</tr>
-}
-}
-</tbody>
-</table>
+          </div>
+        </td>
+      </tr>
+      } @empty {
+      <tr class="h-[52px] md:h-16">
+        <td colspan="7" class="text-center text-on-surface-variant">
+          Nenhum produto encontrado para este fornecedor.
+        </td>
+      </tr>
+      } }
+    </tbody>
+  </table>
 </div>
