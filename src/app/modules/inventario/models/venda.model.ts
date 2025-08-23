@@ -1,32 +1,41 @@
+import { ProdutoModel } from './produto.model';
+
+export type StatusVenda = 'PENDENTE' | 'PAGO' | 'CANCELADA';
+export type FormaPagamento =
+  | 'PIX'
+  | 'DINHEIRO'
+  | 'CARTAO_CREDITO'
+  | 'CARTAO_DEBITO';
+
 /**
- * Interface para o PAYLOAD que enviamos para a API.
- * Corresponde aos campos de ENTRADA do RegistrarVendaDTO.
+ * Interface para o PAYLOAD que enviamos para registrar uma nova venda.
+ * Corresponde ao `RegistrarVendaRequestDto` do backend.
  */
-export interface RegistrarVendaPayload {
+export interface RegistrarVendaRequest {
+  produtoId: number;
   clienteId: number;
-  situacao: number; // 0 para Pendente, 1 para Pago
-  formaPagamento: number; // 1: PIX, 2: Dinheiro, 3: Crédito, 4: Débito
-  numeroParcelas?: number;
+  precoVenda: number;
+  formaPagamento: FormaPagamento;
+  totalParcelas: number;
+  status: StatusVenda;
+  dataVencimento?: string;
 }
 
 /**
- * Interface para a RESPOSTA que recebemos da API.
- * Corresponde aos campos de SAÍDA do RegistrarVendaDTO.
+ * Interface para a RESPOSTA que recebemos da API ao buscar uma venda.
+ * Corresponde ao `VendaResponseDto` do backend.
  */
-export interface VendaRecibo {
+export interface VendaResponse {
   id: number;
-  nome: string;
-  precoTotalVenda: number;
-  itens: ItemVendido[];
-  dataCriacao: string;
-}
-
-export interface ItemVendido {
-  id: number;
-  produtoOriginalId: number;
-  nome: string;
+  produto: ProdutoModel;
+  clienteId: number;
+  nomeCliente: string;
   precoVenda: number;
   lucro: number;
-  dataVenda: string;
-  categoria: string;
+  formaPagamento: FormaPagamento;
+  status: StatusVenda;
+  totalParcelas: number;
+  parcelasPagas: number;
+  dataVencimento: string | null;
+  dataCriacao: string;
 }
