@@ -8,16 +8,14 @@ import { HttpClient } from '@angular/common/http';
 })
 export class VendaService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://gleam.up.railway.app/api/itens-vendidos';
+  private apiUrl = 'https://gleam.up.railway.app/api/produtos';
 
   registrarVenda(
     produtoId: number,
     detalhesVenda: RegistrarVendaPayload
   ): Observable<VendaRecibo> {
     const url = `${this.apiUrl}/vender/${produtoId}`;
-
-    console.log(`Enviando POST para: ${url}`, detalhesVenda);
-
+    console.log(`Enviando POST para a NOVA URL: ${url}`, detalhesVenda);
     return this.http.post<VendaRecibo>(url, detalhesVenda);
   }
 }

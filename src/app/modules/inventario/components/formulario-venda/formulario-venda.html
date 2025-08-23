@@ -75,37 +75,57 @@
 
           <!-- Situação -->
           <div class="space-y-2">
-            <label
-              for="situacao"
-              class="block text-sm font-medium text-gray-700"
+            <label class="label-large text-[var(--color-on-surface-variant)]"
               >Situação</label
             >
-            <select
-              id="situacao"
-              formControlName="situacao"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            <div
+              class="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--color-surface)] p-1"
             >
-              <option [value]="1">Pendente</option>
-              <option [value]="2">Pago</option>
-            </select>
+              @for (situacao of opcoesSituacao; track situacao.id) {
+              <label class="block">
+                <input
+                  type="radio"
+                  formControlName="situacao"
+                  [value]="situacao.id"
+                  class="peer sr-only"
+                />
+                <span
+                  class="block cursor-pointer select-none rounded-[10px] py-2.5 text-center text-sm font-medium text-[var(--color-on-surface-variant)] transition-colors peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]"
+                >
+                  {{ situacao.nome }}
+                </span>
+              </label>
+              }
+            </div>
           </div>
 
           <!-- Forma de Pagamento -->
           <div class="space-y-2">
-            <label
-              for="formaPagamento"
-              class="block text-sm font-medium text-gray-700"
+            <label class="label-large text-[var(--color-on-surface-variant)]"
               >Forma de Pagamento</label
             >
-            <select
-              id="formaPagamento"
-              formControlName="formaPagamento"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+            <div
+              class="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--color-surface)] p-1"
             >
-              <option [value]="2">Dinheiro</option>
-              <option [value]="1">PIX</option>
-              <option [value]="3">Cartão</option>
-            </select>
+              @for (pagamento of opcoesPagamento; track pagamento.id) {
+              <label class="block">
+                <input
+                  type="radio"
+                  formControlName="formaPagamento"
+                  [value]="pagamento.id"
+                  class="peer sr-only"
+                />
+                <span
+                  class="flex items-center justify-center gap-2 cursor-pointer select-none rounded-[10px] py-2.5 text-center text-sm font-medium text-[var(--color-on-surface-variant)] transition-colors peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]"
+                >
+                  <svg class="w-5 h-5" aria-hidden="true">
+                    <use [attr.href]="'/sprite.svg#' + pagamento.icon"></use>
+                  </svg>
+                  <span>{{ pagamento.nome }}</span>
+                </span>
+              </label>
+              }
+            </div>
           </div>
 
           <!-- Preço e Parcelas -->
