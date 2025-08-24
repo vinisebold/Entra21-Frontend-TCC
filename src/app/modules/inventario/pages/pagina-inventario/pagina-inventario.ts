@@ -12,7 +12,7 @@ import { FormularioProduto } from '../../components/formulario-produto/formulari
 import { ProdutoService } from '../../services/produto.service';
 import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
 import { ProdutoModel } from '../../models/produto.model';
-import {  firstValueFrom,} from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FornecedorService } from '../../../cadastros/services/fornecedor.service';
@@ -20,12 +20,7 @@ import { NotificacaoService } from '../../../../core/services/notificacao.servic
 
 @Component({
   selector: 'app-pagina-inventario',
-  imports: [
-    SegmentedControl,
-    ListaProdutos,
-    FormularioProduto,
-    Botao,
-  ],
+  imports: [SegmentedControl, ListaProdutos, FormularioProduto, Botao],
   templateUrl: './pagina-inventario.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,6 +35,7 @@ export class PaginaInventario {
   fornecedores = signal<FornecedorModel[]>([]);
   produtos = signal<ProdutoModel[]>([]);
   fornecedorSelecionadoId = signal<number | null>(null);
+  isLoadingProdutos = signal(false);
 
   produtoParaEditar = signal<ProdutoModel | null>(null);
   isModalProdutoAberto = signal(false);
@@ -59,6 +55,7 @@ export class PaginaInventario {
   }
 
   private async carregarFornecedores(): Promise<void> {
+    this.isLoadingProdutos.set(true);
     try {
       const resposta = await firstValueFrom(
         this.fornecedorService.getFornecedores()
@@ -76,6 +73,8 @@ export class PaginaInventario {
         'Erro ao carregar fornecedores.',
         'error'
       );
+    } finally {
+      this.isLoadingProdutos.set(false);
     }
   }
 

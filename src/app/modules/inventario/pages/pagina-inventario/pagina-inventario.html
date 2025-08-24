@@ -1,17 +1,28 @@
 @if (isModalProdutoAberto()) {
-<app-formulario-produto (fechar)="fecharModalProduto()"></app-formulario-produto>
+<app-formulario-produto
+  (fechar)="fecharModalProduto()"
+></app-formulario-produto>
 }
 
 <div class="container mx-auto max-w-[1540px] px-4 bg-white space-y-4">
-  <div class="toolbar flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2 pt-2 pb-4">
-    <app-segmented-control [opcoes]="fornecedores()" [opcaoAtivaId]="fornecedorSelecionadoId()"
-      (selecaoMudou)="onFornecedorSelecionado($event)">
+  <div
+    class="toolbar flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2 pt-2 pb-4"
+  >
+    <app-segmented-control
+      [opcoes]="fornecedores()"
+      [opcaoAtivaId]="fornecedorSelecionadoId()"
+      (selecaoMudou)="onFornecedorSelecionado($event)"
+    >
     </app-segmented-control>
 
-    <app-botao label="Adicionar Peça" (buttonClick)="abrirModalProduto()"></app-botao>
+    <app-botao
+      label="Adicionar Peça"
+      (buttonClick)="abrirModalProduto()"
+    ></app-botao>
   </div>
 
-  <app-lista-produtos [produtos]="produtos()" [isLoading]="isLoadingProdutos()">
-  </app-lista-produtos>
-
+  <app-lista-produtos
+    [produtos]="produtos()"
+    [isLoading]="isLoadingProdutos()"
+  ></app-lista-produtos>
 </div>

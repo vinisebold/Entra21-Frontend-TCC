@@ -54,7 +54,7 @@
                 class="h-11 w-full appearance-none bg-transparent pl-4 pr-10 text-sm text-[var(--color-on-surface)] outline-none"
               >
                 <option value="" disabled>Selecionar cliente...</option>
-                @for (c of listaClientes(); track c.id) {
+                @for (c of clientes(); track c.id) {
                 <option [value]="c.id">{{ c.nome }}</option>
                 }
               </select>

@@ -1,9 +1,28 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 
 // --- IMPORTS CORRIGIDOS ---
-import { FormaPagamento, RegistrarVendaRequest, StatusVenda, VendaResponse } from '../../models/venda.model';
+import {
+  FormaPagamento,
+  RegistrarVendaRequest,
+  StatusVenda,
+  VendaResponse,
+} from '../../models/venda.model';
 import { VendaService } from '../../services/venda.service';
 import { ProdutoModel } from '../../models/produto.model';
 import { ClienteModel } from '../../../../modules/cadastros/models/cliente.model';
@@ -36,17 +55,21 @@ export class FormularioVenda implements OnInit {
   clientes = signal<ClienteModel[]>([]);
 
   // --- Dados para o Template ---
-  opcoesSituacao: { label: string; valor: StatusVenda }[] = [
-    { label: 'Pendente', valor: 'PENDENTE' },
-    { label: 'Pago', valor: 'PAGO' },
+  opcoesSituacao = [
+    { nome: 'Pendente', id: 'PENDENTE' },
+    { nome: 'Pago', id: 'PAGO' },
   ];
 
-  opcoesPagamento: { label: string; valor: FormaPagamento }[] = [
-    { label: 'PIX', valor: 'PIX' },
-    { label: 'Dinheiro', valor: 'DINHEIRO' },
-    { label: 'Cartão de Crédito', valor: 'CARTAO_CREDITO' },
-    { label: 'Cartão de Débito', valor: 'CARTAO_DEBITO' },
+  opcoesPagamento = [
+    { nome: 'PIX', id: 'PIX', icon: 'pix' },
+    { nome: 'Dinheiro', id: 'DINHEIRO', icon: 'money' },
+    { nome: 'Cartão de Crédito', id: 'CARTAO_CREDITO', icon: 'credit-card' },
+    { nome: 'Cartão de Débito', id: 'CARTAO_DEBITO', icon: 'credit-card' },
   ];
+
+  isCredito = computed(
+    () => this.vendaForm.get('formaPagamento')?.value === 'CARTAO_CREDITO'
+  );
 
   // --- Formulário Reativo ---
   vendaForm: FormGroup = this.fb.group({
@@ -59,9 +82,10 @@ export class FormularioVenda implements OnInit {
 
   ngOnInit(): void {
     this.carregarClientes();
-    // Preenche o preço de venda com o valor padrão do produto
     if (this.produtoParaVender().precoVenda) {
-      this.vendaForm.get('precoVenda')?.setValue(this.produtoParaVender().precoVenda);
+      this.vendaForm
+        .get('precoVenda')
+        ?.setValue(this.produtoParaVender().precoVenda);
     }
   }
 
@@ -75,7 +99,10 @@ export class FormularioVenda implements OnInit {
         this.vendaForm.get('clienteId')?.setValue(resposta.content[0].id);
       }
     } catch (error) {
-      this.notificacaoService.mostrarNotificacao('Erro ao carregar clientes.', 'error');
+      this.notificacaoService.mostrarNotificacao(
+        'Erro ao carregar clientes.',
+        'error'
+      );
     } finally {
       this.isLoading.set(false);
     }
@@ -90,7 +117,7 @@ export class FormularioVenda implements OnInit {
     this.isLoading.set(true);
     const formValues = this.vendaForm.getRawValue();
 
-    // --- MONTAGEM DO PAYLOAD CORRETO ---
+    // --- MONTAGEM DO PAYLOAD ---
     const payload: RegistrarVendaRequest = {
       produtoId: this.produtoParaVender().id!,
       clienteId: formValues.clienteId,
@@ -98,15 +125,22 @@ export class FormularioVenda implements OnInit {
       formaPagamento: formValues.formaPagamento,
       totalParcelas: formValues.parcelas,
       status: formValues.situacao,
-      // dataVencimento pode ser adicionada aqui se o formulário tiver o campo
     };
 
     try {
-      const novaVenda = await firstValueFrom(this.vendaService.registrarVenda(payload));
-      this.notificacaoService.mostrarNotificacao('Venda registrada com sucesso!', 'success');
+      const novaVenda = await firstValueFrom(
+        this.vendaService.registrarVenda(payload)
+      );
+      this.notificacaoService.mostrarNotificacao(
+        'Venda registrada com sucesso!',
+        'success'
+      );
       this.vendaRegistrada.emit(novaVenda);
     } catch (error) {
-      this.notificacaoService.mostrarNotificacao('Erro ao registrar venda.', 'error');
+      this.notificacaoService.mostrarNotificacao(
+        'Erro ao registrar venda.',
+        'error'
+      );
       console.error(error);
     } finally {
       this.isLoading.set(false);

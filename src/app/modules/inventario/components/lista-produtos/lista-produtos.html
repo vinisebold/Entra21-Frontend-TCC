@@ -1,9 +1,8 @@
 @if (mostrarModalVenda() && produtoSelecionado()) {
 <app-formulario-venda
-  [produto]="produtoSelecionado()!"
+  [produtoParaVender]="produtoSelecionado()!"
   (fechar)="closeVendaModal()"
-  >></app-formulario-venda
->
+></app-formulario-venda>
 }
 
 <div class="table-wrapper overflow-x-auto shadow rounded-lg">
