@@ -11,3 +11,17 @@
     min-height: 0;
   }
 }
+
+:host {
+  view-transition-name: none;
+}
+
+:host ::ng-deep #page-content {
+  view-transition-name: page;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --default-transition-duration: 1ms;
+  }
+}

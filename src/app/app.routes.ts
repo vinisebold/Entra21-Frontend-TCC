@@ -6,7 +6,6 @@ export const routes: Routes = [
     path: '',
     component: Layout,
     children: [
-      // Redireciona a rota raiz para '/inicio' por padrão
       { path: '', redirectTo: 'inicio', pathMatch: 'full' },
 
       {
