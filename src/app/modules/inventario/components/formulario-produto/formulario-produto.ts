@@ -1,108 +1,113 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, output, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, OnInit, output, signal } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common';
-import { combineLatest, finalize, startWith } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { firstValueFrom } from 'rxjs';
 
 import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
-import { ProdutoModel } from '../../models/produto.model';
+import { AcabamentoProduto, ProdutoModel } from '../../models/produto.model';
 import { ProdutoService } from '../../services/produto.service';
+import { FornecedorService } from '../../../cadastros/services/fornecedor.service';
+import { NotificacaoService } from '../../../../core/services/notificacao.service';
 import { DinheiroMaskTsDirective } from "../../../../shared/directives/dinheiro-mask";
 
+// Interface para as opções de acabamento no template
 interface OpcaoAcabamento {
-  valor: number;
+  valor: AcabamentoProduto;
   imagem: string;
   alt: string;
 }
 
-interface ProdutoFormModel {
-  tipo: FormControl<string>;
-  modelo: FormControl<string>;
-  acabamento: FormControl<number>;
-  fornecedorId: FormControl<number | null>;
-  pecaId: FormControl<string>;
-  precoCusto: FormControl<number>;
-}
-
 @Component({
   selector: 'app-formulario-produto',
+  standalone: true,
   imports: [ReactiveFormsModule, NgOptimizedImage, DinheiroMaskTsDirective],
   templateUrl: './formulario-produto.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioProduto implements OnInit {
+  // --- Entradas e Saídas do Componente ---
+  produto = input<ProdutoModel | null>(null);
   fechar = output<void>();
-  salvo = output<ProdutoModel>();
+  salvo = output<void>();
 
+  // --- Injeção de Dependências ---
+  private fb = inject(FormBuilder);
+  private produtoService = inject(ProdutoService);
+  private fornecedorService = inject(FornecedorService);
+  private notificacaoService = inject(NotificacaoService);
 
+  // --- Estado do Componente (Signals) ---
   isLoading = signal(false);
   fornecedores = signal<FornecedorModel[]>([]);
-  private fb = inject(FormBuilder).nonNullable;
-  private produtoService = inject(ProdutoService);
+  isEditMode = computed(() => !!this.produto());
 
+  // --- Dados para o Template ---
   tiposPeca = ['Anel', 'Berloque', 'Bracelete', 'Brinco', 'Colar', 'Conjunto', 'Pingente', 'Piercing', 'Pulseira'];
-
   acabamentos: OpcaoAcabamento[] = [
-    { valor: 0, imagem: 'assets/acabamentos/dourado.png', alt: 'Dourado' },
-    { valor: 1, imagem: 'assets/acabamentos/banho-dourado.png', alt: 'Banho Dourado' },
-    { valor: 2, imagem: 'assets/acabamentos/prata.png', alt: 'Prata' },
-    { valor: 3, imagem: 'assets/acabamentos/banho-prata.png', alt: 'Banho Prata' },
-    { valor: 4, imagem: 'assets/acabamentos/aco.png', alt: 'Aço' },
+    { valor: 'DOURADO', imagem: 'assets/acabamentos/dourado.png', alt: 'Dourado' },
+    { valor: 'BANHO_DOURADO', imagem: 'assets/acabamentos/banho-dourado.png', alt: 'Banho Dourado' },
+    { valor: 'PRATA', imagem: 'assets/acabamentos/prata.png', alt: 'Prata' },
+    { valor: 'BANHO_PRATA', imagem: 'assets/acabamentos/banho-prata.png', alt: 'Banho Prata' },
+    { valor: 'ACO', imagem: 'assets/acabamentos/aco.png', alt: 'Aço' },
   ];
 
-  pecaForm: FormGroup<ProdutoFormModel> = this.fb.group({
-    tipo: ['Anel', Validators.required],
-    modelo: ['', Validators.required],
-    acabamento: [0, Validators.required],
-    fornecedorId: [null as number | null, Validators.required],
-    pecaId: ['', Validators.required],
+  // --- Formulário Reativo ---
+  pecaForm: FormGroup = this.fb.group({
+    id: [null],
+    nome: ['', Validators.required],
+    categoria: ['Anel', Validators.required],
+    idReferencia: ['', Validators.required], // Apenas a parte numérica
     precoCusto: [0, [Validators.required, Validators.min(0.01)]],
+    precoVenda: [null as number | null, [Validators.min(0)]],
+    idFornecedor: [null as number | null, Validators.required],
+    acabamento: ['DOURADO' as AcabamentoProduto, Validators.required],
   });
 
-  private formChanges = toSignal(
-    combineLatest([
-      this.pecaForm.controls.tipo.valueChanges.pipe(startWith(this.pecaForm.controls.tipo.value)),
-      this.pecaForm.controls.fornecedorId.valueChanges.pipe(startWith(this.pecaForm.controls.fornecedorId.value))
-    ])
-  );
-
+  // --- Lógica de Prefixo Reativa ---
   idPrefixo = computed(() => {
-    const changes = this.formChanges();
-    if (!changes) return '-';
+    const fornecedorId = this.pecaForm.get('idFornecedor')?.value;
+    const categoria = this.pecaForm.get('categoria')?.value;
+    if (!fornecedorId || !categoria) return '-';
 
-    const [tipoSelecionado, fornecedorIdSelecionado] = changes;
-
-    if (!fornecedorIdSelecionado) return '-';
-
-    const fornecedor = this.fornecedores().find(f => f.id === fornecedorIdSelecionado);
+    const fornecedor = this.fornecedores().find(f => f.id === fornecedorId);
     if (!fornecedor) return '-';
 
-    const chaveCodigo = `codigo${tipoSelecionado}` as keyof FornecedorModel;
-    return (fornecedor[chaveCodigo] as string) || '-';
+    return this.getPrefixoPorCategoria(fornecedor, categoria) || '-';
   });
 
+  constructor() {
+    // Efeito para preencher o formulário quando estiver em modo de edição
+    effect(() => {
+      const produtoParaEditar = this.produto();
+      if (produtoParaEditar) {
+        this.pecaForm.patchValue(this.separarPrefixoDoId(produtoParaEditar));
+      } else {
+        this.pecaForm.reset({ categoria: 'Anel', acabamento: 'DOURADO', precoCusto: 0 });
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.carregarFornecedores();
   }
 
-  carregarFornecedores(): void {
+  async carregarFornecedores(): Promise<void> {
     this.isLoading.set(true);
-    this.produtoService.getFornecedores()
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe(fornecedores => {
-        this.fornecedores.set(fornecedores);
-        if (fornecedores.length > 0) {
-          this.pecaForm.controls.fornecedorId.setValue(fornecedores[0].id);
-        }
-      });
+    try {
+      const resposta = await firstValueFrom(this.fornecedorService.getFornecedores());
+      this.fornecedores.set(resposta.content);
+      // Se não estiver editando e houver fornecedores, seleciona o primeiro
+      if (!this.isEditMode() && resposta.content.length > 0) {
+        this.pecaForm.get('idFornecedor')?.setValue(resposta.content[0].id);
+      }
+    } catch (error) {
+      this.notificacaoService.mostrarNotificacao('Erro ao carregar fornecedores.', 'error');
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 
-  onFecharClick(): void {
-    this.fechar.emit();
-  }
-
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     this.pecaForm.markAllAsTouched();
     if (this.pecaForm.invalid || this.isLoading()) {
       return;
@@ -111,28 +116,54 @@ export class FormularioProduto implements OnInit {
     this.isLoading.set(true);
     const formValues = this.pecaForm.getRawValue();
 
-    // Converte a string de dinheiro (ex: "35,90") para um número (ex: 35.90)
-    const precoCustoString = (formValues.precoCusto as unknown as string) || '0';
-    const precoCustoNumerico = parseFloat(precoCustoString.replace(',', '.'));
-
+    // O backend espera apenas a parte numérica, ele irá juntar com o prefixo.
     const produtoParaSalvar: ProdutoModel = {
-      categoria: formValues.tipo,
-      nome: formValues.modelo,
-      codigoFornecedor: this.idPrefixo() + formValues.pecaId,
+      id: formValues.id,
+      nome: formValues.nome,
+      categoria: formValues.categoria,
+      idReferencia: formValues.idReferencia, // Envia só o número
+      precoCusto: formValues.precoCusto,
+      precoVenda: formValues.precoVenda,
+      idFornecedor: formValues.idFornecedor,
       acabamento: formValues.acabamento,
-      precoCusto: precoCustoNumerico,
-      idFornecedor: formValues.fornecedorId!,
-      precoVenda: null,
     };
-    
-    this.produtoService.addProduto(produtoParaSalvar as any)
-      .pipe(finalize(() => this.isLoading.set(false)))
-      .subscribe({
-        next: (response) => {
-          console.log('Produto salvo com sucesso!', response);
-          this.salvo.emit(response as ProdutoModel);
-        },
-        error: (err) => console.error('Erro ao salvar produto:', err),
-      });
+
+    try {
+      if (this.isEditMode()) {
+        await firstValueFrom(this.produtoService.updateProduto(produtoParaSalvar.id!, produtoParaSalvar));
+        this.notificacaoService.mostrarNotificacao('Produto atualizado com sucesso!', 'success');
+      } else {
+        await firstValueFrom(this.produtoService.addProduto(produtoParaSalvar));
+        this.notificacaoService.mostrarNotificacao('Produto adicionado com sucesso!', 'success');
+      }
+      this.salvo.emit();
+    } catch (error) {
+      this.notificacaoService.mostrarNotificacao('Erro ao salvar produto.', 'error');
+      console.error(error);
+    } finally {
+      this.isLoading.set(false);
+    }
+  }
+
+  onFecharClick(): void {
+    this.fechar.emit();
+  }
+
+  private separarPrefixoDoId(produto: ProdutoModel) {
+    const fornecedor = this.fornecedores().find(f => f.id === produto.idFornecedor);
+    let idSemPrefixo = produto.idReferencia;
+
+    if (fornecedor) {
+      const prefixo = this.getPrefixoPorCategoria(fornecedor, produto.categoria);
+      if (prefixo && produto.idReferencia.startsWith(prefixo)) {
+        idSemPrefixo = produto.idReferencia.substring(prefixo.length);
+      }
+    }
+    return { ...produto, idReferencia: idSemPrefixo };
+  }
+
+  private getPrefixoPorCategoria(fornecedor: FornecedorModel, categoria: string): string | undefined {
+    const chave = `codigo${categoria.charAt(0).toUpperCase() + categoria.slice(1).toLowerCase()}` as keyof FornecedorModel;
+    return fornecedor[chave] as string | undefined;
   }
 }

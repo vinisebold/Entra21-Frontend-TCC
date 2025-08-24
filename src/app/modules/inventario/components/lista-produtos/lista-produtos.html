@@ -85,10 +85,7 @@
         <td class="px-3 md:px-4 text-center">
           <div class="flex items-center justify-center">
             <img
-              [ngSrc]="
-                acabamentoImagens[produto.acabamento] ||
-                'assets/acabamentos/default.png'
-              "
+              [src]="acabamentoImagens[produto.acabamento] || ''"
               [alt]="produto.acabamento"
               width="40"
               height="40"

@@ -1,18 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { NotificacaoService } from '../../../core/services/notificacao.service';
 
 @Component({
   selector: 'app-notificacao-toast',
   standalone: true,
   template: `
     @if (notificacao(); as notificacao) {
-    <div class="toast" [class]="notificacao.tipo">
-      <p>{{ notificacao.mensagem }}</p>
-    </div>
+      <div class="toast" [class]="notificacao.tipo">
+        <p>{{ notificacao.mensagem }}</p>
+      </div>
     }
   `,
   styles: `
@@ -32,13 +28,8 @@ import {
       animation: fadeInOut 5s forwards;
     }
 
-    .toast.success {
-      background-color: #28a745; /* Verde */
-    }
-
-    .toast.error {
-      background-color: #dc3545; /* Vermelho */
-    }
+    .toast.success { background-color: #28a745; }
+    .toast.error { background-color: #dc3545; }
 
     @keyframes fadeInOut {
       0% { opacity: 0; transform: translateY(20px); }
@@ -52,28 +43,6 @@ import {
 export class NotificacaoToast {
   private notificacaoService = inject(NotificacaoService);
 
+  // Lê o signal diretamente do serviço injetado.
   notificacao = this.notificacaoService.notificacao;
-}
-export type TipoNotificacao = 'success' | 'error';
-
-export interface NotificacaoData {
-  mensagem: string;
-  tipo: TipoNotificacao;
-}
-
-export class NotificacaoService {
-  notificacao = signal<NotificacaoData | null>(null);
-  private timer: any;
-
-  mostrarNotificacao(mensagem: string, tipo: TipoNotificacao): void {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-    this.notificacao.set({ mensagem, tipo });
-
-    // Agenda o desaparecimento da notificação
-    this.timer = setTimeout(() => {
-      this.notificacao.set(null);
-    }, 5000);
-  }
 }

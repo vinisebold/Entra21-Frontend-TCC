@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { RegistrarVendaPayload, VendaRecibo } from '../models/venda.model';
+import { RegistrarVendaRequest, VendaResponse } from '../models/venda.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
@@ -12,10 +12,10 @@ export class VendaService {
 
   registrarVenda(
     produtoId: number,
-    detalhesVenda: RegistrarVendaPayload
-  ): Observable<VendaRecibo> {
+    detalhesVenda: RegistrarVendaRequest
+  ): Observable<VendaResponse> {
     const url = `${this.apiUrl}/vender/${produtoId}`;
     console.log(`Enviando POST para a NOVA URL: ${url}`, detalhesVenda);
-    return this.http.post<VendaRecibo>(url, detalhesVenda);
+    return this.http.post<VendaResponse>(url, detalhesVenda);
   }
 }

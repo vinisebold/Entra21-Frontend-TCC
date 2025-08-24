@@ -19,6 +19,8 @@ import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FornecedorService } from '../../../cadastros/services/fornecedor.service';
 import { AsyncPipe } from '@angular/common';
+import { NotificacaoService } from '../../../../core/services/notificacao.service';
+import { NotificacaoToast } from '../../../../shared/components/notificacao-toast/notificacao-toast';
 
 @Component({
   selector: 'app-pagina-inventario',
@@ -28,6 +30,7 @@ import { AsyncPipe } from '@angular/common';
     FormularioProduto,
     Botao,
     AsyncPipe,
+    NotificacaoToast
   ],
   templateUrl: './pagina-inventario.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,6 +40,7 @@ export class PaginaInventario {
   private produtoService = inject(ProdutoService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private notificacaoService = inject(NotificacaoService);
 
   // Estado gerenciado por Signals
   fornecedores = signal<FornecedorModel[]>([]);

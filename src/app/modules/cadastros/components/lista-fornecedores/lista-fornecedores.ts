@@ -31,7 +31,7 @@ export class ListaFornecedores implements OnInit {
 
   carregarFornecedores(): void {
     this.fornecedorService.getFornecedores().subscribe((dados) => {
-      this.fornecedores.set(dados);
+      this.fornecedores.set(dados.content); 
     });
   }
 

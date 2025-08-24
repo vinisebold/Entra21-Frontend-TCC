@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
-import { ProdutoModel } from '../../models/produto.model';
+import { ProdutoModel, type AcabamentoProduto } from '../../models/produto.model';
 import { FormularioVenda } from '../formulario-venda/formulario-venda';
 
 @Component({
@@ -15,14 +15,13 @@ export class ListaProdutos {
   mostrarModalVenda = signal(false);
   produtoSelecionado = signal<ProdutoModel | null>(null);
 
-  acabamentoImagens: { [key: number]: string } = {
-    0: 'assets/acabamentos/dourado.png',
-    1: 'assets/acabamentos/banho-dourado.png',
-    2: 'assets/acabamentos/prata.png',
-    3: 'assets/acabamentos/banho-prata.png',
-    4: 'assets/acabamentos/aco.png',
+  acabamentoImagens: Record<AcabamentoProduto, string> = {
+    DOURADO: 'assets/acabamentos/dourado.png',
+    BANHO_DOURADO: 'assets/acabamentos/banho-dourado.png',
+    PRATA: 'assets/acabamentos/prata.png',
+    BANHO_PRATA: 'assets/acabamentos/banho-prata.png',
+    ACO: 'assets/acabamentos/aco.png',
   };
-
   abrirVendaModal(produto: ProdutoModel): void {
     this.produtoSelecionado.set(produto);
     this.mostrarModalVenda.set(true);

@@ -17,7 +17,7 @@ import {
 import { ClienteService } from '../../../cadastros/services/cliente.service';
 import { ClienteModel } from '../../../cadastros/models/cliente.model';
 import { ProdutoModel } from '../../models/produto.model';
-import { RegistrarVendaPayload, VendaRecibo } from '../../models/venda.model';
+import { RegistrarVendaRequest, VendaResponse } from '../../models/venda.model';
 import { VendaService } from '../../services/venda.service';
 
 @Component({
