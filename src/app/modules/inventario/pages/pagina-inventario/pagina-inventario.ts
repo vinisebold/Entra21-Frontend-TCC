@@ -3,7 +3,6 @@ import {
   Component,
   effect,
   inject,
-  OnInit,
   signal,
 } from '@angular/core';
 
@@ -13,14 +12,11 @@ import { FormularioProduto } from '../../components/formulario-produto/formulari
 import { ProdutoService } from '../../services/produto.service';
 import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
 import { ProdutoModel } from '../../models/produto.model';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { catchError, firstValueFrom, of, switchMap, tap } from 'rxjs';
+import {  firstValueFrom,} from 'rxjs';
 import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FornecedorService } from '../../../cadastros/services/fornecedor.service';
-import { AsyncPipe } from '@angular/common';
 import { NotificacaoService } from '../../../../core/services/notificacao.service';
-import { NotificacaoToast } from '../../../../shared/components/notificacao-toast/notificacao-toast';
 
 @Component({
   selector: 'app-pagina-inventario',
@@ -29,8 +25,6 @@ import { NotificacaoToast } from '../../../../shared/components/notificacao-toas
     ListaProdutos,
     FormularioProduto,
     Botao,
-    AsyncPipe,
-    NotificacaoToast
   ],
   templateUrl: './pagina-inventario.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

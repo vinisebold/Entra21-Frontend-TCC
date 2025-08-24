@@ -1,11 +1,11 @@
 import { Component, input, signal } from '@angular/core';
-import { CurrencyPipe, NgOptimizedImage } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { ProdutoModel, type AcabamentoProduto } from '../../models/produto.model';
 import { FormularioVenda } from '../formulario-venda/formulario-venda';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [NgOptimizedImage, CurrencyPipe, FormularioVenda],
+  imports: [ CurrencyPipe, FormularioVenda],
   templateUrl: './lista-produtos.html',
 })
 export class ListaProdutos {
