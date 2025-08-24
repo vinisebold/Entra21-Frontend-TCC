@@ -1,21 +1,27 @@
-import { inject, Injectable } from '@angular/core';
-import { RegistrarVendaRequest, VendaResponse } from '../models/venda.model';
-import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
+
+// --- IMPORTS CORRIGIDOS ---
+import { RegistrarVendaRequest, VendaResponse } from '../models/venda.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class VendaService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://gleam.up.railway.app/api/produtos';
+  private apiUrl = `${environment.apiUrl}/vendas`;
 
-  registrarVenda(
-    produtoId: number,
-    detalhesVenda: RegistrarVendaRequest
-  ): Observable<VendaResponse> {
-    const url = `${this.apiUrl}/vender/${produtoId}`;
-    console.log(`Enviando POST para a NOVA URL: ${url}`, detalhesVenda);
-    return this.http.post<VendaResponse>(url, detalhesVenda);
+  registrarVenda(payload: RegistrarVendaRequest): Observable<VendaResponse> {
+    return this.http.post<VendaResponse>(this.apiUrl, payload);
+  }
+
+  getVendas(): Observable<VendaResponse[]> {
+    return this.http.get<VendaResponse[]>(this.apiUrl);
+  }
+
+  pagarParcela(vendaId: number): Observable<VendaResponse> {
+    return this.http.post<VendaResponse>(`${this.apiUrl}/${vendaId}/pagar-parcela`, {});
   }
 }
