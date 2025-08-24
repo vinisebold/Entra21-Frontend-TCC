@@ -1,15 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { Botao } from '../../../../shared/components/botao/botao';
 import { FormularioCliente } from '../../../cadastros/components/formulario-cliente/formulario-cliente';
 import { ClienteItem } from '../cliente-item/cliente-item';
-import { ClienteModel } from '../../models/cliente.model';
 import { ClienteService } from '../../services/cliente.service';
 
 @Component({
@@ -19,27 +12,39 @@ import { ClienteService } from '../../services/cliente.service';
   styleUrl: './lista-clientes.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListaClientes implements OnInit {
+export class ListaClientes {
   private clienteService = inject(ClienteService);
-  clientes = signal<ClienteModel[]>([]);
-  mostrarModalCliente = signal(false);
+  
+  // Acesso reativo aos dados do serviço
+  readonly clientes = this.clienteService.clientes;
+  readonly carregando = this.clienteService.carregando;
+  readonly erro = this.clienteService.erro;
+  
+  // Estado local do componente
+  readonly mostrarModalCliente = signal(false);
+  
+  // Mensagem de feedback removida a pedido; mantemos apenas estados e a lista
 
-  // ngOnInit é chamado uma vez quando o componente é criado
-  ngOnInit(): void {
-    this.carregarClientes();
+  constructor() {
+  // Carrega os dados automaticamente quando o componente é criado
+  this.clienteService.listar();
   }
 
+  // Método para recarregar dados manualmente
   carregarClientes(): void {
-    this.clienteService.getClientes().subscribe((dados) => {
-      this.clientes.set(dados.content);
-    });
+    this.clienteService.listar();
   }
 
+  // Método reativo para deletar cliente
   deletarCliente(id: number): void {
-    this.clienteService.deleteCliente(id).subscribe(() => {
-      this.clientes.update((lista: ClienteModel[]) =>
-        lista.filter((f: ClienteModel) => f.id !== id)
-      );
+    this.clienteService.deleteCliente(id).subscribe({
+      next: () => {
+        // O estado é atualizado automaticamente pelo serviço
+        console.log('Cliente deletado com sucesso');
+      },
+      error: (error) => {
+        console.error('Erro ao deletar cliente:', error);
+      }
     });
   }
 
@@ -55,6 +60,6 @@ export class ListaClientes implements OnInit {
   // Este método é chamado quando o formulário avisa que salvou um novo cliente
   onClienteSalvo(): void {
     this.closeClienteModal();
-    this.carregarClientes();
+    // Não é mais necessário recarregar manualmente - o estado é atualizado automaticamente
   }
 }

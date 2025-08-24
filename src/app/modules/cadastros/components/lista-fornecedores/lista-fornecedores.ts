@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@angular/core';
 
 import { Botao } from '../../../../shared/components/botao/botao';
 import { FormularioFornecedor } from '../../../cadastros/components/formulario-fornecedor/formulario-fornecedor';
@@ -19,28 +13,25 @@ import { FornecedorService } from '../../services/fornecedor.service';
   styleUrl: './lista-fornecedores.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ListaFornecedores implements OnInit {
+export class ListaFornecedores {
   private fornecedorService = inject(FornecedorService);
-  fornecedores = signal<FornecedorModel[]>([]);
+
+  readonly fornecedores = this.fornecedorService.fornecedores;
+  readonly carregando = this.fornecedorService.carregando;
+  readonly erro = this.fornecedorService.erro;
+
   mostrarModalFornecedor = signal(false);
 
-  // ngOnInit é chamado uma vez quando o componente é criado
-  ngOnInit(): void {
-    this.carregarFornecedores();
+  constructor() {
+    this.fornecedorService.listar();
   }
 
   carregarFornecedores(): void {
-    this.fornecedorService.getFornecedores().subscribe((dados) => {
-      this.fornecedores.set(dados.content); 
-    });
+    this.fornecedorService.listar();
   }
 
   deletarFornecedor(id: number): void {
-    this.fornecedorService.deleteFornecedor(id).subscribe(() => {
-      this.fornecedores.update((lista: FornecedorModel[]) =>
-        lista.filter((f: FornecedorModel) => f.id !== id)
-      );
-    });
+    this.fornecedorService.deleteFornecedor(id).subscribe();
   }
 
   // --- MÉTODOS PARA O MODAL ---
@@ -55,6 +46,6 @@ export class ListaFornecedores implements OnInit {
   // Este método é chamado quando o formulário avisa que salvou um novo fornecedor
   onFornecedorSalvo(): void {
     this.closeFornecedorModal();
-    this.carregarFornecedores();
+    // lista já atualiza pelo serviço ao adicionar
   }
 }

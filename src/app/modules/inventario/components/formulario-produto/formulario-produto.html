@@ -20,13 +20,13 @@
             <label class="label-large text-[var(--color-on-surface-variant)]">Nome da Peça</label>
             <div
               class="flex overflow-hidden items-center rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
-              <select formControlName="tipo"
+              <select formControlName="categoria"
                 class="h-11 bg-transparent pl-4 pr-3 text-sm text-[var(--color-on-surface)] outline-none border-r border-[var(--color-surface-container2)]">
                 @for (tipo of tiposPeca; track tipo) {
                 <option [value]="tipo">{{ tipo }}</option>
                 }
               </select>
-              <input formControlName="modelo" type="text" placeholder="Informe o modelo da peça..."
+              <input formControlName="nome" type="text" placeholder="Informe o nome/modelo da peça..."
                 class="h-11 flex-1 px-4 text-sm placeholder:text-neutral-400 outline-none" />
             </div>
           </div>
@@ -51,7 +51,7 @@
 
               @for (fornecedor of fornecedores(); track $index) {
               <label class="block">
-                <input type="radio" name="fornecedorId" formControlName="fornecedorId" [value]="fornecedor.id"
+                <input type="radio" name="idFornecedor" formControlName="idFornecedor" [value]="fornecedor.id"
                   class="peer sr-only">
                 <span
                   class="block cursor-pointer select-none rounded-xl px-3 py-2 text-center text-sm font-medium text-[var(--color-outline)] transition peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">
@@ -71,7 +71,7 @@
                   class="flex h-10 items-center justify-center whitespace-nowrap px-3 text-sm font-semibold text-[var(--color-on-surface-variant)] bg-[var(--color-surface-container2)]">
                   {{ idPrefixo() }}
                 </span>
-                <input formControlName="pecaId" type="text" placeholder="ID..."
+                <input formControlName="idReferencia" type="text" inputmode="numeric" placeholder="Somente números..."
                   class="h-10 min-w-0 flex-1 px-3 text-sm bg-transparent placeholder:text-neutral-400 outline-none" />
               </div>
             </div>

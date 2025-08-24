@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { FornecedorModel } from '../../cadastros/models/fornecedor.model';
 import { ProdutoModel } from '../models/produto.model';
 import { RespostaPaginada } from '../../../shared/models/resposta-paginada';
 import { environment } from '../../../../environments/environment';
@@ -13,8 +12,6 @@ import { environment } from '../../../../environments/environment';
 export class ProdutoService {
   private http = inject(HttpClient);
   private apiUrlProduto = `${environment.apiUrl}/produtos`;
-
-  constructor() {}
 
   getProdutos(
     page: number,

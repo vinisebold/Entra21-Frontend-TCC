@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input, On
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgOptimizedImage } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
 import { AcabamentoProduto, ProdutoModel } from '../../models/produto.model';
@@ -64,12 +65,19 @@ export class FormularioProduto implements OnInit {
   });
 
   // --- Lógica de Prefixo Reativa ---
+  private categoriaSel = toSignal(this.pecaForm.get('categoria')!.valueChanges, {
+    initialValue: this.pecaForm.get('categoria')!.value,
+  });
+  private fornecedorSel = toSignal(this.pecaForm.get('idFornecedor')!.valueChanges, {
+    initialValue: this.pecaForm.get('idFornecedor')!.value,
+  });
+
   idPrefixo = computed(() => {
-    const fornecedorId = this.pecaForm.get('idFornecedor')?.value;
-    const categoria = this.pecaForm.get('categoria')?.value;
+    const fornecedorId = this.fornecedorSel();
+    const categoria = this.categoriaSel();
     if (!fornecedorId || !categoria) return '-';
 
-    const fornecedor = this.fornecedores().find(f => f.id === fornecedorId);
+    const fornecedor = this.fornecedores().find((f) => f.id === fornecedorId);
     if (!fornecedor) return '-';
 
     return this.getPrefixoPorCategoria(fornecedor, categoria) || '-';
@@ -116,15 +124,32 @@ export class FormularioProduto implements OnInit {
     this.isLoading.set(true);
     const formValues = this.pecaForm.getRawValue();
 
+    const normalizarMoeda = (valor: unknown): number => {
+      if (typeof valor === 'number') return valor;
+      if (typeof valor === 'string') {
+        const limpo = valor.replace(/\./g, '').replace(',', '.').replace(/[^0-9.\-]/g, '');
+        const num = Number(limpo);
+        return isNaN(num) ? 0 : num;
+      }
+      return 0;
+    };
+
+    const idRefSomenteDigitos = String(formValues.idReferencia ?? '')
+      .replace(/\D/g, '')
+      .trim();
+
     // O backend espera apenas a parte numérica, ele irá juntar com o prefixo.
     const produtoParaSalvar: ProdutoModel = {
       id: formValues.id,
       nome: formValues.nome,
       categoria: formValues.categoria,
-      idReferencia: formValues.idReferencia, // Envia só o número
-      precoCusto: formValues.precoCusto,
-      precoVenda: formValues.precoVenda,
-      idFornecedor: formValues.idFornecedor,
+      idReferencia: idRefSomenteDigitos, // Envia só o número
+      precoCusto: normalizarMoeda(formValues.precoCusto),
+      precoVenda:
+        formValues.precoVenda === null || formValues.precoVenda === ''
+          ? null
+          : normalizarMoeda(formValues.precoVenda),
+      idFornecedor: Number(formValues.idFornecedor),
       acabamento: formValues.acabamento,
     };
 

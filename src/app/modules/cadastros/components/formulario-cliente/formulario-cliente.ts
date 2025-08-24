@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   inject,
-  OnInit,
   output,
   signal,
 } from '@angular/core';
@@ -28,22 +27,20 @@ import { finalize } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioCliente {
-  fechar = output<void>();
-  salvo = output<void>();
+  readonly fechar = output<void>();
+  readonly salvo = output<void>();
 
-  isLoading = signal(false);
+  readonly isLoading = signal(false);
 
   private fb = inject(FormBuilder);
   private clienteService = inject(ClienteService);
 
-  clienteForm: FormGroup = this.fb.group({
+  readonly clienteForm: FormGroup = this.fb.group({
     nome: ['', Validators.required],
     descricao: [''],
     cpf: ['', Validators.required],
     telefone: ['', Validators.required],
   });
-
-  ngOnInit(): void {}
 
   onFecharClick(): void {
     this.fechar.emit();
@@ -65,6 +62,7 @@ export class FormularioCliente {
       .subscribe({
         next: (response) => {
           console.log('Cliente salvo com sucesso!', response);
+          this.clienteForm.reset();
           this.salvo.emit();
         },
         error: (err) => {
