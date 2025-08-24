@@ -128,7 +128,7 @@
             </div>
           </div>
 
-          <!-- Preço e Parcelas -->
+          <!-- Preço, Parcelas e Data de Vencimento -->
           <div class="grid grid-cols-2 gap-4">
             <!-- Preço de Venda -->
             <div class="space-y-2">
@@ -160,18 +160,37 @@
               >
               <div
                 class="relative flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]"
-                [class.opacity-60]="!isCredito()"
-                [class.pointer-events-none]="!isCredito()"
               >
                 <input
                   formControlName="parcelas"
                   type="number"
-                  min="0"
+                  min="1"
                   max="12"
                   step="1"
                   placeholder="0"
                   class="h-10 w-full min-w-0 px-3 pr-10 text-sm bg-transparent outline-none"
                 />
+              </div>
+            </div>
+
+            <!-- Data de Vencimento -->
+            <div class="space-y-2 col-span-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">Data de Vencimento</label>
+              <div class="relative flex items-center overflow-hidden rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+                <input
+                  formControlName="dataVencimento"
+                  type="date"
+                  [min]="todayStr"
+                  class="h-11 w-full appearance-none bg-transparent pl-4 pr-10 text-sm text-[var(--color-on-surface)] outline-none"
+                />
+                <svg
+                  aria-hidden="true"
+                  class="pointer-events-none absolute right-3 h-5 w-5 text-[var(--color-on-surface-variant)]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <use href="/sprite.svg#icon-calendar"></use>
+                </svg>
               </div>
             </div>
           </div>

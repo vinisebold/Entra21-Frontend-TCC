@@ -1,11 +1,15 @@
-import { Component, input, signal } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ProdutoModel, type AcabamentoProduto } from '@modules/inventario';
+import {
+  ProdutoModel,
+  type AcabamentoProduto,
+  VendaResponse,
+} from '@modules/inventario';
 import { FormularioVenda } from '../formulario-venda/formulario-venda';
 
 @Component({
   selector: 'app-lista-produtos',
-  imports: [ CurrencyPipe, FormularioVenda],
+  imports: [CurrencyPipe, FormularioVenda],
   templateUrl: './lista-produtos.html',
 })
 export class ListaProdutos {
@@ -14,7 +18,7 @@ export class ListaProdutos {
   erro = input<string | null>(null);
   mostrarModalVenda = signal(false);
   produtoSelecionado = signal<ProdutoModel | null>(null);
-  
+  vendaConcluida = output<VendaResponse>();
 
   acabamentoImagens: Record<AcabamentoProduto, string> = {
     DOURADO: 'assets/acabamentos/dourado.png',
@@ -30,5 +34,11 @@ export class ListaProdutos {
   closeVendaModal(): void {
     this.mostrarModalVenda.set(false);
     this.produtoSelecionado.set(null);
+  }
+
+  onVendaRegistrada(venda: VendaResponse): void {
+    this.mostrarModalVenda.set(false);
+    this.produtoSelecionado.set(null);
+    this.vendaConcluida.emit(venda);
   }
 }

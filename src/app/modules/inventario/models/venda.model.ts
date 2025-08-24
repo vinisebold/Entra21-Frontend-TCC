@@ -1,6 +1,6 @@
 import { ProdutoModel } from './produto.model';
 
-export type StatusVenda = 'PENDENTE' | 'PAGO' | 'CANCELADA';
+export type StatusVenda = 'PENDENTE' | 'PAGO' | 'CANCELADO';
 export type FormaPagamento =
   | 'PIX'
   | 'DINHEIRO'

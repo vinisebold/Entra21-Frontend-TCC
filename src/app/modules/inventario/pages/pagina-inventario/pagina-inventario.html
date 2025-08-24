@@ -1,9 +1,9 @@
 @if (isModalProdutoAberto()) {
-  <app-formulario-produto
-    [produto]="produtoParaEditar()"
-    (fechar)="fecharModalProduto()"
-    (salvo)="onSucessoFormulario()"
-  ></app-formulario-produto>
+<app-formulario-produto
+  [produto]="produtoParaEditar()"
+  (fechar)="fecharModalProduto()"
+  (salvo)="onSucessoFormulario()"
+></app-formulario-produto>
 }
 
 <div class="container mx-auto max-w-[1540px] px-4 bg-white space-y-4">
@@ -12,18 +12,24 @@
   >
     <div class="min-h-10">
       @if (isLoadingFornecedores()) {
-        <div class="inline-flex items-center gap-2">
-          <div class="h-10 w-28 rounded-full bg-surface-container animate-pulse"></div>
-          <div class="h-10 w-32 rounded-full bg-surface-container animate-pulse"></div>
-          <div class="h-10 w-24 rounded-full bg-surface-container animate-pulse hidden md:block"></div>
-        </div>
+      <div class="inline-flex items-center gap-2">
+        <div
+          class="h-10 w-28 rounded-full bg-surface-container animate-pulse"
+        ></div>
+        <div
+          class="h-10 w-32 rounded-full bg-surface-container animate-pulse"
+        ></div>
+        <div
+          class="h-10 w-24 rounded-full bg-surface-container animate-pulse hidden md:block"
+        ></div>
+      </div>
       } @else {
-        <app-segmented-control
-          [opcoes]="fornecedores()"
-          [opcaoAtivaId]="fornecedorSelecionadoId()"
-          (selecaoMudou)="onFornecedorSelecionado($event)"
-        >
-        </app-segmented-control>
+      <app-segmented-control
+        [opcoes]="fornecedores()"
+        [opcaoAtivaId]="fornecedorSelecionadoId()"
+        (selecaoMudou)="onFornecedorSelecionado($event)"
+      >
+      </app-segmented-control>
       }
     </div>
 
@@ -36,5 +42,6 @@
   <app-lista-produtos
     [produtos]="produtos()"
     [isLoading]="isLoadingProdutos()"
+    (vendaConcluida)="onSucessoFormulario()"
   ></app-lista-produtos>
 </div>

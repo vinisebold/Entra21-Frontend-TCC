@@ -1,1 +1,63 @@
-<p>lista-vendas-pendentes works!</p>
+<ul class="flex flex-col overflow-y-auto" aria-label="Lista de Pendentes">
+  @if (!vendas().length) {
+  <li class="p-6 text-center text-on-surface-variant">
+    Nenhuma venda pendente.
+  </li>
+  } @else { @for (v of vendas(); track v.id) {
+  <li class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2">
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="title-medium text-on-surface">{{ v.nomeCliente }}</div>
+        <div class="mb-4 body-large text-on-surface-variant">
+          {{ v.produto.nome }}
+        </div>
+        <div class="mt-2 flex items-center gap-3">
+          <span class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant">
+            <svg class="icone text-on-surface-variant" aria-hidden="true">
+              <use [attr.href]="'/sprite.svg#' + (v.formaPagamento === 'PIX' ? 'icon-pix' : (v.formaPagamento === 'DINHEIRO' ? 'icon-dinheiro' : 'icon-card'))"></use>
+            </svg>
+            {{ v.formaPagamento }}
+          </span>
+          <span
+            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
+          >
+            <span>{{ v.parcelasPagas }}/{{ v.totalParcelas }}</span>
+          </span>
+        </div>
+        <div class="mt-2 flex items-center gap-3">
+          <span
+            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
+          >
+            <svg class="icone text-on-surface-variant" aria-hidden="true">
+              <use href="/sprite.svg#icon-calendar"></use>
+            </svg>
+            Próx. venc.: {{ v.dataVencimento || "-" }}
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col gap-1 items-end">
+        <p class="body-large text-on-surface-variant">
+          Venda: R$ {{ v.precoVenda | number : "1.2-2" }}
+        </p>
+        <div class="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm">
+          Lucro: R$ {{ v.lucro | number : "1.2-2" }}
+        </div>
+        <div class="flex gap-2 mt-auto">
+          <button
+            class="bg-green-600 text-white rounded-full px-3 py-1 text-sm"
+            (click)="pagarParcela.emit(v.id)"
+          >
+            Pagar parcela
+          </button>
+          <button
+            class="bg-red-100 text-red-800 rounded-full px-3 py-1 text-sm"
+            (click)="cancelar.emit(v.id)"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </li>
+  } }
+</ul>

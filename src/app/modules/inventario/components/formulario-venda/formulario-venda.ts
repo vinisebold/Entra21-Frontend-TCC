@@ -17,7 +17,15 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 // --- IMPORTS CORRIGIDOS ---
-import { FormaPagamento, RegistrarVendaRequest, StatusVenda, VendaResponse, VendaService, ProdutoModel } from '@modules/inventario';
+import {
+  FormaPagamento,
+  RegistrarVendaRequest,
+  StatusVenda,
+  VendaResponse,
+  VendaService,
+  ProdutoModel,
+} from '@modules/inventario';
+import { ProdutoService } from '@modules/inventario';
 import { ClienteModel, ClienteService } from '@modules/cadastros';
 import { NotificacaoService } from '@core';
 import { DinheiroMaskTsDirective } from '@shared';
@@ -39,6 +47,7 @@ export class FormularioVenda implements OnInit {
   // --- Injeção de Dependências ---
   private fb = inject(FormBuilder);
   private vendaService = inject(VendaService);
+  private produtoService = inject(ProdutoService);
   private clienteService = inject(ClienteService);
   private notificacaoService = inject(NotificacaoService);
 
@@ -53,10 +62,10 @@ export class FormularioVenda implements OnInit {
   ];
 
   opcoesPagamento = [
-    { nome: 'PIX', id: 'PIX', icon: 'pix' },
-    { nome: 'Dinheiro', id: 'DINHEIRO', icon: 'money' },
-    { nome: 'Cartão de Crédito', id: 'CARTAO_CREDITO', icon: 'credit-card' },
-    { nome: 'Cartão de Débito', id: 'CARTAO_DEBITO', icon: 'credit-card' },
+  { nome: 'PIX', id: 'PIX', icon: 'icon-pix' },
+  { nome: 'Dinheiro', id: 'DINHEIRO', icon: 'icon-dinheiro' },
+  { nome: 'Cartão de Crédito', id: 'CARTAO_CREDITO', icon: 'icon-card' },
+  { nome: 'Cartão de Débito', id: 'CARTAO_DEBITO', icon: 'icon-card' },
   ];
 
   isCredito = computed(
@@ -69,8 +78,12 @@ export class FormularioVenda implements OnInit {
     situacao: ['PENDENTE', Validators.required],
     formaPagamento: ['PIX', Validators.required],
     precoVenda: [0, [Validators.required, Validators.min(0.01)]],
-    parcelas: [1, [Validators.required, Validators.min(1)]],
+  parcelas: [1, [Validators.required, Validators.min(1)]],
+  dataVencimento: [null],
   });
+
+  // Data mínima de vencimento (hoje)
+  readonly todayStr = this.formatDate(new Date());
 
   ngOnInit(): void {
     this.carregarClientes();
@@ -79,6 +92,19 @@ export class FormularioVenda implements OnInit {
         .get('precoVenda')
         ?.setValue(this.produtoParaVender().precoVenda);
     }
+
+    // Regras: dataVencimento obrigatória somente quando status = PENDENTE
+    this.vendaForm.get('situacao')?.valueChanges.subscribe((status) => {
+      const ctrl = this.vendaForm.get('dataVencimento');
+      if (!ctrl) return;
+      if (status === 'PENDENTE') {
+        ctrl.setValidators([Validators.required]);
+      } else {
+        ctrl.clearValidators();
+        ctrl.setValue(null);
+      }
+      ctrl.updateValueAndValidity({ emitEvent: false });
+    });
   }
 
   async carregarClientes(): Promise<void> {
@@ -109,14 +135,52 @@ export class FormularioVenda implements OnInit {
     this.isLoading.set(true);
     const formValues = this.vendaForm.getRawValue();
 
+    // Pré-checagem opcional: garantir que o produto ainda está EM_ESTOQUE
+    try {
+      const produto = await firstValueFrom(
+        this.produtoService.getById(this.produtoParaVender().id!)
+      );
+      if (produto.status && produto.status !== 'EM_ESTOQUE') {
+        this.notificacaoService.mostrarNotificacao(
+          'Produto indisponível para venda (não está em estoque).',
+          'error'
+        );
+        this.isLoading.set(false);
+        return;
+      }
+    } catch (e: any) {
+      const msg =
+        e?.error?.message ||
+        e?.error?.error ||
+        'Não foi possível validar a disponibilidade do produto.';
+      this.notificacaoService.mostrarNotificacao(msg, 'error');
+      this.isLoading.set(false);
+      return;
+    }
+
+
+    const parseMoney = (val: unknown): number => {
+      if (typeof val === 'number') return val;
+      if (typeof val === 'string') {
+        const digits = val.replace(/[^\d]/g, '');
+        if (!digits) return 0;
+        return Number(digits) / 100;
+      }
+      return 0;
+    };
+
     // --- MONTAGEM DO PAYLOAD ---
     const payload: RegistrarVendaRequest = {
       produtoId: this.produtoParaVender().id!,
       clienteId: formValues.clienteId,
-      precoVenda: formValues.precoVenda,
+      precoVenda: parseMoney(formValues.precoVenda),
       formaPagamento: formValues.formaPagamento,
-      totalParcelas: formValues.parcelas,
+      totalParcelas: Number(formValues.parcelas),
       status: formValues.situacao,
+      dataVencimento:
+        formValues.situacao === 'PENDENTE' && formValues.dataVencimento
+          ? formValues.dataVencimento
+          : undefined,
     };
 
     try {
@@ -128,12 +192,11 @@ export class FormularioVenda implements OnInit {
         'success'
       );
       this.vendaRegistrada.emit(novaVenda);
-    } catch (error) {
-      this.notificacaoService.mostrarNotificacao(
-        'Erro ao registrar venda.',
-        'error'
-      );
-      console.error(error);
+    } catch (error: any) {
+      const mensagem =
+        error?.error?.message || error?.error?.error || error?.message || 'Erro ao registrar venda.';
+      this.notificacaoService.mostrarNotificacao(mensagem, 'error');
+      console.error('Registrar venda falhou:', error);
     } finally {
       this.isLoading.set(false);
     }
@@ -141,5 +204,12 @@ export class FormularioVenda implements OnInit {
 
   onFecharClick(): void {
     this.fechar.emit();
+  }
+
+  private formatDate(d: Date): string {
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
 }

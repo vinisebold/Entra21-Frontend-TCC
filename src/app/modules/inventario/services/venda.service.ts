@@ -1,10 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 // --- IMPORTS CORRIGIDOS ---
-import { RegistrarVendaRequest, VendaResponse } from '../models/venda.model';
+import {
+  RegistrarVendaRequest,
+  VendaResponse,
+  StatusVenda,
+} from '../models/venda.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +21,27 @@ export class VendaService {
     return this.http.post<VendaResponse>(this.apiUrl, payload);
   }
 
-  getVendas(): Observable<VendaResponse[]> {
-    return this.http.get<VendaResponse[]>(this.apiUrl);
+  getVendas(filtros?: { status?: StatusVenda }): Observable<VendaResponse[]> {
+    let params = new HttpParams();
+    if (filtros?.status) {
+      params = params.set('status', filtros.status);
+    }
+    return this.http
+      .get<{ content: VendaResponse[] }>(this.apiUrl, { params })
+      .pipe(map((res) => res.content ?? []));
   }
 
   pagarParcela(vendaId: number): Observable<VendaResponse> {
-    return this.http.post<VendaResponse>(`${this.apiUrl}/${vendaId}/pagar-parcela`, {});
+    return this.http.post<VendaResponse>(
+      `${this.apiUrl}/${vendaId}/pagar-parcela`,
+      {}
+    );
+  }
+
+  cancelarVenda(vendaId: number): Observable<VendaResponse> {
+    return this.http.post<VendaResponse>(
+      `${this.apiUrl}/${vendaId}/cancelar`,
+      {}
+    );
   }
 }

@@ -2,6 +2,7 @@
 <app-formulario-venda
   [produtoParaVender]="produtoSelecionado()!"
   (fechar)="closeVendaModal()"
+  (vendaRegistrada)="onVendaRegistrada($event)"
 ></app-formulario-venda>
 }
 
@@ -50,26 +51,43 @@
         </th>
       </tr>
     </thead>
-  <tbody [class.opacity-0]="isLoading()" [class.opacity-100]="!isLoading()" [class.transition-opacity]="true" [style.transitionDuration]="'200ms'">
-  @if (isLoading()) {
-  @for (i of [0,1,2,3,4]; track i) {
+    <tbody
+      [class.opacity-0]="isLoading()"
+      [class.opacity-100]="!isLoading()"
+      [class.transition-opacity]="true"
+      [style.transitionDuration]="'200ms'"
+    >
+      @if (isLoading()) { @for (i of [0,1,2,3,4]; track i) {
       <tr class="h-[52px] md:h-16 animate-pulse">
-        <td class="px-3 md:px-4"><div class="h-4 w-4 bg-surface-container rounded-sm"></div></td>
-        <td class="px-3 md:px-4"><div class="h-4 w-24 bg-surface-container rounded"></div></td>
-        <td class="px-3 md:px-4"><div class="h-4 w-1/2 bg-surface-container rounded"></div></td>
         <td class="px-3 md:px-4">
-          <div class="mx-auto h-10 w-10 bg-surface-container rounded-full"></div>
+          <div class="h-4 w-4 bg-surface-container rounded-sm"></div>
         </td>
-        <td class="px-3 md:px-4"><div class="h-4 w-28 bg-surface-container rounded"></div></td>
-        <td class="px-3 md:px-4"><div class="h-4 w-28 bg-surface-container rounded"></div></td>
-        <td class="px-3 md:px-4 hidden md:table-cell"><div class="h-4 w-20 bg-surface-container rounded"></div></td>
+        <td class="px-3 md:px-4">
+          <div class="h-4 w-24 bg-surface-container rounded"></div>
+        </td>
+        <td class="px-3 md:px-4">
+          <div class="h-4 w-1/2 bg-surface-container rounded"></div>
+        </td>
+        <td class="px-3 md:px-4">
+          <div
+            class="mx-auto h-10 w-10 bg-surface-container rounded-full"
+          ></div>
+        </td>
+        <td class="px-3 md:px-4">
+          <div class="h-4 w-28 bg-surface-container rounded"></div>
+        </td>
+        <td class="px-3 md:px-4">
+          <div class="h-4 w-28 bg-surface-container rounded"></div>
+        </td>
+        <td class="px-3 md:px-4 hidden md:table-cell">
+          <div class="h-4 w-20 bg-surface-container rounded"></div>
+        </td>
       </tr>
-      }
-  } @else if (erro()) {
+      } } @else if (erro()) {
       <tr class="h-[52px] md:h-16">
         <td colspan="7" class="text-center text-error">⚠️ {{ erro() }}</td>
       </tr>
-  } @else { @for (produto of produtos(); track produto.id) {
+      } @else { @for (produto of produtos(); track produto.id) {
       <tr
         class="group h-[52px] md:h-16 hover:bg-surface-container shadow-[0_2px_0px_0px_#e5e5e5]"
       >
@@ -119,7 +137,7 @@
           >
             <button
               type="button"
-              aria-label="Editar Produto"
+              aria-label="Registrar Produto"
               (click)="abrirVendaModal(produto)"
               class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
             >

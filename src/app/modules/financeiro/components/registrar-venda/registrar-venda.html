@@ -1,0 +1,100 @@
+<div class="fixed inset-0 z-50 flex items-end justify-end p-3">
+  <section role="dialog" aria-modal="true" class="w-full max-w-md rounded-2xl bg-[var(--color-surface-container)] shadow ring-1 ring-black/5 overflow-hidden">
+    <header class="flex items-center justify-between px-5 py-4">
+      <h2 class="title-medium text-[var(--color-on-surface)]">Registrar Venda</h2>
+      <button type="button" aria-label="Fechar" (click)="onFecharClick()" class="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-container2)]">
+        <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </header>
+
+    <div class="px-5 pb-5">
+      <form class="space-y-5" [formGroup]="vendaForm" (ngSubmit)="onSubmit()">
+        <fieldset [disabled]="isLoading()" class="space-y-5" [class.opacity-50]="isLoading()">
+          <!-- Produto ID -->
+          <div class="space-y-2">
+            <label class="label-large text-[var(--color-on-surface-variant)]">Produto ID</label>
+            <div class="relative flex items-center overflow-hidden rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+              <input type="number" formControlName="produtoId" placeholder="Digite o ID do produto" class="h-11 w-full bg-transparent px-4 text-sm outline-none" />
+              <button type="button" class="absolute right-1 rounded-full px-3 py-1 text-sm bg-[var(--color-primary)] text-white" (click)="buscarProduto()">Buscar</button>
+            </div>
+            @if (produtoNome()) {
+            <p class="text-xs text-on-surface-variant">Produto: {{ produtoNome() }}</p>
+            }
+          </div>
+
+          <!-- Cliente -->
+          <div class="space-y-2">
+            <label class="label-large text-[var(--color-on-surface-variant)]">Cliente</label>
+            <div class="relative flex items-center overflow-hidden rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+              <select formControlName="clienteId" class="h-11 w-full appearance-none bg-transparent pl-4 pr-10 text-sm text-[var(--color-on-surface)] outline-none">
+                <option value="" disabled>Selecionar cliente...</option>
+                @for (c of clientes(); track c.id) {
+                <option [value]="c.id">{{ c.nome }}</option>
+                }
+              </select>
+              <svg aria-hidden="true" class="pointer-events-none absolute right-3 h-5 w-5 text-[var(--color-on-surface-variant)]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Situação -->
+          <div class="space-y-2">
+            <label class="label-large text-[var(--color-on-surface-variant)]">Situação</label>
+            <div class="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--color-surface)] p-1">
+              @for (s of opcoesSituacao; track s.id) {
+              <label class="block">
+                <input type="radio" formControlName="situacao" [value]="s.id" class="peer sr-only" />
+                <span class="block cursor-pointer select-none rounded-[10px] py-2.5 text-center text-sm font-medium text-[var(--color-on-surface-variant)] transition-colors peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]">{{ s.nome }}</span>
+              </label>
+              }
+            </div>
+          </div>
+
+          <!-- Pagamento, Preço, Parcelas, Vencimento -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">Forma de Pagamento</label>
+              <select formControlName="formaPagamento" class="h-10 w-full rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)] px-3 text-sm outline-none">
+                <option value="PIX">PIX</option>
+                <option value="DINHEIRO">Dinheiro</option>
+                <option value="CARTAO_CREDITO">Cartão de Crédito</option>
+                <option value="CARTAO_DEBITO">Cartão de Débito</option>
+              </select>
+            </div>
+            <div class="space-y-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">Parcelas</label>
+              <input type="number" formControlName="parcelas" min="1" max="12" class="h-10 w-full rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)] px-3 text-sm outline-none" />
+            </div>
+            <div class="space-y-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">Preço de Venda</label>
+              <div class="flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+                <span class="ml-2 mr-2 flex h-7 items-center rounded-md bg-[var(--color-secundary)] px-2 text-xs font-semibold text-[var(--color-outline)]">R$</span>
+                <input formControlName="precoVenda" type="text" inputmode="decimal" placeholder="0,00" class="h-10 min-w-0 flex-1 px-3 text-sm bg-transparent placeholder:text-neutral-400 outline-none" />
+              </div>
+            </div>
+            <div class="space-y-2">
+              <label class="label-large text-[var(--color-on-surface-variant)]">Data de Vencimento</label>
+              <input type="date" formControlName="dataVencimento" class="h-10 w-full rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)] px-3 text-sm outline-none" />
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="flex items-center justify-end pt-2 gap-4">
+          <button type="button" (click)="onFecharClick()" [disabled]="isLoading()" class="px-4 py-2 text-sm font-medium text-[var(--color-on-surface-variant)]">Cancelar</button>
+          <button type="submit" [disabled]="vendaForm.invalid || isLoading()" class="inline-flex min-w-[120px] items-center justify-center gap-2 rounded-full bg-[var(--color-primary)] px-5 py-3 text-sm font-semibold text-[var(--color-surface)]">
+            @if (!isLoading()) {
+            <span>Registrar</span>
+            } @else {
+            <svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Registrando...</span>
+            }
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
