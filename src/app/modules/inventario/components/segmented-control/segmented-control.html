@@ -1,10 +1,40 @@
-<div class="inline-flex items-center p-1 space-x-1 rounded-full bg-secundary">
-  @for (opcao of opcoes(); track opcao.id) {
-  <button (click)="onSelecao(opcao.id)" [class.bg-primary]="opcao.id === opcaoAtivaId()"
-    [class.text-white]="opcao.id === opcaoAtivaId()" [class.shadow-md]="opcao.id === opcaoAtivaId()"
-    [class.bg-transparent]="opcao.id !== opcaoAtivaId()" [class.text-on-surface-variant]="opcao.id !== opcaoAtivaId()"
-    class="rounded-full px-5 py-2.5 text-sm font-semibold focus:outline-none transition-colors hover:bg-secundary2">
-    {{ opcao.nome }}
-  </button>
-  }
+<div
+  class="relative inline-flex items-center rounded-full bg-secundary"
+  style="height:44px; --btn-w: 150px; --gap: 0.25rem;"
+  [style.--idx]="indiceAtivo()"
+>
+  <div
+    class="absolute left-1 top-1 bottom-1 rounded-full bg-primary shadow-md transition-transform duration-200 will-change-transform z-0"
+    [style.width]="'var(--btn-w)'"
+    [style.transform]="'translateX(calc(var(--idx) * (var(--btn-w) + var(--gap))))'"  
+    aria-hidden="true"
+  ></div>
+
+  <!-- Buttons row -->
+  <div class="relative z-10 flex gap-1 px-1">
+    @for (opcao of opcoes(); track opcao.id; let i = $index) {
+      <button
+      (click)="onSelecao(opcao.id)"
+        class="group relative overflow-hidden rounded-full h-[36px] px-3 text-sm font-semibold focus:outline-none transition-colors duration-200 text-on-surface-variant"
+        [style.width]="'var(--btn-w)'"
+      [attr.aria-current]="opcao.id === opcaoAtivaId() ? 'true' : null"
+      [class.text-white]="opcao.id === opcaoAtivaId()"
+    >
+      <!-- Hover background for non-active option -->
+      @if (opcao.id !== opcaoAtivaId()) {
+      <span
+        class="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-20 transition-opacity duration-200"
+        aria-hidden="true"
+      ></span>
+      }
+      <span
+        class="relative block truncate"
+        [style.maxWidth]="'100%'"
+        [title]="opcao.nome"
+      >
+        {{ opcao.nome }}
+      </span>
+    </button>
+    }
+  </div>
 </div>
