@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { Botao } from '../../../../shared/components/botao/botao';
 import { FormularioCliente } from '../../../cadastros/components/formulario-cliente/formulario-cliente';
 import { ClienteItem } from '../cliente-item/cliente-item';
-import { ClienteService } from '../../services/cliente.service';
+import { ClienteService } from '@modules/cadastros';
 
 @Component({
   selector: 'app-lista-clientes',

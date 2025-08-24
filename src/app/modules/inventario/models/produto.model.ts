@@ -1,4 +1,4 @@
-import { FornecedorModel } from '../../cadastros/models/fornecedor.model';
+import { FornecedorModel } from '@modules/cadastros';
 
 export type AcabamentoProduto =
   | 'DOURADO'

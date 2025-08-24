@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { FornecedorModel } from '../../models/fornecedor.model';
+import { FornecedorModel } from '@modules/cadastros';
 
 @Component({
   selector: 'app-fornecedor-item',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ClienteModel } from '../../models/cliente.model';
+import { ClienteModel } from '@modules/cadastros';
 
 
 @Component({

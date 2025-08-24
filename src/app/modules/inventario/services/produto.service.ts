@@ -3,8 +3,8 @@ import { map, Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { ProdutoModel } from '../models/produto.model';
-import { RespostaPaginada } from '../../../shared/models/resposta-paginada';
-import { environment } from '../../../../environments/environment';
+import { RespostaPaginada } from '@shared';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',

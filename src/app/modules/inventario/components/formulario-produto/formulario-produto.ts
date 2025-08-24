@@ -4,11 +4,11 @@ import { NgOptimizedImage } from '@angular/common';
 import { firstValueFrom } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
-import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
-import { AcabamentoProduto, ProdutoModel } from '../../models/produto.model';
-import { ProdutoService } from '../../services/produto.service';
-import { FornecedorService } from '../../../cadastros/services/fornecedor.service';
-import { NotificacaoService } from '../../../../core/services/notificacao.service';
+import { FornecedorModel } from '@modules/cadastros';
+import { AcabamentoProduto, ProdutoModel } from '@modules/inventario';
+import { ProdutoService } from '@modules/inventario';
+import { FornecedorService } from '@modules/cadastros';
+import { NotificacaoService } from '@core';
 import { DinheiroMaskTsDirective } from "../../../../shared/directives/dinheiro-mask";
 
 // Interface para as opções de acabamento no template

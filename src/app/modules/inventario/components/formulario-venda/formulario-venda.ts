@@ -17,18 +17,10 @@ import {
 import { firstValueFrom } from 'rxjs';
 
 // --- IMPORTS CORRIGIDOS ---
-import {
-  FormaPagamento,
-  RegistrarVendaRequest,
-  StatusVenda,
-  VendaResponse,
-} from '../../models/venda.model';
-import { VendaService } from '../../services/venda.service';
-import { ProdutoModel } from '../../models/produto.model';
-import { ClienteModel } from '../../../../modules/cadastros/models/cliente.model';
-import { ClienteService } from '../../../../modules/cadastros/services/cliente.service';
-import { NotificacaoService } from '../../../../core/services/notificacao.service';
-import { DinheiroMaskTsDirective } from '../../../../shared/directives/dinheiro-mask';
+import { FormaPagamento, RegistrarVendaRequest, StatusVenda, VendaResponse, VendaService, ProdutoModel } from '@modules/inventario';
+import { ClienteModel, ClienteService } from '@modules/cadastros';
+import { NotificacaoService } from '@core';
+import { DinheiroMaskTsDirective } from '@shared';
 import { CommonModule } from '@angular/common';
 
 @Component({

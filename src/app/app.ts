@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NotificacaoToast } from './shared/components/notificacao-toast/notificacao-toast';
+import { NotificacaoToast } from '@shared';
 
 
 @Component({

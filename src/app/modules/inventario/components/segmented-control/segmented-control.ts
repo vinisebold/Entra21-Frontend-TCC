@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
+import { FornecedorModel } from '@modules/cadastros';
 
 @Component({
   selector: 'app-segmented-control',

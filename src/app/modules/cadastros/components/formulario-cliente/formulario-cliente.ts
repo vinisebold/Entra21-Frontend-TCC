@@ -13,8 +13,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ClienteService } from '../../services/cliente.service';
-import { ClienteModel } from '../../models/cliente.model';
+import { ClienteService, ClienteModel } from '@modules/cadastros';
 import { TelefoneMask } from '../../../../shared/directives/telefone-mask';
 import { CpfMask } from '../../../../shared/directives/cpf-mask';
 import { finalize } from 'rxjs';

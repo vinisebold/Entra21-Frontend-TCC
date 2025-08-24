@@ -1,6 +1,6 @@
 import { Component, input, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { ProdutoModel, type AcabamentoProduto } from '../../models/produto.model';
+import { ProdutoModel, type AcabamentoProduto } from '@modules/inventario';
 import { FormularioVenda } from '../formulario-venda/formulario-venda';
 
 @Component({

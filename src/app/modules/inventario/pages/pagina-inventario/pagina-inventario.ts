@@ -7,16 +7,12 @@ import {
 } from '@angular/core';
 
 import { Botao } from '../../../../shared/components/botao/botao';
-import { SegmentedControl } from '../../components/segmented-control/segmented-control';
-import { FormularioProduto } from '../../components/formulario-produto/formulario-produto';
-import { ProdutoService } from '../../services/produto.service';
-import { FornecedorModel } from '../../../cadastros/models/fornecedor.model';
-import { ProdutoModel } from '../../models/produto.model';
+import { SegmentedControl, FormularioProduto, ProdutoService, ProdutoModel } from '@modules/inventario';
+import { FornecedorModel, FornecedorService } from '@modules/cadastros';
 import { firstValueFrom } from 'rxjs';
 import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FornecedorService } from '../../../cadastros/services/fornecedor.service';
-import { NotificacaoService } from '../../../../core/services/notificacao.service';
+import { NotificacaoService } from '@core';
 
 @Component({
   selector: 'app-pagina-inventario',

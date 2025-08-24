@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable, map, catchError, of } from 'rxjs';
-import { environment } from '../../../../environments/environment';
-import { RespostaPaginada } from '../../../shared/models/resposta-paginada';
+import { environment } from '@env/environment';
+import { RespostaPaginada } from '@shared';
 import { ClienteModel } from '../models/cliente.model';
 
 @Injectable({

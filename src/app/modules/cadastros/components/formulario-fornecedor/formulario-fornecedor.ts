@@ -12,10 +12,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FornecedorService } from '../../services/fornecedor.service';
-import { FornecedorModel } from '../../models/fornecedor.model';
-import { TelefoneMask } from '../../../../shared/directives/telefone-mask';
-import { CnpjMask } from '../../../../shared/directives/cnpj-mask';
+import { FornecedorService, FornecedorModel } from '@modules/cadastros';
+import { TelefoneMask, CnpjMask } from '@shared';
 import { finalize } from 'rxjs';
 
 @Component({
