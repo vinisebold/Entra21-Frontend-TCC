@@ -32,26 +32,35 @@ export class PaginaInventario {
   produtos = signal<ProdutoModel[]>([]);
   fornecedorSelecionadoId = signal<number | null>(null);
   isLoadingProdutos = signal(false);
+  isLoadingFornecedores = signal(false);
 
   produtoParaEditar = signal<ProdutoModel | null>(null);
   isModalProdutoAberto = signal(false);
 
   constructor() {
-    this.carregarFornecedores();
+  // Evita flash de "Nenhum produto encontrado" ao entrar na página
+  this.isLoadingProdutos.set(true);
+  this.carregarFornecedores();
     this.observarMudancasDeRota();
     // Efeito para buscar produtos sempre que o fornecedor mudar
     effect(() => {
       const id = this.fornecedorSelecionadoId();
       if (id !== null) {
-        this.carregarProdutos(id);
+  // Ao trocar fornecedor, limpar lista e marcar loading antes de buscar
+  this.produtos.set([]);
+  this.isLoadingProdutos.set(true);
+  this.carregarProdutos(id);
       } else {
         this.produtos.set([]); // Limpa a lista se nenhum fornecedor estiver selecionado
+  this.isLoadingProdutos.set(false);
       }
     });
   }
 
   private async carregarFornecedores(): Promise<void> {
-    this.isLoadingProdutos.set(true);
+  this.isLoadingFornecedores.set(true);
+  // Mantém a lista de produtos em loading até termos um fornecedor selecionado e os produtos carregados
+  this.isLoadingProdutos.set(true);
     try {
       const resposta = await firstValueFrom(
         this.fornecedorService.getFornecedores()
@@ -70,11 +79,12 @@ export class PaginaInventario {
         'error'
       );
     } finally {
-      this.isLoadingProdutos.set(false);
+  this.isLoadingFornecedores.set(false);
     }
   }
 
   private async carregarProdutos(fornecedorId: number): Promise<void> {
+    this.isLoadingProdutos.set(true);
     try {
       const resposta = await firstValueFrom(
         this.produtoService.getProdutos(0, 50, {
@@ -88,6 +98,8 @@ export class PaginaInventario {
         'Erro ao carregar produtos.',
         'error'
       );
+    } finally {
+  this.isLoadingProdutos.set(false);
     }
   }
 

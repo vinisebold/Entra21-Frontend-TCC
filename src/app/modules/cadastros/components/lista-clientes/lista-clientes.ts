@@ -23,6 +23,7 @@ export class ListaClientes {
   // Estado local do componente
   readonly mostrarModalCliente = signal(false);
   
+  
   // Mensagem de feedback removida a pedido; mantemos apenas estados e a lista
 
   constructor() {

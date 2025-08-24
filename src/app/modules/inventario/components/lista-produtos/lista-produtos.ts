@@ -14,6 +14,7 @@ export class ListaProdutos {
   erro = input<string | null>(null);
   mostrarModalVenda = signal(false);
   produtoSelecionado = signal<ProdutoModel | null>(null);
+  
 
   acabamentoImagens: Record<AcabamentoProduto, string> = {
     DOURADO: 'assets/acabamentos/dourado.png',

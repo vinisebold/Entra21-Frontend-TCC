@@ -20,6 +20,7 @@ export class ListaFornecedores {
   readonly erro = this.fornecedorService.erro;
 
   mostrarModalFornecedor = signal(false);
+  
 
   constructor() {
     this.fornecedorService.listar();

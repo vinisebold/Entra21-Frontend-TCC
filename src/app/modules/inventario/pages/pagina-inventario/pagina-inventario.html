@@ -10,12 +10,22 @@
   <div
     class="toolbar flex flex-col md:flex-row justify-between items-start md:items-center gap-y-2 pt-2 pb-4"
   >
-    <app-segmented-control
-      [opcoes]="fornecedores()"
-      [opcaoAtivaId]="fornecedorSelecionadoId()"
-      (selecaoMudou)="onFornecedorSelecionado($event)"
-    >
-    </app-segmented-control>
+    <div class="min-h-10">
+      @if (isLoadingFornecedores()) {
+        <div class="inline-flex items-center gap-2">
+          <div class="h-10 w-28 rounded-full bg-surface-container animate-pulse"></div>
+          <div class="h-10 w-32 rounded-full bg-surface-container animate-pulse"></div>
+          <div class="h-10 w-24 rounded-full bg-surface-container animate-pulse hidden md:block"></div>
+        </div>
+      } @else {
+        <app-segmented-control
+          [opcoes]="fornecedores()"
+          [opcaoAtivaId]="fornecedorSelecionadoId()"
+          (selecaoMudou)="onFornecedorSelecionado($event)"
+        >
+        </app-segmented-control>
+      }
+    </div>
 
     <app-botao
       label="Adicionar Peça"

@@ -30,10 +30,32 @@
 
   <div class="flex-1 rounded-lg px-4">
     @if (carregando()) {
-      <div class="flex justify-center items-center h-32">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        <span class="ml-2 text-on-surface-variant">Carregando fornecedores...</span>
-      </div>
+      <ul
+        role="list"
+        style="max-height: calc(100vh - 200px)"
+        class="flex flex-col overflow-y-auto"
+        aria-label="Carregando fornecedores"
+      >
+        @for (i of [0,1,2,3,4]; track i) {
+        <li
+          role="listitem"
+          class="relative rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2 animate-pulse"
+        >
+          <div class="flex items-start gap-4">
+            <div class="h-10 w-10 rounded-full bg-surface-container"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-5 w-1/2 bg-surface-container rounded"></div>
+              <div class="h-4 w-1/3 bg-surface-container rounded"></div>
+              <div class="h-4 w-1/3 bg-surface-container rounded"></div>
+            </div>
+          </div>
+          <div class="absolute top-4 right-4 flex gap-2">
+            <div class="h-10 w-10 rounded-full bg-surface-container"></div>
+            <div class="h-10 w-10 rounded-full bg-surface-container"></div>
+          </div>
+        </li>
+        }
+      </ul>
     } @else if (erro()) {
       <div class="flex flex-col justify-center items-center h-32 text-center">
         <svg class="w-12 h-12 text-error mb-2" aria-hidden="true">
@@ -52,7 +74,9 @@
       <ul
         role="list"
         style="max-height: calc(100vh - 200px)"
-        class="flex flex-col overflow-y-auto"
+        class="flex flex-col overflow-y-auto transition-opacity duration-200"
+        [class.opacity-0]="carregando()"
+        [class.opacity-100]="!carregando()"
         aria-label="Lista de Fornecedores"
       >
         @for (fornecedor of fornecedores(); track fornecedor.id) {
