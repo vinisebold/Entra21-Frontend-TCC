@@ -11,7 +11,9 @@
         (mouseenter)="logoHovered.set(true)"
         (mouseleave)="logoHovered.set(false)"
         [attr.aria-pressed]="collapsed()"
-        [attr.aria-label]="collapsed() ? 'Expandir sidebar' : 'Logo da Aplicação'"
+        [attr.aria-label]="
+          collapsed() ? 'Expandir sidebar' : 'Logo da Aplicação'
+        "
         [title]="collapsed() ? 'Expandir sidebar' : 'Logo da Aplicação'"
         [class.cursor-e-resize]="collapsed()"
       >
@@ -34,10 +36,7 @@
         }
       </button>
 
-      <span
-        class="text-on-surface title-medium truncate max-w-[6.5rem]"
-        [class.hidden]="collapsed()"
-      >
+      <span class="nav-label text-on-surface title-medium" [attr.aria-hidden]="collapsed()">
         {{ userName() }}
       </span>
     </div>
@@ -61,26 +60,27 @@
     }
   </div>
 
-  <div class="space-y-1 p-2">
+  <div class="space-y-1" [class.p-2]="!collapsed()" [class.py-2]="collapsed()">
     @for (item of menuItems; track item.route) {
     <a
-      class="flex items-center gap-3 rounded-full cursor-pointer transition-colors text-on-surface-variant [&:not(.bg-primary)]:hover:bg-surface-container2"
+      class="nav-item flex items-center rounded-full cursor-pointer transition-colors text-on-surface-variant h-14 [&:not(.bg-primary)]:hover:bg-surface-container2"
       (click)="$event.stopPropagation()"
       [routerLink]="item.route"
       routerLinkActive="bg-primary text-white shadow-md"
-      [routerLinkActiveOptions]="{ exact: true }"
-      [class.justify-between]="!collapsed()"
-      [class.px-4]="!collapsed()"
-      [class.py-4]="!collapsed()"
-      [class.w-12]="collapsed()"
-      [class.h-12]="collapsed()"
-      [class.justify-center]="collapsed()"
+      [routerLinkActiveOptions]="{
+        paths: 'exact',
+        queryParams: 'subset',
+        matrixParams: 'subset',
+        fragment: 'ignored'
+      }"
+  [class.justify-between]="!collapsed()"
+  [class.w-14]="collapsed()"
+  [class.mx-auto]="collapsed()"
+  [class.justify-center]="collapsed()"
       [attr.aria-label]="collapsed() ? item.label : null"
       [attr.title]="collapsed() ? item.label : null"
     >
-      <span class="title-medium" [class.hidden]="collapsed()">
-        {{ item.label }}
-      </span>
+  <span class="nav-label title-medium" [attr.aria-hidden]="collapsed()">{{ item.label }}</span>
       <svg class="icone w-6 h-6 shrink-0" aria-hidden="true" focusable="false">
         <use [attr.href]="item.icon"></use>
       </svg>

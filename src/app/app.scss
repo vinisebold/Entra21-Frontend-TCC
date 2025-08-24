@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+  :root {
+    --mobile-nav-height: 56px;
+  }
+
+  main {
+    padding-top: max(0px, env(safe-area-inset-top));
+  }
+}

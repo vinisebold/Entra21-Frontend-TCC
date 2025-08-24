@@ -1,0 +1,93 @@
+// Base transitions for desktop/tablet
+:host nav {
+	.nav-item {
+		gap: 0.75rem; // default 12px
+		padding: 1rem; // 16px vertical rhythm
+		transition: padding 250ms ease, gap 250ms ease, background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+	}
+
+	.nav-label {
+		display: inline-block;
+		white-space: nowrap;
+		max-width: 10rem; // clamps username and labels
+		overflow: hidden;
+		text-overflow: ellipsis;
+		opacity: 1;
+		transform: translateX(0);
+		transition: opacity 200ms ease, transform 200ms ease, max-width 250ms ease;
+	}
+}
+
+// Collapsed state animations
+:host(.is-collapsed) nav {
+	.nav-item {
+	gap: 0;
+		padding-left: 0; // center with fixed width capsule
+		padding-right: 0;
+	}
+
+	.nav-label {
+		max-width: 0;
+		opacity: 0;
+		transform: translateX(-8px);
+		pointer-events: none;
+	}
+}
+
+@media (max-width: 768px) {
+	:host {
+		width: 100% !important;
+		height: auto !important;
+	}
+
+	:host nav {
+		height: auto !important;
+		overflow: visible;
+	}
+
+	:host nav > div:first-child {
+		display: none !important;
+	}
+
+	:host nav > div.space-y-1 {
+		display: flex !important;
+		flex-direction: row;
+		gap: 0;
+		padding: 0.25rem 0.5rem;
+		align-items: center;
+		justify-content: space-around;
+	}
+
+	:host nav > div.space-y-1 a {
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 56px;
+		width: auto;
+		border-radius: 9999px;
+		padding: 0 !important;
+	}
+
+	:host nav > div.space-y-1 a .title-medium,
+	:host nav > div.space-y-1 a .label {
+		display: none !important;
+	}
+
+	// Ensure mobile keeps icons tight and disables desktop transitions that could conflict
+	:host nav .nav-item {
+		gap: 0.5rem;
+		padding: 0 !important;
+		transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+	}
+
+	:host nav .nav-label {
+		display: none !important;
+	}
+
+	:host nav svg.icone {
+		width: 24px;
+		height: 24px;
+	}
+}
+

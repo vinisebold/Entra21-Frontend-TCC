@@ -7,11 +7,13 @@ import { NgOptimizedImage } from '@angular/common';
   standalone: true,
   imports: [RouterLink, RouterLinkActive, NgOptimizedImage],
   templateUrl: './nav-bar.html',
+  styleUrl: './nav-bar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'block bg-[#F4F3F1] h-full transition-all duration-200 ease-in-out',
+  class: 'block bg-[#F4F3F1] h-full transition-all duration-300 ease-out',
     '[class.w-56]': '!collapsed()',
-    '[class.w-16]': 'collapsed()',
+    '[class.w-18]': 'collapsed()',
+  '[class.is-collapsed]': 'collapsed()',
   },
 })
 export class NavBar {
@@ -41,7 +43,6 @@ export class NavBar {
     this.persistCollapsed();
   }
 
-  // 1. NOVO MÉTODO: Expande a sidebar se ela estiver colapsada.
   // Será chamado ao clicar no fundo da nav.
   expandOnBackgroundClick(): void {
     if (this.collapsed()) {
