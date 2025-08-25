@@ -1,52 +1,41 @@
-import { Directive, ElementRef, Renderer2, inject } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
+import IMask, { type InputMask as IMaskInstance } from 'imask';
 
 @Directive({
   selector: '[appTelefoneMask]',
   host: {
-    '(input)': 'aoDigitar($event)',
-    '[attr.maxLength]': '15',
+    '[attr.inputmode]': "'tel'",
+    '[attr.autocomplete]': "'tel-national'",
   },
 })
-export class TelefoneMask {
-  private elemento = inject(ElementRef<HTMLInputElement>);
-  private renderer = inject(Renderer2);
+export class TelefoneMask implements OnInit, OnDestroy {
+  private el = inject(ElementRef<HTMLInputElement>);
+  private mask: IMaskInstance | null = null;
 
-  aoDigitar(evento: Event): void {
-    const input = evento.target as HTMLInputElement;
+  ngOnInit(): void {
+    const input = this.el.nativeElement;
 
-    const valorBruto = input.value;
-    const digitos = valorBruto.replace(/\D/g, '').substring(0, 11);
-
-    const posicaoCursor = input.selectionStart ?? valorBruto.length;
-    const digitosAntesDoCursor = valorBruto
-      .substring(0, posicaoCursor)
-      .replace(/\D/g, '').length;
-
-    const valorFormatado = this.formatarTelefone(digitos);
-
-    this.renderer.setProperty(input, 'value', valorFormatado);
-
-    // Mantém o cursor na posição proporcional
-    let novaPosicao = this.mapearCursor(digitosAntesDoCursor, valorFormatado);
-    input.setSelectionRange(novaPosicao, novaPosicao);
+    // Ex.: (11) 3456-7890 e (11) 93456-7890
+    this.mask = IMask(input, {
+      mask: [{ mask: '(00) 0000-0000' }, { mask: '(00) 00000-0000' }],
+      dispatch: (appended: string, dynamicMasked: unknown) => {
+        const dm = dynamicMasked as any;
+        const number = (dm.value + appended).replace(/\D/g, '');
+        return dm.compiledMasks[number.length > 10 ? 1 : 0];
+      },
+    });
   }
 
-  private formatarTelefone(digitos: string): string {
-    if (digitos.length === 0) return ''; // evita deixar "(" sozinho
-    if (digitos.length <= 2) return `(${digitos}`;
-    if (digitos.length <= 7)
-      return `(${digitos.slice(0, 2)}) ${digitos.slice(2)}`;
-    return `(${digitos.slice(0, 2)}) ${digitos.slice(2, 7)}-${digitos.slice(
-      7
-    )}`;
-  }
-
-  private mapearCursor(qtdDigitos: number, valorFormatado: string): number {
-    let contador = 0;
-    for (let i = 0; i < valorFormatado.length; i++) {
-      if (/\d/.test(valorFormatado[i])) contador++;
-      if (contador === qtdDigitos) return i + 1;
+  ngOnDestroy(): void {
+    if (this.mask) {
+      this.mask.destroy();
+      this.mask = null;
     }
-    return valorFormatado.length;
   }
 }
