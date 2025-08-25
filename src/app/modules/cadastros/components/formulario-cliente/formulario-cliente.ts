@@ -14,13 +14,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { ClienteService, ClienteModel } from '@modules/cadastros';
-import { TelefoneMask } from '../../../../shared/directives/telefone-mask';
-import { CpfMask } from '../../../../shared/directives/cpf-mask';
+import { TelefoneMask, CpfCnpjMask } from '@shared';
 import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-formulario-cliente',
-  imports: [ReactiveFormsModule, TelefoneMask, CpfMask],
+  imports: [ReactiveFormsModule, TelefoneMask, CpfCnpjMask],
   templateUrl: './formulario-cliente.html',
   styleUrl: './formulario-cliente.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,19 +29,25 @@ export class FormularioCliente {
   readonly salvo = output<void>();
 
   readonly isLoading = signal(false);
+  readonly mostrarMaisInfo = signal(false);
 
   private fb = inject(FormBuilder);
   private clienteService = inject(ClienteService);
 
   readonly clienteForm: FormGroup = this.fb.group({
     nome: ['', Validators.required],
-    descricao: [''],
-    cpf: ['', Validators.required],
-    telefone: ['', Validators.required],
+  descricao: [''],
+  telefone: ['', Validators.required],
+  email: ['', Validators.email],
+  cpf: [''],
   });
 
   onFecharClick(): void {
     this.fechar.emit();
+  }
+
+  toggleMaisInfo(): void {
+    this.mostrarMaisInfo.update((v) => !v);
   }
 
   onSalvarClick(): void {
@@ -53,7 +58,14 @@ export class FormularioCliente {
     }
 
     this.isLoading.set(true);
-    const novoCliente = this.clienteForm.value as ClienteModel;
+    // Envia apenas campos suportados no backend atual
+    const { nome, descricao, telefone, cpf } = this.clienteForm.value as {
+      nome: string;
+      descricao?: string | null;
+      telefone: string;
+      cpf?: string | null;
+    };
+    const novoCliente = { nome, descricao: descricao ?? '', telefone, cpf: cpf ?? '' } as ClienteModel;
 
     this.clienteService
       .addCliente(novoCliente)

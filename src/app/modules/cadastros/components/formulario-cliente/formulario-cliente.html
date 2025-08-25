@@ -35,11 +35,12 @@
           class="space-y-5 transition-opacity"
           [class.opacity-50]="isLoading()"
         >
+          <!-- Linha 1: Nome (100%) -->
           <div class="space-y-2">
             <label
               for="nome"
               class="block text-[0.95rem] font-medium text-neutral-700"
-              >Nome</label
+              >Nome*</label
             >
             <input
               id="nome"
@@ -50,11 +51,12 @@
             />
           </div>
 
+          <!-- Linha 2: Descrição (100%) -->
           <div class="space-y-2">
             <label
               for="descricao"
               class="block text-[0.95rem] font-medium text-neutral-700"
-              >Descrição</label
+              >Descrição*</label
             >
             <input
               id="descricao"
@@ -65,43 +67,83 @@
             />
           </div>
 
-          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div class="space-y-2">
-              <label
-                for="telefone"
-                class="block text-[0.95rem] font-medium text-neutral-700"
-                >Telefone</label
-              >
-              <div class="relative">
-                <input
-                  id="telefone"
-                  type="tel"
-                  appTelefoneMask
-                  placeholder="(00) 00000-0000"
-                  class="h-11 w-full rounded-full border border-neutral-200 bg-white pr-4 pl-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
-                  formControlName="telefone"
-                />
-              </div>
+          <!-- Linha 3: Telefone (100%) -->
+          <div class="space-y-2">
+            <label
+              for="telefone"
+              class="block text-[0.95rem] font-medium text-neutral-700"
+              >Telefone*</label
+            >
+            <div class="relative">
+              <input
+                id="telefone"
+                type="tel"
+                appTelefoneMask
+                placeholder="(00) 00000-0000"
+                class="h-11 w-full rounded-full border border-neutral-200 bg-white pr-4 pl-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+                formControlName="telefone"
+              />
             </div>
+          </div>
 
-            <div class="space-y-2">
-              <label
-                for="cpf"
-                class="block text-[0.95rem] font-medium text-neutral-700"
-                >CPF</label
+          <!-- Linha 4: Mais informações (colapsável) -->
+          <div class="border-t border-neutral-200 pt-3">
+            <button
+              type="button"
+              class="flex w-full items-center justify-between gap-2 text-left text-sm font-medium text-neutral-700 hover:text-neutral-900"
+              (click)="toggleMaisInfo()"
+              [attr.aria-expanded]="mostrarMaisInfo()"
+            >
+              <span class="inline-flex items-center gap-2">
+                <span class="select-none">Mais informações</span>
+              </span>
+              <svg
+                class="h-5 w-5 transition-transform"
+                [class.rotate-180]="mostrarMaisInfo()"
+                aria-hidden="true"
+                focusable="false"
               >
-              <div class="relative">
+                <use [attr.href]="'/sprite.svg#icon-dropdown'"></use>
+              </svg>
+            </button>
+
+            @if (mostrarMaisInfo()) {
+            <div class="mt-3 space-y-4">
+              <div class="space-y-2">
+                <label
+                  for="cpf"
+                  class="block text-[0.95rem] font-medium text-neutral-700"
+                  >CPF/CNPJ (opcional)</label
+                >
+                <div class="relative">
+                  <input
+                    id="cpf"
+                    type="text"
+                    inputmode="numeric"
+                    appCpfCnpjMask
+                    placeholder="000.000.000-00"
+                    class="h-11 w-full rounded-full border border-neutral-200 bg-white pr-4 pl-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+                    formControlName="cpf"
+                  />
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <label
+                  for="email"
+                  class="block text-[0.95rem] font-medium text-neutral-700"
+                  >E-mail (opcional)</label
+                >
                 <input
-                  id="cpf"
-                  type="text"
-                  inputmode="numeric"
-                  appCpfMask
-                  placeholder="000.000.000-00"
-                  class="h-11 w-full rounded-full border border-neutral-200 bg-white pr-4 pl-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
-                  formControlName="cpf"
+                  id="email"
+                  type="email"
+                  placeholder="exemplo@email.com"
+                  class="h-11 w-full rounded-full border border-neutral-200 bg-white px-4 text-[0.95rem] text-neutral-800 placeholder:text-neutral-400 focus:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40"
+                  formControlName="email"
                 />
               </div>
             </div>
+            }
           </div>
         </fieldset>
 
@@ -112,29 +154,29 @@
             class="inline-flex min-w-[120px] items-center justify-center gap-2 rounded-full bg-[#9AA56B] px-5 py-3 text-sm font-semibold text-white shadow-[0_2px_0_rgba(0,0,0,0.06)] transition-colors hover:bg-[#8D9C61] focus:outline-none focus:ring-2 focus:ring-[#9AA56B]/40 active:translate-y-px disabled:cursor-not-allowed disabled:bg-neutral-400"
           >
             @if (!isLoading()) {
-              <span>Salvar</span>
+            <span>Salvar</span>
             } @else {
-              <svg
-                class="h-5 w-5 animate-spin text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              <span>Salvando...</span>
+            <svg
+              class="h-5 w-5 animate-spin text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <span>Salvando...</span>
             }
           </button>
           <button

@@ -5,6 +5,7 @@ export * from './components/barra-pesquisa/barra-pesquisa';
 export * from './components/notificacao-toast/notificacao-toast';
 export * from './directives/cnpj-mask';
 export * from './directives/cpf-mask';
+export * from './directives/cpf-cnpj-mask';
 export * from './directives/telefone-mask';
 export * from './directives/dinheiro-mask';
 export * from './models/resposta-paginada';

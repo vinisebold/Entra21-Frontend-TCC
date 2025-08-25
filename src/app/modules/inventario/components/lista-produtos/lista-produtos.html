@@ -1,16 +1,18 @@
 @if (mostrarModalVenda() && produtoSelecionado()) {
-  <app-formulario-venda
-    [produtoParaVender]="produtoSelecionado()!"
-    (fechar)="closeVendaModal()"
-    (vendaRegistrada)="onVendaRegistrada($event)"
-  ></app-formulario-venda>
+<app-formulario-venda
+  [produtoParaVender]="produtoSelecionado()!"
+  (fechar)="closeVendaModal()"
+  (vendaRegistrada)="onVendaRegistrada($event)"
+></app-formulario-venda>
 }
 
-<!-- Container com scroll vertical para não ultrapassar o layout e manter o header fixo -->
-<div class="shadow rounded-lg">
-  <!-- Cabeçalho Fixo -->
-  <div class="overflow-x-auto rounded-t-lg">
-    <table class="w-full table-fixed min-w-[1000px]">
+<!-- Container com scroll vertical mantendo o cabeçalho fixo e colunas alinhadas -->
+<div class="shadow rounded-lg w-full bg-surface-container overflow-hidden">
+  <!-- Cabeçalho fixo com espaço reservado para scroll -->
+  <div class="bg-surface-container overflow-hidden" style="padding-right: 17px">
+    <table
+      class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]"
+    >
       <colgroup>
         <col style="width: 3rem" />
         <col style="width: 120px" />
@@ -19,7 +21,7 @@
         <col style="width: 160px" />
         <col style="width: 200px" />
       </colgroup>
-      <thead class="bg-surface-container z-10">
+      <thead>
         <tr class="h-11">
           <th class="w-12 px-3 md:px-4"></th>
           <th
@@ -52,10 +54,10 @@
     </table>
   </div>
 
-  <!-- Corpo da Tabela com Scroll -->
+  <!-- Container do corpo com scroll -->
   <div
-    class="overflow-y-auto overflow-x-auto rounded-b-lg"
-    style="max-height: calc(100vh - 250px); scrollbar-gutter: stable"
+    class="overflow-y-auto overflow-x-auto w-full bg-white"
+    style="max-height: calc(100vh - 264px); scrollbar-gutter: stable"
   >
     <table
       class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]"
@@ -98,9 +100,9 @@
           </td>
         </tr>
         } } @else if (erro()) {
-          <tr class="h-[52px] md:h-16">
-            <td colspan="6" class="text-center text-error">⚠️ {{ erro() }}</td>
-          </tr>
+        <tr class="h-[52px] md:h-16">
+          <td colspan="6" class="text-center text-error">⚠️ {{ erro() }}</td>
+        </tr>
         } @else { @for (produto of produtos(); track produto.id) {
         <tr
           class="group h-[52px] md:h-16 shadow-[0_2px_0px_0px_#e5e5e5] hover:shadow-[0_2px_10px_0_rgba(0,0,0,0.12)] transition-shadow duration-100"

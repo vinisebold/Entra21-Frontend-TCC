@@ -3,5 +3,6 @@ export interface ClienteModel {
   nome: string;
   descricao: string;
   telefone: string;
-  cpf: string;
+  email?: string | null;
+  cpf?: string | null;
 }

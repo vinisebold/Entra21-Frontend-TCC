@@ -1,80 +1,51 @@
-import { Directive, ElementRef, Renderer2, inject } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, OnInit, Renderer2, inject } from '@angular/core';
+import IMask, { type InputMask as IMaskInstance } from 'imask';
 
 @Directive({
   selector: '[appDinheiroMask]',
   host: {
-    '(input)': 'aoDigitar($event)',
+    // Mantém inputmode apropriado para teclado numérico em mobile
+    '[attr.inputmode]': "'decimal'",
   },
 })
-export class DinheiroMaskTsDirective {
+export class DinheiroMaskTsDirective implements OnInit, OnDestroy {
 
   private el = inject(ElementRef<HTMLInputElement>);
   private renderer = inject(Renderer2);
+  private mask: IMaskInstance | null = null;
 
-  /**
-   * Método chamado a cada vez que o usuário digita no input.
-   */
-  aoDigitar(evento: Event): void {
-    const input = evento.target as HTMLInputElement;
-    const valorBruto = input.value;
+  ngOnInit(): void {
+    const input = this.el.nativeElement;
 
-    // 1. Limpa o valor, mantendo apenas os dígitos numéricos.
-    const digitos = valorBruto.replace(/\D/g, '');
+    // Instancia uma máscara numérica pensada para BRL (sem prefixo R$ pois o layout já o exibe ao lado)
+    this.mask = IMask(input, {
+      mask: Number,
+      // 2 casas decimais
+      scale: 2,
+      // separadores brasileiros
+      thousandsSeparator: '.',
+      radix: ',',
+      mapToRadix: ['.'], // permite digitar ponto e converter para vírgula
+      // comportamentos
+      normalizeZeros: true,
+      padFractionalZeros: true,
+      // evita negativos por padrão (preço)
+      signed: false,
+      // opcionalmente limite mínimo
+      min: 0,
+    });
 
-    // 2. Guarda a posição do cursor e quantos dígitos havia antes dele.
-    const posicaoCursor = input.selectionStart ?? 0;
-    const digitosAntesDoCursor = valorBruto
-      .substring(0, posicaoCursor)
-      .replace(/\D/g, '').length;
-
-    // 3. Formata os dígitos para o padrão monetário (ex: "1.234,56").
-    const valorFormatado = this.formatarDinheiro(digitos);
-
-    // 4. Atualiza o valor do input na tela.
-    this.renderer.setProperty(input, 'value', valorFormatado);
-
-    // 5. Recalcula e ajusta a posição do cursor para uma digitação fluida.
-    const novaPosicao = this.mapearCursor(digitosAntesDoCursor, valorFormatado);
-    input.setSelectionRange(novaPosicao, novaPosicao);
+    // Garante disparo de evento input/blur coerente com Angular Forms ao aceitar valores programáticos
+    this.mask.on('accept', () => {
+      // IMask já atualiza o valor do input e emite 'input'; nada adicional necessário.
+      // Mantemos o hook para futura extensão se precisarmos sincronizar com form control manualmente.
+    });
   }
 
-  /**
-   * Formata uma string de dígitos para o padrão de moeda brasileiro.
-   * Ex: "123456" -> "1.234,56"
-   */
-  private formatarDinheiro(digitos: string): string {
-    if (!digitos) {
-      return '';
+  ngOnDestroy(): void {
+    if (this.mask) {
+      this.mask.destroy();
+      this.mask = null;
     }
-
-    // Converte a string de dígitos para um número (ex: "12345" -> 123.45)
-    const valorNumerico = parseInt(digitos, 10) / 100;
-
-    // Usa a API de internacionalização do navegador para formatar o número
-    // de forma correta e eficiente para o padrão pt-BR.
-    return new Intl.NumberFormat('pt-BR', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(valorNumerico);
-  }
-
-  /**
-   * Mapeia a posição do cursor do valor antigo para o valor formatado.
-   */
-  private mapearCursor(qtdDigitos: number, valorFormatado: string): number {
-    if (qtdDigitos === 0) {
-      return 0;
-    }
-
-    let contador = 0;
-    for (let i = 0; i < valorFormatado.length; i++) {
-      if (/\d/.test(valorFormatado[i])) {
-        contador++;
-      }
-      if (contador === qtdDigitos) {
-        return i + 1;
-      }
-    }
-    return valorFormatado.length;
   }
 }

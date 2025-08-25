@@ -3,20 +3,31 @@
   {{ cliente().descricao }}
 </div>
 <div class="mt-2 flex flex-col gap-1">
-      <span
-        class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-      >
-        <svg class="icone" aria-hidden="true" focusable="false">
-          <use [attr.href]="'/sprite.svg#icon-phone'"></use>
-        </svg>
-        {{ cliente().telefone }}
-      </span>
-      <span
-        class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-      >
-        <svg class="icone" aria-hidden="true" focusable="false">
-          <use [attr.href]="'/sprite.svg#icon-identidade'"></use>
-        </svg>
-        {{ cliente().cpf }}
-      </span>
-    </div>
+  <span
+    class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
+  >
+    <svg class="icone" aria-hidden="true" focusable="false">
+      <use [attr.href]="'/sprite.svg#icon-phone'"></use>
+    </svg>
+    {{ cliente().telefone }}
+  </span>
+  @if (cliente().email) {
+  <span
+    class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
+  >
+    <svg class="icone" aria-hidden="true" focusable="false">
+      <use [attr.href]="'/sprite.svg#icon-email'"></use>
+    </svg>
+    {{ cliente().email }}
+  </span>
+  } @if (cliente().cpf) {
+  <span
+    class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
+  >
+    <svg class="icone" aria-hidden="true" focusable="false">
+      <use [attr.href]="'/sprite.svg#icon-identidade'"></use>
+    </svg>
+    {{ cliente().cpf }}
+  </span>
+  }
+</div>
