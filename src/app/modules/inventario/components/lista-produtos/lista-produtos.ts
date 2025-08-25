@@ -41,4 +41,24 @@ export class ListaProdutos {
     this.produtoSelecionado.set(null);
     this.vendaConcluida.emit(venda);
   }
+
+  private fromLocalDateTimeArray(arr: any): Date | null {
+    if (!Array.isArray(arr) || arr.length < 6) return null;
+    const [y, m, d, h, min, s, nano = 0] = arr as number[];
+    const ms = Math.floor(nano / 1_000_000);
+    return new Date(y, (m ?? 1) - 1, d ?? 1, h ?? 0, min ?? 0, s ?? 0, ms);
+  }
+
+  formatDataCriacao(date?: string | any | null): string {
+    if (!date) return '-';
+    const parsed = Array.isArray(date) ? this.fromLocalDateTimeArray(date) : new Date(date);
+    if (!parsed || isNaN(parsed.getTime())) return '-';
+    return parsed.toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }
 }

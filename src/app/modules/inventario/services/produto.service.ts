@@ -43,6 +43,7 @@ export class ProdutoService {
       ...produto,
       codigoFornecedor: undefined,
       idReferencia: produto.idReferencia,
+  dataCriacao: undefined,
     };
     return this.http.post<ProdutoModel>(this.apiUrlProduto, payload);
   }
@@ -51,6 +52,7 @@ export class ProdutoService {
       ...produto,
       codigoFornecedor: undefined,
       idReferencia: produto.idReferencia,
+  dataCriacao: undefined,
     };
     return this.http.put<ProdutoModel>(`${this.apiUrlProduto}/${id}`, payload);
   }
