@@ -42,6 +42,8 @@
   <app-lista-produtos
     [produtos]="produtos()"
     [isLoading]="isLoadingProdutos()"
+  [ordemDataCriacao]="ordenarPorDataCriacao()"
     (vendaConcluida)="onSucessoFormulario()"
+  (toggleOrdenacaoDataCriacao)="onToggleOrdenacaoDataCriacao()"
   ></app-lista-produtos>
 </div>

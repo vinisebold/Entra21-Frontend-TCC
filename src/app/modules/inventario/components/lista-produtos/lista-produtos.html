@@ -45,9 +45,23 @@
             Preço de Custo
           </th>
           <th
-            class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left"
+            class="px-3 md:px-4 font-semibold text-on-surface-variant label-large text-left select-none"
           >
-            Data de Criação
+            <button
+              type="button"
+              class="inline-flex items-center gap-1 hover:text-on-surface cursor-pointer"
+              (click)="onClickOrdenarDataCriacao()"
+              title="Ordenar por Data de Criação"
+            >
+              <span>Data de Criação</span>
+              <svg class="w-4 h-4" aria-hidden="true">
+                @if (ordemDataCriacao() === 'asc') {
+                  <use [attr.href]="'/sprite.svg#icon-arrow-up'" />
+                } @else {
+                  <use [attr.href]="'/sprite.svg#icon-arrow-down'" />
+                }
+              </svg>
+            </button>
           </th>
         </tr>
       </thead>
@@ -57,7 +71,7 @@
   <!-- Container do corpo com scroll -->
   <div
     class="overflow-y-auto overflow-x-auto w-full bg-white"
-    style="max-height: calc(100vh - 264px); scrollbar-gutter: stable"
+    style="max-height: calc(100vh - 210px); scrollbar-gutter: stable"
   >
     <table
       class="w-full table-fixed border-separate border-spacing-0 min-w-[1000px]"
@@ -76,7 +90,7 @@
         [class.transition-opacity]="true"
         [style.transitionDuration]="'200ms'"
       >
-        @if (isLoading()) { @for (i of [0,1,2,3,4]; track i) {
+        @if (isLoading()) { @for (i of [0,1,2,3,4,5,6,7,8,9,10,11]; track i) {
         <tr class="h-[52px] md:h-16 animate-pulse">
           <td class="px-3 md:px-4">
             <div class="h-4 w-4 bg-surface-container rounded-sm"></div>

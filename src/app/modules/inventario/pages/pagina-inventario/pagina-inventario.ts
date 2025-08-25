@@ -33,6 +33,8 @@ export class PaginaInventario {
   fornecedorSelecionadoId = signal<number | null>(null);
   isLoadingProdutos = signal(false);
   isLoadingFornecedores = signal(false);
+  // ordenação por DataCriacao
+  ordenarPorDataCriacao = signal<'asc' | 'desc'>('asc');
 
   produtoParaEditar = signal<ProdutoModel | null>(null);
   isModalProdutoAberto = signal(false);
@@ -87,10 +89,15 @@ export class PaginaInventario {
     this.isLoadingProdutos.set(true);
     try {
       const resposta = await firstValueFrom(
-        this.produtoService.getProdutos(0, 50, {
-          fornecedorId,
-          status: 'EM_ESTOQUE',
-        })
+        this.produtoService.getProdutos(
+          0,
+          50,
+          {
+            fornecedorId,
+            status: 'EM_ESTOQUE',
+          },
+          { campo: 'DataCriacao', direcao: this.ordenarPorDataCriacao() }
+        )
       );
       this.produtos.set(resposta.content);
     } catch (error) {
@@ -136,5 +143,16 @@ export class PaginaInventario {
       this.carregarProdutos(id); // Recarrega a lista
     }
     this.fecharModalProduto();
+  }
+
+  onToggleOrdenacaoDataCriacao(): void {
+    // alterna entre asc/desc e recarrega
+    const atual = this.ordenarPorDataCriacao();
+    const nova = atual === 'asc' ? 'desc' : 'asc';
+    this.ordenarPorDataCriacao.set(nova);
+    const id = this.fornecedorSelecionadoId();
+    if (id !== null) {
+      this.carregarProdutos(id);
+    }
   }
 }

@@ -16,6 +16,10 @@ export class ListaProdutos {
   produtos = input.required<ProdutoModel[]>();
   isLoading = input<boolean>(false);
   erro = input<string | null>(null);
+  // direção atual da ordenação para exibição do indicador visual
+  ordemDataCriacao = input<'asc' | 'desc'>('asc');
+  // evento para o pai alternar a ordenação e recarregar a lista
+  toggleOrdenacaoDataCriacao = output<void>();
   mostrarModalVenda = signal(false);
   produtoSelecionado = signal<ProdutoModel | null>(null);
   vendaConcluida = output<VendaResponse>();
@@ -40,6 +44,10 @@ export class ListaProdutos {
     this.mostrarModalVenda.set(false);
     this.produtoSelecionado.set(null);
     this.vendaConcluida.emit(venda);
+  }
+
+  onClickOrdenarDataCriacao(): void {
+    this.toggleOrdenacaoDataCriacao.emit();
   }
 
   private fromLocalDateTimeArray(arr: any): Date | null {

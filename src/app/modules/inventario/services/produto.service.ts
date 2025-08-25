@@ -16,17 +16,25 @@ export class ProdutoService {
   getProdutos(
     page: number,
     size: number,
-    filtros: { fornecedorId?: number; status?: string } = {}
+    filtros: { fornecedorId?: number; status?: string } = {},
+    ordenacao?: { campo: string; direcao: 'asc' | 'desc' }
   ): Observable<RespostaPaginada<ProdutoModel>> {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
 
     if (filtros.fornecedorId) {
-      params = params.set('fornecedorId', filtros.fornecedorId.toString());
+      // Backend may accept either 'fornecedor' or 'fornecedorId' – send both for compatibility
+      params = params
+        .set('fornecedorId', filtros.fornecedorId.toString())
+        .set('fornecedor', filtros.fornecedorId.toString());
     }
     if (filtros.status) {
       params = params.set('status', filtros.status);
+    }
+
+    if (ordenacao && ordenacao.campo && ordenacao.direcao) {
+      params = params.set('sort', `${ordenacao.campo},${ordenacao.direcao}`);
     }
 
     return this.http.get<RespostaPaginada<ProdutoModel>>(this.apiUrlProduto, {
