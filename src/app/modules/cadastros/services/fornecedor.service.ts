@@ -34,7 +34,7 @@ export class FornecedorService {
         if (resposta) {
           this.fornecedores.set(resposta.content);
         }
-        setTimeout(() => this.carregando.set(false), 200);
+  this.carregando.set(false);
       });
   }
 

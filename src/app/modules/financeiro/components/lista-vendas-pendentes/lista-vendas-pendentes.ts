@@ -17,6 +17,7 @@ import { VendaResponse } from '@modules/inventario';
 })
 export class ListaVendasPendentes {
   vendas = input.required<VendaResponse[]>();
+  isLoading = input<boolean>(false);
   pagarParcela = output<number>();
   cancelar = output<number>();
 }

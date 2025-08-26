@@ -12,4 +12,5 @@ import { VendaResponse } from '@modules/inventario';
 })
 export class ListaVendasQuitadas {
   vendas = input.required<VendaResponse[]>();
+  isLoading = input<boolean>(false);
 }

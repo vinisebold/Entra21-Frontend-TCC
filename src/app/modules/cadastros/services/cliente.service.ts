@@ -35,7 +35,7 @@ export class ClienteService {
         if (resposta) {
           this.clientes.set(resposta.content);
         }
-        setTimeout(() => this.carregando.set(false), 200);
+  this.carregando.set(false);
       });
   }
 

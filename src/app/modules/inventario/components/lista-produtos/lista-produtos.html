@@ -84,119 +84,118 @@
         <col style="width: 160px" />
         <col style="width: 200px" />
       </colgroup>
-      <tbody
-        [class.opacity-0]="isLoading()"
-        [class.opacity-100]="!isLoading()"
-        [class.transition-opacity]="true"
-        [style.transitionDuration]="'200ms'"
-      >
-        @if (isLoading()) { @for (i of [0,1,2,3,4,5,6,7,8,9,10,11]; track i) {
-        <tr class="h-[52px] md:h-16 animate-pulse">
-          <td class="px-3 md:px-4">
-            <div class="h-4 w-4 bg-surface-container rounded-sm"></div>
-          </td>
-          <td class="px-3 md:px-4">
-            <div class="h-4 w-24 bg-surface-container rounded"></div>
-          </td>
-          <td class="px-3 md:px-4">
-            <div class="h-4 w-1/2 bg-surface-container rounded"></div>
-          </td>
-          <td class="px-3 md:px-4">
-            <div
-              class="mx-auto h-10 w-10 bg-surface-container rounded-full"
-            ></div>
-          </td>
-          <td class="px-3 md:px-4">
-            <div class="h-4 w-28 bg-surface-container rounded"></div>
-          </td>
-          <td class="px-3 md:px-4">
-            <div class="h-4 w-36 bg-surface-container rounded"></div>
-          </td>
-        </tr>
-        } } @else if (erro()) {
-        <tr class="h-[52px] md:h-16">
-          <td colspan="6" class="text-center text-error">⚠️ {{ erro() }}</td>
-        </tr>
-        } @else { @for (produto of produtos(); track produto.id) {
-        <tr
-          class="group h-[52px] md:h-16 shadow-[0_2px_0px_0px_#e5e5e5] hover:shadow-[0_2px_10px_0_rgba(0,0,0,0.12)] transition-shadow duration-100"
-        >
-          <td class="px-3 md:px-4">
-            <input
-              type="checkbox"
-              class="w-4 h-4 rounded-sm accent-primary border-outline"
-            />
-          </td>
-          <td
-            class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface"
-          >
-            {{ produto.idReferencia }}
-          </td>
-          <td
-            class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface"
-          >
-            {{ produto.nome }}
-          </td>
-          <td class="px-3 md:px-4 text-center">
-            <div class="flex items-center justify-center">
-              <img
-                [src]="acabamentoImagens[produto.acabamento] || ''"
-                [alt]="produto.acabamento"
-                width="40"
-                height="40"
-                class="w-10 h-10 rounded-full object-cover"
-              />
-            </div>
-          </td>
-          <td class="px-3 md:px-4 text-left text-on-surface">
-            {{
-              produto.precoCusto | currency : "BRL" : "R$" : "1.2-2" : "pt-BR"
-            }}
-          </td>
-          <td class="relative px-3 md:px-4 text-left text-on-surface">
-            {{ formatDataCriacao(produto.dataCriacao) }}
-            <div
-              class="absolute top-1/2 right-4 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-[0_0_140px_100px_rgba(255,255,255,1)] bg-white"
+      @if (isLoading()) {
+        <tbody>
+          @for (i of [0,1,2,3,4,5,6,7,8,9,10,11]; track i) {
+            <tr class="h-[52px] md:h-16 animate-pulse">
+              <td class="px-3 md:px-4">
+                <div class="h-4 w-4 bg-surface-container rounded-sm"></div>
+              </td>
+              <td class="px-3 md:px-4">
+                <div class="h-4 w-24 bg-surface-container rounded"></div>
+              </td>
+              <td class="px-3 md:px-4">
+                <div class="h-4 w-1/2 bg-surface-container rounded"></div>
+              </td>
+              <td class="px-3 md:px-4">
+                <div class="mx-auto h-10 w-10 bg-surface-container rounded-full"></div>
+              </td>
+              <td class="px-3 md:px-4">
+                <div class="h-4 w-28 bg-surface-container rounded"></div>
+              </td>
+              <td class="px-3 md:px-4">
+                <div class="h-4 w-36 bg-surface-container rounded"></div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      } @else if (erro()) {
+        <tbody>
+          <tr class="h-[52px] md:h-16">
+            <td colspan="6" class="text-center text-error">⚠️ {{ erro() }}</td>
+          </tr>
+        </tbody>
+      } @else {
+        <tbody class="transition-opacity" [class.opacity-0]="isLoading()" [class.opacity-100]="!isLoading()" [style.transitionDuration]="'200ms'">
+          @for (produto of produtos(); track produto.id) {
+            <tr
+              class="group h-[52px] md:h-16 shadow-[0_2px_0px_0px_#e5e5e5] hover:shadow-[0_2px_10px_0_rgba(0,0,0,0.12)] transition-shadow duration-100"
             >
-              <button
-                type="button"
-                aria-label="Registrar Produto"
-                (click)="abrirVendaModal(produto)"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+              <td class="px-3 md:px-4">
+                <input
+                  type="checkbox"
+                  class="w-4 h-4 rounded-sm accent-primary border-outline"
+                />
+              </td>
+              <td
+                class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface"
               >
-                <svg class="w-6 h-6" aria-hidden="true">
-                  <use [attr.href]="'/sprite.svg#icon-registrar'"></use>
-                </svg>
-              </button>
-              <button
-                type="button"
-                aria-label="Editar Produto"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                {{ produto.idReferencia }}
+              </td>
+              <td
+                class="px-3 md:px-4 text-left overflow-hidden text-ellipsis whitespace-nowrap text-on-surface"
               >
-                <svg class="w-6 h-6" aria-hidden="true">
-                  <use [attr.href]="'/sprite.svg#icon-editar'"></use>
-                </svg>
-              </button>
-              <button
-                type="button"
-                aria-label="Excluir Produto"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
-              >
-                <svg class="w-10 h-10" aria-hidden="true">
-                  <use [attr.href]="'/sprite.svg#icon-trash'"></use>
-                </svg>
-              </button>
-            </div>
-          </td>
-        </tr>
-        } @empty {
-        <tr class="h-[52px] md:h-16">
-          <td colspan="6" class="text-center text-on-surface-variant">
-            Nenhum produto encontrado para este fornecedor.
-          </td>
-        </tr>
-        } }
-      </tbody>
+                {{ produto.nome }}
+              </td>
+              <td class="px-3 md:px-4 text-center">
+                <div class="flex items-center justify-center">
+                  <img
+                    [src]="acabamentoImagens[produto.acabamento] || ''"
+                    [alt]="produto.acabamento"
+                    width="40"
+                    height="40"
+                    class="w-10 h-10 rounded-full object-cover"
+                  />
+                </div>
+              </td>
+              <td class="px-3 md:px-4 text-left text-on-surface">
+                {{ produto.precoCusto | currency : 'BRL' : 'R$' : '1.2-2' : 'pt-BR' }}
+              </td>
+              <td class="relative px-3 md:px-4 text-left text-on-surface">
+                {{ formatDataCriacao(produto.dataCriacao) }}
+                <div
+                  class="absolute top-1/2 right-4 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-[0_0_140px_100px_rgba(255,255,255,1)] bg-white"
+                >
+                  <button
+                    type="button"
+                    aria-label="Registrar Produto"
+                    (click)="abrirVendaModal(produto)"
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                  >
+                    <svg class="w-6 h-6" aria-hidden="true">
+                      <use [attr.href]="'/sprite.svg#icon-registrar'"></use>
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Editar Produto"
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                  >
+                    <svg class="w-6 h-6" aria-hidden="true">
+                      <use [attr.href]="'/sprite.svg#icon-editar'"></use>
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    aria-label="Excluir Produto"
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                  >
+                    <svg class="w-10 h-10" aria-hidden="true">
+                      <use [attr.href]="'/sprite.svg#icon-trash'"></use>
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr class="h-[52px] md:h-16">
+              <td colspan="6" class="text-center text-on-surface-variant">
+                Nenhum produto encontrado para este fornecedor.
+              </td>
+            </tr>
+          }
+        </tbody>
+      }
     </table>
   </div>
 </div>

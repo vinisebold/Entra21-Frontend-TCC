@@ -8,6 +8,7 @@
     <div class="flex-1 rounded-lg px-4">
       <app-lista-vendas-pendentes
         [vendas]="vendasPendentes()"
+        [isLoading]="isLoading()"
         (pagarParcela)="onPagarParcela($event)"
         (cancelar)="onCancelar($event)"
       />
@@ -21,7 +22,7 @@
       <h2 class="title-big leading-none text-on-surface">Pago</h2>
     </header>
     <div class="flex-1 rounded-lg px-4">
-      <app-lista-vendas-quitadas [vendas]="vendasPagas()" />
+  <app-lista-vendas-quitadas [vendas]="vendasPagas()" [isLoading]="isLoading()" />
     </div>
   </section>
 </div>
