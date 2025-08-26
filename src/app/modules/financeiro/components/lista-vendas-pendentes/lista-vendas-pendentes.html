@@ -1,5 +1,10 @@
-<ul class="flex flex-col overflow-y-auto" aria-label="Lista de Pendentes">
-  @if (isLoading()) {
+@if (isLoading()) {
+<ul
+  role="list"
+  style="max-height: calc(100vh - 200px); scrollbar-gutter: stable"
+  class="flex flex-col overflow-y-auto"
+  aria-label="Carregando Pendentes"
+>
   @for (i of [0,1,2,3]; track i) {
   <li class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2 animate-pulse">
     <div class="grid grid-cols-2 gap-4">
@@ -23,11 +28,24 @@
     </div>
   </li>
   }
-  } @else if (!vendas().length) {
-  <li class="p-6 text-center text-on-surface-variant">
-    Nenhuma venda pendente.
-  </li>
-  } @else { @for (v of vendas(); track v.id) {
+</ul>
+} @else if (!vendas().length) {
+<div class="flex flex-col justify-center items-center h-32 text-center">
+  <svg class="w-12 h-12 text-on-surface-variant mb-2" aria-hidden="true">
+    <use [attr.href]="'/sprite.svg#icon-inventario'"></use>
+  </svg>
+  <p class="body-large text-on-surface-variant">Nenhuma venda pendente.</p>
+</div>
+} @else {
+<ul
+  role="list"
+  style="max-height: calc(100vh - 200px); scrollbar-gutter: stable"
+  class="flex flex-col overflow-y-auto transition-opacity duration-200"
+  [class.opacity-0]="isLoading()"
+  [class.opacity-100]="!isLoading()"
+  aria-label="Lista de Pendentes"
+>
+  @for (v of vendas(); track v.id) {
   <li class="rounded-xl border border-[#f0f0f0] bg-white p-4 shadow-soft m-2">
     <div class="grid grid-cols-2 gap-4">
       <div class="flex flex-col gap-1">
@@ -42,16 +60,12 @@
             </svg>
             {{ v.formaPagamento }}
           </span>
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
+          <span class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant">
             <span>{{ v.parcelasPagas }}/{{ v.totalParcelas }}</span>
           </span>
         </div>
         <div class="mt-2 flex items-center gap-3">
-          <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-          >
+          <span class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant">
             <svg class="icone text-on-surface-variant" aria-hidden="true">
               <use href="/sprite.svg#icon-calendar"></use>
             </svg>
@@ -61,10 +75,10 @@
       </div>
       <div class="flex flex-col gap-1 items-end">
         <p class="body-large text-on-surface-variant">
-          Venda: R$ {{ v.precoVenda | number : "1.2-2" }}
+          Venda: R$ {{ v.precoVenda | number : '1.2-2' }}
         </p>
         <div class="bg-green-100 text-green-800 rounded-full px-3 py-1 text-sm">
-          Lucro: R$ {{ v.lucro | number : "1.2-2" }}
+          Lucro: R$ {{ v.lucro | number : '1.2-2' }}
         </div>
         <div class="flex gap-2 mt-auto">
           <button
@@ -83,5 +97,6 @@
       </div>
     </div>
   </li>
-  } }
+  }
 </ul>
+}
