@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Observable, map, catchError, of } from 'rxjs';
 import { environment } from '@env/environment';
 import { RespostaPaginada } from '@shared';
+import { isOfflineError } from '@shared/utils/network';
 import { ClienteModel } from '../models/cliente.model';
 
 @Injectable({
@@ -25,17 +26,23 @@ export class ClienteService {
     this.http
       .get<RespostaPaginada<ClienteModel>>(this.apiUrl)
       .pipe(
-        catchError(() => {
-          this.erro.set('Erro ao carregar clientes');
-          this.carregando.set(false);
-          return of(null);
-        })
+          catchError((err) => {
+            if (isOfflineError(err)) {
+              // mantém skeleton ligado enquanto offline
+              return of(null);
+            }
+            this.erro.set('Erro ao carregar clientes');
+            this.carregando.set(false);
+            return of(null);
+          })
       )
       .subscribe((resposta) => {
         if (resposta) {
           this.clientes.set(resposta.content);
+          this.carregando.set(false);
+          return;
         }
-  this.carregando.set(false);
+        // resposta null: provavelmente offline -> mantém carregando true
       });
   }
 

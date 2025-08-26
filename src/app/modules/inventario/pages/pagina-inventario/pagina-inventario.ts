@@ -13,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificacaoService } from '@core';
+import { isOfflineError } from '@shared/utils/network';
 
 @Component({
   selector: 'app-pagina-inventario',
@@ -47,6 +48,7 @@ export class PaginaInventario {
     // Efeito para buscar produtos sempre que o fornecedor mudar
     effect(() => {
       const id = this.fornecedorSelecionadoId();
+      const carregandoFornecedores = this.isLoadingFornecedores();
       if (id !== null) {
   // Ao trocar fornecedor, limpar lista e marcar loading antes de buscar
   this.produtos.set([]);
@@ -54,7 +56,10 @@ export class PaginaInventario {
   this.carregarProdutos(id);
       } else {
         this.produtos.set([]); // Limpa a lista se nenhum fornecedor estiver selecionado
-  this.isLoadingProdutos.set(false);
+        // Se ainda estiver carregando fornecedores, mantemos o skeleton dos produtos
+        if (!carregandoFornecedores) {
+          this.isLoadingProdutos.set(false);
+        }
       }
     });
   }
@@ -63,6 +68,7 @@ export class PaginaInventario {
   this.isLoadingFornecedores.set(true);
   // Mantém a lista de produtos em loading até termos um fornecedor selecionado e os produtos carregados
   this.isLoadingProdutos.set(true);
+  let keepLoading = false;
     try {
       const resposta = await firstValueFrom(
         this.fornecedorService.getFornecedores()
@@ -75,18 +81,23 @@ export class PaginaInventario {
       ) {
         this.onFornecedorSelecionado(resposta.content[0].id!);
       }
-    } catch (error) {
-      this.notificacaoService.mostrarNotificacao(
-        'Erro ao carregar fornecedores.',
-        'error'
-      );
+    } catch (error: any) {
+      if (isOfflineError(error)) {
+        // mantém skeleton ativo; não notifica erro para não poluir a UI
+        keepLoading = true;
+      } else {
+      this.notificacaoService.mostrarNotificacao('Erro ao carregar fornecedores.', 'error');
+      }
     } finally {
-  this.isLoadingFornecedores.set(false);
+      if (!keepLoading) {
+        this.isLoadingFornecedores.set(false);
+      }
     }
   }
 
   private async carregarProdutos(fornecedorId: number): Promise<void> {
     this.isLoadingProdutos.set(true);
+    let keepLoading = false;
     try {
       const resposta = await firstValueFrom(
         this.produtoService.getProdutos(
@@ -100,13 +111,17 @@ export class PaginaInventario {
         )
       );
       this.produtos.set(resposta.content);
-    } catch (error) {
-      this.notificacaoService.mostrarNotificacao(
-        'Erro ao carregar produtos.',
-        'error'
-      );
+    } catch (error: any) {
+      if (isOfflineError(error)) {
+        // offline: mantém skeleton ligado para não quebrar a experiência
+        keepLoading = true;
+      } else {
+        this.notificacaoService.mostrarNotificacao('Erro ao carregar produtos.', 'error');
+      }
     } finally {
-  this.isLoadingProdutos.set(false);
+      if (!keepLoading) {
+        this.isLoadingProdutos.set(false);
+      }
     }
   }
 

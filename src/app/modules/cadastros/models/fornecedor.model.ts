@@ -4,6 +4,8 @@ export interface FornecedorModel {
   descricao: string;
   telefone: string;
   cnpj: string;
+  dataCriacao?: string | null;
+  dataAtualizacao?: string | null;
   codigoAnel?: string;
   codigoBracelete?: string;
   codigoColar?: string;

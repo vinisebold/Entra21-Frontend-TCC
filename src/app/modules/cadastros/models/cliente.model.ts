@@ -5,4 +5,6 @@ export interface ClienteModel {
   telefone: string;
   email?: string | null;
   cpf?: string | null;
+  dataCriacao?: string | null;
+  dataAtualizacao?: string | null;
 }

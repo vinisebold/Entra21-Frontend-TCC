@@ -14,13 +14,7 @@
       @if (isLoadingFornecedores()) {
       <div class="inline-flex items-center gap-2">
         <div
-          class="h-10 w-28 rounded-full bg-surface-container animate-pulse"
-        ></div>
-        <div
-          class="h-10 w-32 rounded-full bg-surface-container animate-pulse"
-        ></div>
-        <div
-          class="h-10 w-24 rounded-full bg-surface-container animate-pulse hidden md:block"
+          class="h-11 w-68 rounded-full bg-surface-container animate-pulse"
         ></div>
       </div>
       } @else {
@@ -42,8 +36,8 @@
   <app-lista-produtos
     [produtos]="produtos()"
     [isLoading]="isLoadingProdutos()"
-  [ordemDataCriacao]="ordenarPorDataCriacao()"
+    [ordemDataCriacao]="ordenarPorDataCriacao()"
     (vendaConcluida)="onSucessoFormulario()"
-  (toggleOrdenacaoDataCriacao)="onToggleOrdenacaoDataCriacao()"
+    (toggleOrdenacaoDataCriacao)="onToggleOrdenacaoDataCriacao()"
   ></app-lista-produtos>
 </div>

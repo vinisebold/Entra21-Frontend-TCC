@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { FornecedorModel } from '@modules/cadastros';
 
 @Component({
   selector: 'app-fornecedor-item',
-  imports: [],
+  imports: [DatePipe],
   template: `
     <div class="title-medium text-on-surface">{{ fornecedor().nome }}</div>
     <div class="mb-4 body-large text-on-surface-variant">
@@ -27,6 +28,17 @@ import { FornecedorModel } from '@modules/cadastros';
         {{ fornecedor().cnpj }}
       </span>
     </div>
+    @if (fornecedor().dataCriacao || fornecedor().dataAtualizacao) {
+      <div class="mt-4 text-xs text-on-surface-variant opacity-70 w-full text-right flex justify-end">
+        @if (fornecedor().dataCriacao) {
+          {{ fornecedor().dataCriacao | date: 'dd/MM/yy HH:mm' }}
+        }
+        @if (fornecedor().dataCriacao && fornecedor().dataAtualizacao) { | }
+        @if (fornecedor().dataAtualizacao) {
+          {{ fornecedor().dataAtualizacao | date: 'dd/MM/yy HH:mm' }}
+        }
+      </div>
+    }
   `,
   styleUrl: './fornecedor-item.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

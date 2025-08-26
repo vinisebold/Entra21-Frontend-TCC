@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { ListaVendasPendentes } from '../../components/lista-vendas-pendentes/lista-vendas-pendentes';
 import { ListaVendasQuitadas } from '../../components/lista-vendas-quitadas/lista-vendas-quitadas';
 import { NotificacaoService } from '@core';
+import { isOfflineError } from '@shared/utils/network';
 import { VendaResponse, VendaService } from '@modules/inventario';
 import { firstValueFrom } from 'rxjs';
 
@@ -40,7 +41,11 @@ export class ControleVendas {
       ]);
       this.vendasPendentes.set(pendentes);
       this.vendasPagas.set(pagas);
-    } catch (e) {
+    } catch (e: any) {
+      if (isOfflineError(e)) {
+        // mantém skeleton ativo
+        return;
+      }
       this.notificacao.mostrarNotificacao('Erro ao carregar vendas.', 'error');
     } finally {
       this.isLoading.set(false);
@@ -57,7 +62,10 @@ export class ControleVendas {
       this.carregarListas();
     } catch (e: any) {
       const mensagem =
-        e?.error?.message || e?.error?.error || e?.message || 'Falha ao pagar parcela.';
+        e?.error?.message ||
+        e?.error?.error ||
+        e?.message ||
+        'Falha ao pagar parcela.';
       this.notificacao.mostrarNotificacao(mensagem, 'error');
     }
   }
@@ -69,7 +77,10 @@ export class ControleVendas {
       this.carregarListas();
     } catch (e: any) {
       const mensagem =
-        e?.error?.message || e?.error?.error || e?.message || 'Falha ao cancelar venda.';
+        e?.error?.message ||
+        e?.error?.error ||
+        e?.message ||
+        'Falha ao cancelar venda.';
       this.notificacao.mostrarNotificacao(mensagem, 'error');
     }
   }

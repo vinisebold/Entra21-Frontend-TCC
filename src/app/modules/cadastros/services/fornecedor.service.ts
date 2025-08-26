@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 import { FornecedorModel } from '../models/fornecedor.model';
+import { isOfflineError } from '@shared/utils/network';
 import { RespostaPaginada } from '@shared';
 import { environment } from '@env/environment';
 
@@ -24,7 +25,11 @@ export class FornecedorService {
     this.http
       .get<RespostaPaginada<FornecedorModel>>(this.apiUrl)
       .pipe(
-        catchError(() => {
+        catchError((err) => {
+          if (isOfflineError(err)) {
+            // mantém skeleton ligado enquanto offline
+            return of(null);
+          }
           this.erro.set('Erro ao carregar fornecedores');
           this.carregando.set(false);
           return of(null);
@@ -33,8 +38,10 @@ export class FornecedorService {
       .subscribe((resposta) => {
         if (resposta) {
           this.fornecedores.set(resposta.content);
+          this.carregando.set(false);
+          return;
         }
-  this.carregando.set(false);
+        // resposta null: provavelmente offline -> mantém carregando true
       });
   }
 
