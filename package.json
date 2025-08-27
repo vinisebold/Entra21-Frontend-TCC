@@ -21,6 +21,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "20.1.6",
+    "@angular/cdk": "^20.1.6",
     "@angular/common": "^20.1.0",
     "@angular/compiler": "^20.1.0",
     "@angular/core": "^20.1.0",
@@ -28,6 +29,7 @@
     "@angular/platform-browser": "^20.1.0",
     "@angular/router": "^20.1.0",
     "@fontsource/inter": "^5.2.6",
+    "@swimlane/ngx-charts": "^23.0.1",
     "@tailwindcss/postcss": "^4.1.11",
     "g": "^2.0.1",
     "imask": "^7.6.1",

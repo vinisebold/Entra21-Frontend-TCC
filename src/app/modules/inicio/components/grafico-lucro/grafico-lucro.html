@@ -1,0 +1,15 @@
+<section class="grafico-container">
+	<ngx-charts-line-chart
+		class="grafico"
+		[results]="dados()"
+		[legend]="legend()"
+		[xAxis]="xAxis()"
+		[yAxis]="yAxis()"
+		[timeline]="timeline()"
+		[autoScale]="true"
+		[scheme]="colorScheme"
+	>
+	</ngx-charts-line-chart>
+	<span class="hint">Dados ilustrativos (estáticos)</span>
+  
+</section>

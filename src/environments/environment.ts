@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.gleam.software/api'
+  apiUrl: 'https://gleam.up.railway.app/api',
 };

@@ -1,0 +1,13 @@
+<section class="grafico-container">
+	<ngx-charts-advanced-pie-chart
+		class="grafico"
+		[results]="dados()"
+		[scheme]="colorScheme"
+		[gradient]="false"
+		[label]="'Estoque por peça'"
+		[valueFormatting]="valueFormat"
+		[percentageFormatting]="percentFormat"
+	>
+	</ngx-charts-advanced-pie-chart>
+	<span class="hint">Dados ilustrativos (estáticos)</span>
+</section>

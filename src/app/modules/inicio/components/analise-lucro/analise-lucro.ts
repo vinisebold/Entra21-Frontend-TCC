@@ -1,15 +1,25 @@
-import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { SegmentedControl, SegmentedOption } from '@modules/inventario';
-import { AnaliseService, PeriodoAnalise } from '@modules/inicio/services/analise.service';
+import {
+  AnaliseService,
+  PeriodoAnalise,
+} from '@modules/inicio/services/analise.service';
 import { NotificacaoService } from '@core';
 import { CurrencyPipe } from '@angular/common';
+import { GraficoLucro } from "../grafico-lucro/grafico-lucro";
 
 @Component({
   selector: 'app-analise-lucro',
-  imports: [SegmentedControl, CurrencyPipe],
+  imports: [SegmentedControl, CurrencyPipe, GraficoLucro],
   templateUrl: './analise-lucro.html',
   styleUrl: './analise-lucro.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnaliseLucro {
   private analiseService = inject(AnaliseService);
@@ -62,8 +72,11 @@ export class AnaliseLucro {
       },
       error: () => {
         this.isLoading.set(false);
-        this.notificacaoService.mostrarNotificacao('Não foi possível carregar a análise de lucro.', 'error');
-      }
+        this.notificacaoService.mostrarNotificacao(
+          'Não foi possível carregar a análise de lucro.',
+          'error'
+        );
+      },
     });
   }
 }
