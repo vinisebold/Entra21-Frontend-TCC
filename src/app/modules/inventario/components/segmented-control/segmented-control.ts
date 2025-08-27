@@ -5,7 +5,12 @@ import {
   input,
   output,
 } from '@angular/core';
-import { FornecedorModel } from '@modules/cadastros';
+
+// Minimal option shape so this control can be reused across modules
+export interface SegmentedOption {
+  id: number;
+  nome: string;
+}
 
 @Component({
   selector: 'app-segmented-control',
@@ -15,7 +20,7 @@ import { FornecedorModel } from '@modules/cadastros';
 })
 export class SegmentedControl {
   // API
-  readonly opcoes = input.required<FornecedorModel[]>();
+  readonly opcoes = input.required<SegmentedOption[]>();
   readonly opcaoAtivaId = input<number | null>(null);
   readonly selecaoMudou = output<number>();
 
