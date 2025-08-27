@@ -36,7 +36,7 @@ export class GraficoLucro {
   protected readonly yAxis = signal(true);
   protected readonly timeline = signal(false);
   protected readonly colorScheme: Color = {
-    domain: ['#2563eb', '#22c55e', '#f59e0b', '#ef4444'],
+    domain: ['#99A86C', '#99A86C', '#f59e0b', '#ef4444'],
   group: ScaleType.Ordinal,
     selectable: true,
     name: 'custom',
