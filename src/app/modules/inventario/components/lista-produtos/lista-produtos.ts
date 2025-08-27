@@ -17,7 +17,7 @@ export class ListaProdutos {
   isLoading = input<boolean>(false);
   erro = input<string | null>(null);
   // direção atual da ordenação para exibição do indicador visual
-  ordemDataCriacao = input<'asc' | 'desc'>('asc');
+  ordemDataCriacao = input<'asc' | 'desc'>('desc');
   // evento para o pai alternar a ordenação e recarregar a lista
   toggleOrdenacaoDataCriacao = output<void>();
   mostrarModalVenda = signal(false);
@@ -59,7 +59,9 @@ export class ListaProdutos {
 
   formatDataCriacao(date?: string | any | null): string {
     if (!date) return '-';
-    const parsed = Array.isArray(date) ? this.fromLocalDateTimeArray(date) : new Date(date);
+    const parsed = Array.isArray(date)
+      ? this.fromLocalDateTimeArray(date)
+      : new Date(date);
     if (!parsed || isNaN(parsed.getTime())) return '-';
     return parsed.toLocaleString('pt-BR', {
       day: '2-digit',

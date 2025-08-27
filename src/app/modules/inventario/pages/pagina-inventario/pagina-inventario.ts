@@ -7,7 +7,12 @@ import {
 } from '@angular/core';
 
 import { Botao } from '../../../../shared/components/botao/botao';
-import { SegmentedControl, FormularioProduto, ProdutoService, ProdutoModel } from '@modules/inventario';
+import {
+  SegmentedControl,
+  FormularioProduto,
+  ProdutoService,
+  ProdutoModel,
+} from '@modules/inventario';
 import { FornecedorModel, FornecedorService } from '@modules/cadastros';
 import { firstValueFrom } from 'rxjs';
 import { ListaProdutos } from '../../components/lista-produtos/lista-produtos';
@@ -35,25 +40,25 @@ export class PaginaInventario {
   isLoadingProdutos = signal(false);
   isLoadingFornecedores = signal(false);
   // ordenação por DataCriacao
-  ordenarPorDataCriacao = signal<'asc' | 'desc'>('asc');
+  ordenarPorDataCriacao = signal<'asc' | 'desc'>('desc');
 
   produtoParaEditar = signal<ProdutoModel | null>(null);
   isModalProdutoAberto = signal(false);
 
   constructor() {
-  // Evita flash de "Nenhum produto encontrado" ao entrar na página
-  this.isLoadingProdutos.set(true);
-  this.carregarFornecedores();
+    // Evita flash de "Nenhum produto encontrado" ao entrar na página
+    this.isLoadingProdutos.set(true);
+    this.carregarFornecedores();
     this.observarMudancasDeRota();
     // Efeito para buscar produtos sempre que o fornecedor mudar
     effect(() => {
       const id = this.fornecedorSelecionadoId();
       const carregandoFornecedores = this.isLoadingFornecedores();
       if (id !== null) {
-  // Ao trocar fornecedor, limpar lista e marcar loading antes de buscar
-  this.produtos.set([]);
-  this.isLoadingProdutos.set(true);
-  this.carregarProdutos(id);
+        // Ao trocar fornecedor, limpar lista e marcar loading antes de buscar
+        this.produtos.set([]);
+        this.isLoadingProdutos.set(true);
+        this.carregarProdutos(id);
       } else {
         this.produtos.set([]); // Limpa a lista se nenhum fornecedor estiver selecionado
         // Se ainda estiver carregando fornecedores, mantemos o skeleton dos produtos
@@ -65,10 +70,10 @@ export class PaginaInventario {
   }
 
   private async carregarFornecedores(): Promise<void> {
-  this.isLoadingFornecedores.set(true);
-  // Mantém a lista de produtos em loading até termos um fornecedor selecionado e os produtos carregados
-  this.isLoadingProdutos.set(true);
-  let keepLoading = false;
+    this.isLoadingFornecedores.set(true);
+    // Mantém a lista de produtos em loading até termos um fornecedor selecionado e os produtos carregados
+    this.isLoadingProdutos.set(true);
+    let keepLoading = false;
     try {
       const resposta = await firstValueFrom(
         this.fornecedorService.getFornecedores()
@@ -86,7 +91,10 @@ export class PaginaInventario {
         // mantém skeleton ativo; não notifica erro para não poluir a UI
         keepLoading = true;
       } else {
-      this.notificacaoService.mostrarNotificacao('Erro ao carregar fornecedores.', 'error');
+        this.notificacaoService.mostrarNotificacao(
+          'Erro ao carregar fornecedores.',
+          'error'
+        );
       }
     } finally {
       if (!keepLoading) {
@@ -116,7 +124,10 @@ export class PaginaInventario {
         // offline: mantém skeleton ligado para não quebrar a experiência
         keepLoading = true;
       } else {
-        this.notificacaoService.mostrarNotificacao('Erro ao carregar produtos.', 'error');
+        this.notificacaoService.mostrarNotificacao(
+          'Erro ao carregar produtos.',
+          'error'
+        );
       }
     } finally {
       if (!keepLoading) {
