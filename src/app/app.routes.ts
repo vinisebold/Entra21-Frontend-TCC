@@ -11,8 +11,8 @@ export const routes: Routes = [
       {
         path: 'inicio',
         loadComponent: () =>
-          import('./modules/inicio/pages/dashboard/dashboard').then(
-            (m) => m.Dashboard
+          import('./modules/inicio/pages/pagina-inicio/pagina-inicio').then(
+            (m) => m.PaginaInicio
           ),
       },
 
@@ -36,8 +36,8 @@ export const routes: Routes = [
         path: 'financeiro',
         loadComponent: () =>
           import(
-            './modules/financeiro/pages/controle-vendas/controle-vendas'
-          ).then((m) => m.ControleVendas),
+            './modules/financeiro/pages/pagina-financeiro/pagina-financeiro'
+          ).then((m) => m.PaginaFinanceiro),
       },
     ],
   },

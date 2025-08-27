@@ -1,1 +1,1 @@
-export * from './pages/dashboard/dashboard';
+export * from './pages/pagina-inicio/pagina-inicio';

@@ -16,11 +16,11 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-controle-vendas',
   standalone: true,
   imports: [CommonModule, ListaVendasPendentes, ListaVendasQuitadas],
-  templateUrl: './controle-vendas.html',
-  styleUrl: './controle-vendas.scss',
+  templateUrl: './pagina-financeiro.html',
+  styleUrl: './pagina-financeiro.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ControleVendas {
+export class PaginaFinanceiro {
   private vendaService = inject(VendaService);
   private notificacao = inject(NotificacaoService);
 
