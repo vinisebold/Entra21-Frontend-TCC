@@ -1,22 +1,24 @@
 <div
   class="relative inline-flex items-center rounded-full bg-secundary"
-  style="height:44px; --btn-w: 150px; --gap: 0.25rem;"
+  style="height: 44px; --btn-w: 150px; --gap: 0.25rem"
   [style.--idx]="indiceAtivo()"
 >
   <div
     class="absolute left-1 top-1 bottom-1 rounded-full bg-primary shadow-md transition-transform duration-200 will-change-transform z-0"
     [style.width]="'var(--btn-w)'"
-    [style.transform]="'translateX(calc(var(--idx) * (var(--btn-w) + var(--gap))))'"  
+    [style.transform]="
+      'translateX(calc(var(--idx) * (var(--btn-w) + var(--gap))))'
+    "
     aria-hidden="true"
   ></div>
 
   <!-- Buttons row -->
   <div class="relative z-10 flex gap-1 px-1">
     @for (opcao of opcoes(); track opcao.id; let i = $index) {
-      <button
+    <button
       (click)="onSelecao(opcao.id)"
-        class="group relative overflow-hidden rounded-full h-[36px] px-3 text-sm font-semibold focus:outline-none transition-colors duration-200 text-on-surface-variant"
-        [style.width]="'var(--btn-w)'"
+      class="group relative overflow-hidden rounded-full h-[36px] px-3 text-sm font-semibold focus:outline-none transition-colors duration-200 text-on-surface-variant cursor-pointer"
+      [style.width]="'var(--btn-w)'"
       [attr.aria-current]="opcao.id === opcaoAtivaId() ? 'true' : null"
       [class.text-white]="opcao.id === opcaoAtivaId()"
     >

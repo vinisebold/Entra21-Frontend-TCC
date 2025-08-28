@@ -88,7 +88,7 @@
           <button
             type="button"
             aria-label="Editar Cliente"
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-gray-100"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-gray-100 cursor-pointer"
           >
             <svg class="w-6 h-6" aria-hidden="true">
               <use [attr.href]="'/sprite.svg#icon-editar'"></use>
@@ -99,7 +99,7 @@
           <button
             type="button"
             aria-label="Excluir Cliente"
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-gray-100"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-gray-100 cursor-pointer"
             (click)="deletarCliente(cliente.id)"
           >
             <svg class="w-10 h-10" aria-hidden="true">

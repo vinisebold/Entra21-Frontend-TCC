@@ -53,13 +53,13 @@
               (click)="onClickOrdenarDataCriacao()"
               [attr.aria-label]="
                 (ordemDataCriacao() === 'asc'
-                  ? 'Crescente ▲ (Velho → Novo)'
-                  : 'Decrescente ▼ (Novo → Velho)') + '. Clique para alternar'
+                  ? 'Crescente ▲'
+                  : 'Decrescente ▼') + '. Clique para alternar'
               "
               [attr.title]="
                 ordemDataCriacao() === 'asc'
-                  ? 'Crescente ▲ (Velho → Novo)'
-                  : 'Decrescente ▼ (Novo → Velho)'
+                  ? 'Crescente ▲ '
+                  : 'Decrescente ▼'
               "
             >
               <span>Data de Criação</span>
@@ -137,11 +137,11 @@
         class="transition-opacity"
         [class.opacity-0]="isLoading()"
         [class.opacity-100]="!isLoading()"
-        [style.transitionDuration]="'200ms'"
+        [style.transitionDuration]="'100ms'"
       >
         @for (produto of produtos(); track produto.id) {
         <tr
-          class="group h-[52px] md:h-16 shadow-[0_2px_0px_0px_#e5e5e5] hover:shadow-[0_3px_6px_0_rgba(0,0,0,0.25)] transition-shadow duration-100"
+          class="group h-[52px] md:h-16 shadow-[0_2px_0px_0px_#e5e5e5] hover:shadow-[0_3px_6px_0_rgba(0,0,0,0.20)] transition-shadow duration-50"
         >
           <td class="px-3 md:px-4">
             <input
@@ -178,13 +178,13 @@
           <td class="relative px-3 md:px-4 text-left text-on-surface">
             {{ formatDataCriacao(produto.dataCriacao) }}
             <div
-              class="absolute top-1/2 right-4 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-[0_0_140px_100px_rgba(255,255,255,1)] bg-white"
+              class="absolute top-1/2 right-4 -translate-y-1/2 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 shadow-[-10px_0_20px_5px_rgba(255,255,255,1)] bg-white"
             >
               <button
                 type="button"
                 aria-label="Registrar Produto"
                 (click)="abrirVendaModal(produto)"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-surface-container cursor-pointer"
               >
                 <svg class="w-6 h-6" aria-hidden="true">
                   <use [attr.href]="'/sprite.svg#icon-registrar'"></use>
@@ -193,7 +193,7 @@
               <button
                 type="button"
                 aria-label="Editar Produto"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-surface-container cursor-pointer"
               >
                 <svg class="w-6 h-6" aria-hidden="true">
                   <use [attr.href]="'/sprite.svg#icon-editar'"></use>
@@ -202,7 +202,7 @@
               <button
                 type="button"
                 aria-label="Excluir Produto"
-                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-white cursor-pointer"
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-transparent text-on-surface-variant hover:bg-surface-container cursor-pointer"
               >
                 <svg class="w-10 h-10" aria-hidden="true">
                   <use [attr.href]="'/sprite.svg#icon-trash'"></use>

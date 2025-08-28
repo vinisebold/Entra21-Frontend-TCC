@@ -24,3 +24,29 @@
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
+
+.actions-popover {
+  position: relative;
+  background: white;
+  z-index: 10; // garante que fique acima do conteúdo do form
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 80px; // controla a largura do fade
+    pointer-events: none; // não atrapalha o clique
+  }
+
+  &::before {
+    left: -80px;
+    background: linear-gradient(to left, white, transparent);
+  }
+
+  &::after {
+    right: -80px;
+    background: linear-gradient(to right, white, transparent);
+  }
+}
