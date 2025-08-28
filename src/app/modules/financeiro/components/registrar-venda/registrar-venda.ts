@@ -23,11 +23,12 @@ import {
 } from '@modules/inventario';
 import { ClienteModel, ClienteService } from '@modules/cadastros';
 import { NotificacaoService } from '@core';
+import { DinheiroMaskTsDirective } from '@shared';
 
 @Component({
   selector: 'app-registrar-venda',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, DinheiroMaskTsDirective],
   templateUrl: './registrar-venda.html',
   styleUrl: './registrar-venda.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -110,9 +111,15 @@ export class RegistrarVenda implements OnInit {
     const parseMoney = (val: unknown): number => {
       if (typeof val === 'number') return val;
       if (typeof val === 'string') {
-        const digits = val.replace(/[^\d]/g, '');
-        if (!digits) return 0;
-        return Number(digits) / 100;
+        // Remove tudo que não for dígito, vírgula ou ponto e normaliza para ponto decimal
+        const sanitized = val
+          .toString()
+          .trim()
+          .replace(/[^\d.,-]/g, '') // mantém apenas dígitos e separadores
+          .replace(/\./g, '') // remove separador de milhar
+          .replace(/,/g, '.'); // vírgula -> ponto
+        const n = Number(sanitized);
+        return isNaN(n) ? 0 : n;
       }
       return 0;
     };

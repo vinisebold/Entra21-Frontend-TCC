@@ -162,9 +162,14 @@ export class FormularioVenda implements OnInit {
     const parseMoney = (val: unknown): number => {
       if (typeof val === 'number') return val;
       if (typeof val === 'string') {
-        const digits = val.replace(/[^\d]/g, '');
-        if (!digits) return 0;
-        return Number(digits) / 100;
+        const sanitized = val
+          .toString()
+          .trim()
+          .replace(/[^\d.,-]/g, '')
+          .replace(/\./g, '')
+          .replace(/,/g, '.');
+        const n = Number(sanitized);
+        return isNaN(n) ? 0 : n;
       }
       return 0;
     };
