@@ -1,6 +1,6 @@
 <!-- Análise de Lucro -->
 <section
-  class="w-full rounded-2xl border border-gray-200 bg-white shadow-sm p-5"
+  class="w-full rounded-2xl border border-gray-200 bg-white shadow-sm p-5 space-y-4"
 >
   <header class="mb-3">
     <h2 class="text-[15px] font-medium text-gray-700">Análise de Lucro</h2>
@@ -8,9 +8,9 @@
 
   <div class="mb-4 flex items-center justify-between">
     <app-segmented-control
-      [opcoes]="periodos"
-      [opcaoAtivaId]="periodoAtivoId()"
-      (selecaoMudou)="onPeriodoSelect($event)"
+      [opcoes]="periodosGrafico"
+      [opcaoAtivaId]="periodoGraficoAtivoId()"
+      (selecaoMudou)="onPeriodoGraficoSelect($event)"
     />
     <button
       type="button"
@@ -23,7 +23,9 @@
     </button>
   </div>
 
-  <app-grafico-lucro></app-grafico-lucro>
+  <app-grafico-lucro
+    [periodo]="mapIdToPeriodoGrafico(periodoGraficoAtivoId())"
+  ></app-grafico-lucro>
 
   <!-- Destaque de Lucro -->
   <div class="flex items-start gap-3 rounded-xl bg-[#E6EED3] p-4">
@@ -35,9 +37,9 @@
       </svg>
     </span>
     <div>
-      <div class="text-sm text-gray-600">Lucro</div>
-      @if (isLoading()) {
-      <div class="h-8 w-38 rounded bg-[#DDE5C8] animate-pulse"></div>
+      <div class="text-sm text-gray-600">Lucro Total</div>
+  @if (isLoading()) {
+  <div class="h-8 w-38 rounded shimmer"></div>
       } @else {
       <div class="text-3xl font-bold leading-8 text-gray-900">
         {{ lucro() ?? 0 | currency : "BRL" : "symbol" : "1.2-2" }}

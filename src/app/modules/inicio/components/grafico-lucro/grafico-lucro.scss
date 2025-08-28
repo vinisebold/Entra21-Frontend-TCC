@@ -17,3 +17,23 @@
 	color: #6b7280; /* gray-500 */
 	font-size: 12px;
 }
+
+/* Shimmer animation */
+@keyframes shimmer-sweep {
+	0% { transform: translateX(-100%); }
+	100% { transform: translateX(100%); }
+}
+
+.shimmer {
+	position: relative;
+	overflow: hidden;
+	background-color: #e5e7eb; /* gray-200 */
+}
+
+.shimmer::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.45), rgba(255,255,255,0));
+	animation: shimmer-sweep 1.4s infinite;
+}

@@ -24,59 +24,79 @@ import { GraficoLucro } from "../grafico-lucro/grafico-lucro";
 export class AnaliseLucro {
   private analiseService = inject(AnaliseService);
   private notificacaoService = inject(NotificacaoService);
-  // Opções do controle segmentado: Dia, Semana, Mês
-  protected readonly periodos: SegmentedOption[] = [
-    { id: 1, nome: 'Dia' },
-    { id: 2, nome: 'Semana' },
-    { id: 3, nome: 'Mês' },
+  // Único controle segmentado (SEMANA, MES, ANO)
+  protected readonly periodosGrafico: SegmentedOption[] = [
+    { id: 1, nome: 'Semana' },
+    { id: 2, nome: 'Mês' },
+    { id: 3, nome: 'Ano' },
   ];
 
-  // Estado do período ativo
-  protected readonly periodoAtivoId = signal<number>(1);
+  // Estado do período ativo (controla gráfico e o card)
   protected readonly lucro = signal<number | null>(null);
   protected readonly isLoading = signal<boolean>(false);
+  protected readonly periodoGraficoAtivoId = signal<number>(1);
 
-  protected onPeriodoSelect(id: number) {
-    this.periodoAtivoId.set(id);
-    // handled by effect
+  protected onPeriodoGraficoSelect(id: number) {
+    this.periodoGraficoAtivoId.set(id);
   }
 
   constructor() {
-    // Carregar quando o período mudar
+    // Carregar quando o período (único) mudar
     effect(() => {
-      const id = this.periodoAtivoId();
-      const periodo = this.mapIdToPeriodo(id);
-      this.buscarLucro(periodo);
+      const id = this.periodoGraficoAtivoId();
+      const periodoGrafico = this.mapIdToPeriodoGrafico(id);
+      this.buscarLucroTotal(periodoGrafico);
     });
   }
 
-  private mapIdToPeriodo(id: number): PeriodoAnalise {
-    switch (id) {
-      case 1:
-        return 'DIA';
-      case 2:
-        return 'SEMANA';
-      case 3:
-      default:
-        return 'MES';
+  private buscarLucroTotal(periodo: 'SEMANA' | 'MES' | 'ANO') {
+    this.isLoading.set(true);
+    this.lucro.set(null);
+    if (periodo === 'ANO') {
+      // Não há endpoint de total anual; somamos os pontos do gráfico anual
+      this.analiseService.getLucroGrafico('ANO').subscribe({
+        next: (pontos) => {
+          const total = pontos.reduce((sum, p) => sum + (p.lucro ?? 0), 0);
+          this.lucro.set(total);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.notificacaoService.mostrarNotificacao(
+            'Não foi possível carregar a análise de lucro anual.',
+            'error'
+          );
+        },
+      });
+    } else {
+      // Usa o endpoint de total para SEMANA e MES
+      const periodoTotal: PeriodoAnalise = periodo; // compatível
+      this.analiseService.getLucro(periodoTotal).subscribe({
+        next: (res) => {
+          this.lucro.set(res.totalLucro ?? 0);
+          this.isLoading.set(false);
+        },
+        error: () => {
+          this.isLoading.set(false);
+          this.notificacaoService.mostrarNotificacao(
+            'Não foi possível carregar a análise de lucro.',
+            'error'
+          );
+        },
+      });
     }
   }
 
-  private buscarLucro(periodo: PeriodoAnalise) {
-    this.isLoading.set(true);
-    this.lucro.set(null);
-    this.analiseService.getLucro(periodo).subscribe({
-      next: (res) => {
-        this.lucro.set(res.totalLucro ?? 0);
-        this.isLoading.set(false);
-      },
-      error: () => {
-        this.isLoading.set(false);
-        this.notificacaoService.mostrarNotificacao(
-          'Não foi possível carregar a análise de lucro.',
-          'error'
-        );
-      },
-    });
+  // Mapeia id do segmented para o período aceito pelo endpoint de gráfico
+  protected mapIdToPeriodoGrafico(id: number): 'SEMANA' | 'MES' | 'ANO' {
+    switch (id) {
+      case 1:
+        return 'SEMANA';
+      case 2:
+        return 'MES';
+      case 3:
+      default:
+        return 'ANO';
+    }
   }
 }

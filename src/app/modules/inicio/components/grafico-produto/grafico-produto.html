@@ -1,52 +1,70 @@
 <section class="grafico-container">
-	<header class="header">
-		<h3 class="titulo">Estoque por peça</h3>
-		<div class="paginacao">
-			<button class="nav" (click)="prev()" [disabled]="page() === 0" aria-label="Anterior">◄</button>
-			<span class="pagina">{{ paginaTexto() }}</span>
-			<button class="nav" (click)="next()" [disabled]="page() >= totalPages() - 1" aria-label="Próximo">►</button>
-		</div>
-	</header>
+  <header class="header">
+    <h3 class="titulo">Estoque por peça</h3>
+    <div class="paginacao">
+      <button
+        class="nav"
+        (click)="prev()"
+        [disabled]="page() === 0"
+        aria-label="Anterior"
+      >
+        ◄
+      </button>
+      <span class="pagina">{{ paginaTexto() }}</span>
+      <button
+        class="nav"
+        (click)="next()"
+        [disabled]="page() >= totalPages() - 1"
+        aria-label="Próximo"
+      >
+        ►
+      </button>
+    </div>
+  </header>
 
-	<div class="grid">
-		<div class="col grafico-wrapper">
-			<ngx-charts-pie-chart
-				class="grafico"
-				[results]="dadosGrafico()"
-				[scheme]="colorScheme"
-				[legend]="false"
-				[labels]="false"
-				[gradient]="false"
-				[doughnut]="true"
-				[arcWidth]="0.28"
-			>
-			</ngx-charts-pie-chart>
-		</div>
-		<div class="col lista">
-			<ul class="lista-itens">
-				@for (c of itensVisiveis(); track i; let i = $index) {
-					<li class="row">
-						<div class="lado-esq">
-							<span class="dot" [style.background]="colorScheme.domain[i % colorScheme.domain.length]"></span>
-							<strong class="nome">{{ c.name }}</strong>
-						</div>
-						<div class="lado-dir">
-							<div class="linha">
-								<span class="qtd">{{ c.quantidade }} peças</span>
-							</div>
-							<div class="linha subtitulo">
-								<span class="label">custo:</span>
-								<span class="valor">{{ (c.somaPreco / 100) | currency:'BRL':'symbol-narrow' }}</span>
-							</div>
-						</div>
-					</li>
-					@if (i < itensVisiveis().length - 1) {
-						<li class="linha-divisoria" aria-hidden="true"></li>
-					}
-				}
-			</ul>
-		</div>
-	</div>
-
-	<span class="hint">Dados ilustrativos (estáticos)</span>
+  <div class="grid">
+    <div class="col grafico-wrapper">
+      <ngx-charts-pie-chart
+        class="grafico"
+        [results]="dadosGrafico()"
+        [scheme]="colorScheme"
+        [legend]="false"
+        [labels]="false"
+        [gradient]="false"
+        [doughnut]="true"
+        [arcWidth]="0.28"
+      >
+      </ngx-charts-pie-chart>
+    </div>
+    <div class="col lista">
+      <ul class="lista-itens">
+        @for (c of itensVisiveis(); track i; let i = $index) {
+        <li class="row">
+          <div class="lado-esq">
+            <span
+              class="dot"
+              [style.background]="
+                colorScheme.domain[i % colorScheme.domain.length]
+              "
+            ></span>
+            <strong class="nome">{{ c.name }}</strong>
+          </div>
+          <div class="lado-dir">
+            <div class="linha">
+              <span class="qtd">{{ c.quantidade }} peças</span>
+            </div>
+            <div class="linha subtitulo">
+              <span class="label">custo:</span>
+              <span class="valor">{{
+                c.somaPreco / 100 | currency : "BRL" : "symbol-narrow"
+              }}</span>
+            </div>
+          </div>
+        </li>
+        @if (i < itensVisiveis().length - 1) {
+        <li class="linha-divisoria" aria-hidden="true"></li>
+        } }
+      </ul>
+    </div>
+  </div>
 </section>

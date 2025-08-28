@@ -1,0 +1,19 @@
+/* Reuse shimmer from chart context for the card skeleton too */
+@keyframes shimmer-sweep {
+	0% { transform: translateX(-100%); }
+	100% { transform: translateX(100%); }
+}
+
+.shimmer {
+	position: relative;
+	overflow: hidden;
+	background-color: #DDE5C8; /* matches existing skeleton bg */
+}
+
+.shimmer::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.45), rgba(255,255,255,0));
+	animation: shimmer-sweep 1.4s infinite;
+}

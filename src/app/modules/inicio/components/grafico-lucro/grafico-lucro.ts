@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { LineChartModule, type Color, ScaleType } from '@swimlane/ngx-charts';
+import { AnaliseService, PeriodoGrafico } from '@modules/inicio/services/analise.service';
+import { NotificacaoService } from '@core';
 
 @Component({
   selector: 'app-grafico-lucro',
@@ -9,26 +11,16 @@ import { LineChartModule, type Color, ScaleType } from '@swimlane/ngx-charts';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraficoLucro {
-  // Dados estáticos de exemplo (serão substituídos pela API depois)
-  protected readonly dados = signal([
-    {
-      name: 'Lucro',
-      series: [
-        { name: 'Jan', value: 12000 },
-        { name: 'Fev', value: 9500 },
-        { name: 'Mar', value: 14750 },
-        { name: 'Abr', value: 13100 },
-        { name: 'Mai', value: 16000 },
-        { name: 'Jun', value: 17250 },
-        { name: 'Jul', value: 15500 },
-        { name: 'Ago', value: 18100 },
-        { name: 'Set', value: 16900 },
-        { name: 'Out', value: 19050 },
-        { name: 'Nov', value: 21000 },
-        { name: 'Dez', value: 23500 },
-      ],
-    },
+  private analiseService = inject(AnaliseService);
+  private notificacao = inject(NotificacaoService);
+  // Input para controlar o período do gráfico: 'SEMANA' | 'MES' | 'ANO'
+  readonly periodo = input<PeriodoGrafico>('SEMANA');
+
+  // Dados do gráfico vindos da API
+  protected readonly dados = signal<{ name: string; series: { name: string; value: number }[] }[]>([
+    { name: 'Lucro', series: [] }
   ]);
+  protected readonly isLoading = signal(false);
 
   // Opções do gráfico
   protected readonly legend = signal(false);
@@ -41,4 +33,27 @@ export class GraficoLucro {
     selectable: true,
     name: 'custom',
   };
+
+  constructor() {
+    // Recarrega o gráfico quando o período mudar
+    effect(() => {
+      const p = this.periodo();
+      this.carregarGrafico(p);
+    });
+  }
+
+  private carregarGrafico(periodo: PeriodoGrafico) {
+    this.isLoading.set(true);
+    this.analiseService.getLucroGrafico(periodo).subscribe({
+      next: (lista) => {
+        const series = lista.map((p) => ({ name: p.periodo, value: p.lucro ?? 0 }));
+        this.dados.set([{ name: 'Lucro', series }]);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+        this.notificacao.mostrarNotificacao('Falha ao carregar dados do gráfico de lucro.', 'error');
+      }
+    });
+  }
 }

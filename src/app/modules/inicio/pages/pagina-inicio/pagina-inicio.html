@@ -1,5 +1,4 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-4">
-  <!-- Coluna 1 -->
   <div class="flex flex-col gap-6">
     <!-- Estoque atual -->
     <section class="w-full rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
@@ -28,73 +27,6 @@
 
       <app-grafico-produto></app-grafico-produto>
 
-      <div class="mb-4 flex items-center">
-        <svg class="mr-2 h-6 w-6 text-gray-600" fill="currentColor" aria-hidden="true">
-          <use href="/sprite.svg#icon-estoque"></use>
-        </svg>
-        <span class="text-sm font-medium text-gray-600">Estoque por peça</span>
-      </div>
-
-      <div class="flex gap-6">
-        <!-- Donut Chart -->
-        <div class="relative h-40 w-40 flex-shrink-0">
-          <svg class="h-full w-full" viewBox="0 0 36 36" aria-hidden="true">
-            <path
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none" stroke="#CFDAB3" stroke-width="6" />
-            <path
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none" stroke="#99A86C" stroke-width="6" stroke-dasharray="60, 100" />
-            <path
-              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-              fill="none" stroke="#BCC89A" stroke-width="6" stroke-dasharray="25, 100" stroke-dashoffset="-60" />
-          </svg>
-        </div>
-
-        <!-- Legend/List -->
-        <div class="flex-1">
-          <div class="mb-4 flex items-center justify-end text-sm">
-            <button class="text-gray-500 hover:text-gray-700" aria-label="Anterior">&lt;</button>
-            <span class="mx-2 font-medium text-gray-700">1/4</span>
-            <button class="text-gray-500 hover:text-gray-700" aria-label="Próximo">&gt;</button>
-          </div>
-
-          <ul class="space-y-3">
-            <li>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="h-3 w-3 rounded-full" style="background-color: #99a86c"></span>
-                  <span class="text-sm font-medium text-gray-800">Anel</span>
-                </div>
-                <span class="text-sm text-gray-700">200 peças</span>
-              </div>
-              <div class="ml-5 text-xs text-gray-500">custo: R$ 3000,00</div>
-            </li>
-
-            <li>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="h-3 w-3 rounded-full" style="background-color: #bcc89a"></span>
-                  <span class="text-sm font-medium text-gray-800">Berloque</span>
-                </div>
-                <span class="text-sm text-gray-700">200 peças</span>
-              </div>
-              <div class="ml-5 text-xs text-gray-500">custo: R$ 3000,00</div>
-            </li>
-
-            <li>
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                  <span class="h-3 w-3 rounded-full" style="background-color: #cfdab3"></span>
-                  <span class="text-sm font-medium text-gray-800">Bracelete</span>
-                </div>
-                <span class="text-sm text-gray-700">200 peças</span>
-              </div>
-              <div class="ml-5 text-xs text-gray-500">custo: R$ 3000,00</div>
-            </li>
-          </ul>
-        </div>
-      </div>
     </section>
 
     <!-- Placeholder card para alinhar com a referência -->
