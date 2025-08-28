@@ -4,9 +4,15 @@ import { Layout } from './core/layout/layout';
 export const routes: Routes = [
   {
     path: '',
+  pathMatch: 'full',
+    loadComponent: () =>
+      import('./pages/landing/landing').then((m) => m.Landing),
+  },
+
+  {
+    path: '',
     component: Layout,
     children: [
-      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
 
       {
         path: 'inicio',
