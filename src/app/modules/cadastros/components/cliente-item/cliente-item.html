@@ -1,42 +1,48 @@
 <div class="pb-6">
   <div class="title-medium text-on-surface">{{ cliente().nome }}</div>
-  <div class="mb-4 body-large text-on-surface-variant" style="min-height: 1.25rem;">
+  <div
+    class="mb-4 body-large text-on-surface-variant"
+    style="min-height: 1.25rem"
+  >
     {{ cliente().descricao }}
   </div>
   <div class="mt-1 flex flex-col gap-0.5">
-  <span
-    class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
-  >
-    <svg class="icone" aria-hidden="true" focusable="false">
-      <use [attr.href]="'/sprite.svg#icon-phone'"></use>
-    </svg>
-    {{ cliente().telefone }}
-  </span>
-  @if (cliente().email) {
-    <span class="inline-flex items-center gap-1.5 text-sm leading-tight text-on-surface-variant">
+    <span
+      class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant"
+    >
+      <svg class="icone" aria-hidden="true" focusable="false">
+        <use [attr.href]="'/sprite.svg#icon-phone'"></use>
+      </svg>
+      {{ cliente().telefone }}
+    </span>
+    @if (cliente().email) {
+    <span
+      class="inline-flex items-center gap-1.5 text-sm leading-tight text-on-surface-variant"
+    >
       <svg class="icone" aria-hidden="true" focusable="false">
         <use [attr.href]="'/sprite.svg#icon-email'"></use>
       </svg>
       {{ cliente().email }}
     </span>
-  } @else if (cliente().cpf) {
-    <span class="inline-flex items-center gap-1.5 text-sm leading-tight text-on-surface-variant">
+    } @else if (cliente().cpf) {
+    <span
+      class="inline-flex items-center gap-1.5 text-sm leading-tight text-on-surface-variant"
+    >
       <svg class="icone" aria-hidden="true" focusable="false">
         <use [attr.href]="'/sprite.svg#icon-identidade'"></use>
       </svg>
       {{ cliente().cpf }}
     </span>
-  }
+    }
   </div>
 </div>
-@if (cliente().dataCriacao || cliente().dataAtualizacao) {
-  <div class="absolute bottom-4 right-4 text-xs text-on-surface-variant opacity-70 pointer-events-none select-none">
-    @if (cliente().dataCriacao) {
-      {{ cliente().dataCriacao | date: 'dd/MM/yy HH:mm' }}
-    }
-    @if (cliente().dataCriacao && cliente().dataAtualizacao) { | }
-    @if (cliente().dataAtualizacao) {
-      {{ cliente().dataAtualizacao | date: 'dd/MM/yy HH:mm' }}
-    }
-  </div>
+@if (cliente().dataAtualizacao) {
+<div
+  class="absolute bottom-4 right-4 text-xs text-on-surface-variant opacity-70 pointer-events-none select-none inline-flex items-center gap-1.5"
+>
+  <svg class="w-4 h-4" aria-hidden="true" focusable="false">
+    <use [attr.href]="'/sprite.svg#icon-editar'"></use>
+  </svg>
+  {{ cliente().dataAtualizacao | date : "dd/MM/yy HH:mm" }}
+</div>
 }
