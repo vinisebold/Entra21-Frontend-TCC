@@ -1,35 +1,44 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-4">
   <div class="flex flex-col gap-6">
     <!-- Estoque atual -->
-    <section class="w-full rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
-      <div class="flex items-center mb-2">
-        <svg class="mr-2 h-6 w-6 text-gray-600" fill="currentColor" aria-hidden="true">
-          <use href="/sprite.svg#icon-estoque"></use>
-        </svg>
-        <span class="text-sm font-medium text-gray-600">Estoque atual</span>
-      </div>
-
-      <div class="text-[40px] leading-none font-bold text-gray-900 tracking-tight">231</div>
-
-      <div class="mt-1 text-sm text-gray-500">
-        Custo total em estoque: <span class="font-semibold">R$ 6.321,22</span>
+    <section
+      class="w-full rounded-2xl border border-gray-200 bg-surface-container shadow p-1"
+    >
+      <div class="flex items-start gap-3 rounded-xl p-4">
+        <span
+          class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md text-on-surface-variant"
+        >
+          <svg class="h-5 w-5" fill="currentColor" aria-hidden="true">
+            <use href="/sprite.svg#icon-inventario"></use>
+          </svg>
+        </span>
+        <div>
+          <div class="body-large text-on-surface-variant">Estoque Atual</div>
+          <div class="title-big text-on-surface leading-8">231</div>
+          <div class="mt-1 body-medium text-on-surface">
+            Custo total em estoque:
+            <span class="font-semibold">R$ 6.321,22</span>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Análise de Lucro -->
     <app-analise-lucro></app-analise-lucro>
-    
   </div>
 
   <!-- Coluna 2 -->
   <div class="flex flex-col gap-6">
-    <section class="w-full rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
-
+    <section
+      class="w-full rounded-2xl border border-gray-200 bg-surface-container shadow p-6"
+    >
       <app-grafico-produto></app-grafico-produto>
-
     </section>
 
     <!-- Placeholder card para alinhar com a referência -->
-    <section aria-hidden="true" class="w-full min-h-[300px] rounded-2xl border border-gray-200 bg-white shadow-sm p-5"></section>
+    <section
+      aria-hidden="true"
+      class="w-full min-h-[300px] rounded-2xl border border-gray-200 bg-white shadow-sm p-5"
+    ></section>
   </div>
 </div>

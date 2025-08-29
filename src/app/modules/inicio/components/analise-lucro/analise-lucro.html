@@ -1,9 +1,14 @@
 <!-- Análise de Lucro -->
 <section
-  class="w-full rounded-2xl border border-gray-200 bg-white shadow-sm p-5 space-y-4"
+  class="w-full rounded-2xl border border-gray-200 bg-surface-container shadow p-6 space-y-4"
 >
   <header class="mb-3">
-    <h2 class="text-[15px] font-medium text-gray-700">Análise de Lucro</h2>
+    <div class="flex items-center gap-2">
+      <svg class="h-5 w-5 text-on-surface-variant" fill="currentColor" aria-hidden="true">
+        <use href="/sprite.svg#icon-dinheiro"></use>
+      </svg>
+      <h2 class="body-large text-on-surface-variant">Análise Lucro</h2>
+    </div>
   </header>
 
   <div class="mb-4 flex items-center justify-between">
@@ -21,18 +26,18 @@
   <!-- Destaque de Lucro -->
   <div class="flex items-start gap-3 rounded-xl bg-[#E6EED3] p-4">
     <span
-      class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md bg-[#DDE5C8] text-[#7B8A52]"
+      class="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md text-on-surface-variant"
     >
-      <svg class="h-4 w-4" fill="currentColor" aria-hidden="true">
+      <svg class="h-5 w-5" fill="currentColor" aria-hidden="true">
         <use href="/sprite.svg#icon-dinheiro"></use>
       </svg>
     </span>
     <div>
-      <div class="text-sm text-gray-600">Lucro Total</div>
-  @if (isLoading()) {
-  <div class="h-8 w-38 rounded shimmer"></div>
+      <div class="body-large text-on-surface-variant">Lucro</div>
+      @if (isLoading()) {
+      <div class="h-8 w-38 rounded shimmer"></div>
       } @else {
-      <div class="text-3xl font-bold leading-8 text-gray-900">
+      <div class="title-big text-on-surface leading-8 text-gray-900">
         {{ lucro() ?? 0 | currency : "BRL" : "symbol" : "1.2-2" }}
       </div>
       }

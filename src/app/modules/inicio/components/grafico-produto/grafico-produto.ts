@@ -1,6 +1,17 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { PieChartModule, type Color, ScaleType } from '@swimlane/ngx-charts';
+import {
+  EstoqueService,
+  type ResumoCategoria,
+} from '../../services/estoque.service';
 
 @Component({
   selector: 'app-grafico-produto',
@@ -9,24 +20,43 @@ import { PieChartModule, type Color, ScaleType } from '@swimlane/ngx-charts';
   styleUrl: './grafico-produto.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GraficoProduto {
-  // Dataset estático (pode ser trocado por dados reais depois)
-  // Cada categoria tem quantidade de peças e soma de preços (em centavos)
-  protected readonly categorias = signal([
-    { name: 'Anel', quantidade: 200, somaPreco: 35000 },
-    { name: 'Berloque', quantidade: 150, somaPreco: 27000 },
-    { name: 'Bracelete', quantidade: 120, somaPreco: 22000 },
-    { name: 'Pingente', quantidade: 90, somaPreco: 18000 },
-    { name: 'Berloque', quantidade: 190, somaPreco: 19000 },
-    { name: 'Piercing', quantidade: 120, somaPreco: 12000 },
-    { name: 'Colar', quantidade: 40, somaPreco: 8000 },
-  ]);
+export class GraficoProduto implements OnInit {
+  private readonly estoqueService = inject(EstoqueService);
 
-  // Paginação de 3 em 3
+  // Dados remotos normalizados para o componente
+  protected readonly categorias = signal<
+    { name: string; quantidade: number; somaPreco: number }[]
+  >([]);
+  protected readonly carregando = signal<boolean>(true);
+  protected readonly erro = signal<string | null>(null);
+
+  ngOnInit(): void {
+    // Carrega dados na inicialização
+    this.carregando.set(true);
+    this.erro.set(null);
+    this.estoqueService.getResumoPorCategoria().subscribe({
+      next: (res: ResumoCategoria[]) => {
+        // Mapeia API -> modelo local
+        const mapped = res.map((r) => ({
+          name: r.categoria,
+          quantidade: r.quantidade,
+          // API já retorna em reais; mantemos sem converter para centavos
+          somaPreco: r.valorTotalCusto,
+        }));
+        this.categorias.set(mapped);
+        this.page.set(0);
+        this.carregando.set(false);
+      },
+      error: () => {
+        this.erro.set('Não foi possível carregar o resumo de estoque.');
+        this.carregando.set(false);
+      },
+    });
+  }
+
   protected readonly pageSize = 3;
   protected readonly page = signal(0);
 
-  // Slice atual conforme página
   protected readonly categoriasPagina = computed(() => {
     const start = this.page() * this.pageSize;
     return this.categorias().slice(start, start + this.pageSize);
@@ -45,15 +75,21 @@ export class GraficoProduto {
     name: 'estoque-produto',
   };
 
-  // As cores dos pontos na lista seguem o índice local da página, alinhado ao donut
-
   // Header: mostra página atual/total de páginas
-  protected readonly totalPages = computed(() => Math.max(1, Math.ceil(this.categorias().length / this.pageSize)));
-  protected readonly paginaTexto = computed(() => `${this.page() + 1}/${this.totalPages()}`);
+  protected readonly totalPages = computed(() =>
+    Math.max(1, Math.ceil(this.categorias().length / this.pageSize))
+  );
+  protected readonly paginaTexto = computed(
+    () => `${this.page() + 1}/${this.totalPages()}`
+  );
 
   // Lista exibida: exatamente os itens da página
   protected readonly itensVisiveis = computed(() => this.categoriasPagina());
 
-  protected prev() { if (this.page() > 0) this.page.update((p) => p - 1); }
-  protected next() { if (this.page() < this.totalPages() - 1) this.page.update((p) => p + 1); }
+  protected prev() {
+    if (this.page() > 0) this.page.update((p) => p - 1);
+  }
+  protected next() {
+    if (this.page() < this.totalPages() - 1) this.page.update((p) => p + 1);
+  }
 }
