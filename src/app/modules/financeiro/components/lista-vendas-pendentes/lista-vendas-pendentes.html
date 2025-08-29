@@ -84,7 +84,7 @@
             <span>{{ v.parcelasPagas }}/{{ v.totalParcelas }}</span>
           </span>
           <span
-            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant bg-surface-container p-1 rounded-xl border-2 border-surface-container2"
+            class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant bg-surface-container p-1 rounded-xl border-1 border-surface-container2"
             >{{ v.dataVencimento || "-" }}
           </span>
         </div>
@@ -96,7 +96,7 @@
               <use href="/sprite.svg#icon-dinheiro"></use>
             </svg>
             <span
-              class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant bg-secundary p-1 rounded-xl border-2 border-primary"
+              class="inline-flex items-center gap-1.5 body-medium text-on-surface-variant bg-secundary p-1 rounded-xl border-1 border-primary"
               >{{ v.dataVencimento || "-" }}
             </span>
           </span>
@@ -106,7 +106,7 @@
         <p class="body-large text-on-surface-variant">
           Venda: R$ {{ v.precoVenda | number : "1.2-2" }}
         </p>
-        <div class="bg-secundary text-on-surface-variant rounded-xl px-3 py-2 text-sm border-2 border-primary">
+        <div class="bg-secundary text-on-surface-variant rounded-xl px-3 py-2 text-sm border-1 border-primary">
           Lucro: R$ {{ v.lucro | number : "1.2-2" }}
         </div>
         <div class="flex gap-2 mt-auto">

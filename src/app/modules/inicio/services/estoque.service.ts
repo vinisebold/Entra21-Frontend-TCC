@@ -9,6 +9,11 @@ export interface ResumoCategoria {
   valorTotalCusto: number; // valores em moeda (R$)
 }
 
+export interface ResumoGlobal {
+  quantidadeTotal: number;
+  valorTotalCusto: number; // valores em moeda (R$)
+}
+
 @Injectable({ providedIn: 'root' })
 export class EstoqueService {
   private http = inject(HttpClient);
@@ -17,5 +22,10 @@ export class EstoqueService {
   getResumoPorCategoria(): Observable<ResumoCategoria[]> {
     const url = `${this.baseUrl}/estoque/resumo-por-categoria`;
     return this.http.get<ResumoCategoria[]>(url);
+  }
+
+  getResumoGlobal(): Observable<ResumoGlobal> {
+    const url = `${this.baseUrl}/estoque/resumo-global`;
+    return this.http.get<ResumoGlobal>(url);
   }
 }

@@ -14,11 +14,20 @@
         </span>
         <div>
           <div class="body-large text-on-surface-variant">Estoque Atual</div>
-          <div class="title-big text-on-surface leading-8">231</div>
-          <div class="mt-1 body-medium text-on-surface">
-            Custo total em estoque:
-            <span class="font-semibold">R$ 6.321,22</span>
-          </div>
+
+          @if (carregandoResumo()) {
+            <div class="title-big text-on-surface leading-8">—</div>
+            <div class="mt-1 body-medium text-on-surface">Carregando…</div>
+          } @else if (erroResumo()) {
+            <div class="title-big text-error leading-8">—</div>
+            <div class="mt-1 body-medium text-error">{{ erroResumo() }}</div>
+          } @else {
+            <div class="title-big text-on-surface leading-8">{{ quantidadeTotal() }}</div>
+            <div class="mt-1 body-medium text-on-surface">
+              Custo total em estoque:
+              <span class="font-semibold">{{ valorTotalCustoFormatado() }}</span>
+            </div>
+          }
         </div>
       </div>
     </section>
