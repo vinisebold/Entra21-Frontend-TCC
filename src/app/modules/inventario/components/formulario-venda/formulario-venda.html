@@ -197,16 +197,7 @@
         </fieldset>
 
         <!-- Rodapé -->
-        <div class="flex items-center justify-end pt-2 gap-4">
-          <button
-            type="button"
-            (click)="onFecharClick()"
-            [disabled]="isLoading()"
-            class="px-4 py-2 text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition disabled:opacity-50"
-          >
-            Cancelar
-          </button>
-
+        <div class="flex items-center justify-between pt-2">
           <app-botao
             [type]="'submit'"
             [label]="'Registrar'"
@@ -215,6 +206,15 @@
             [loading]="isLoading()"
             [loadingLabel]="'Registrando...'"
           ></app-botao>
+
+          <button
+            type="button"
+            (click)="onFecharClick()"
+            [disabled]="isLoading()"
+            class="px-4 py-2 text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition disabled:opacity-50"
+          >
+            Cancelar
+          </button>
         </div>
       </form>
     </div>
