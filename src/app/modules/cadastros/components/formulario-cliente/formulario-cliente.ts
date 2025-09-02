@@ -16,10 +16,11 @@ import {
 import { ClienteService, ClienteModel } from '@modules/cadastros';
 import { TelefoneMask, CpfCnpjMask } from '@shared';
 import { finalize } from 'rxjs';
+import { Botao } from '../../../../shared/components/botao/botao';
 
 @Component({
   selector: 'app-formulario-cliente',
-  imports: [ReactiveFormsModule, TelefoneMask, CpfCnpjMask],
+  imports: [ReactiveFormsModule, TelefoneMask, CpfCnpjMask, Botao],
   templateUrl: './formulario-cliente.html',
   styleUrl: './formulario-cliente.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

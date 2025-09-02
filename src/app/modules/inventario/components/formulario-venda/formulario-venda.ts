@@ -30,11 +30,12 @@ import { ClienteModel, ClienteService } from '@modules/cadastros';
 import { NotificacaoService } from '@core';
 import { DinheiroMaskTsDirective } from '@shared';
 import { CommonModule } from '@angular/common';
+import { Botao } from '../../../../shared/components/botao/botao';
 
 @Component({
   selector: 'app-formulario-venda',
   standalone: true,
-  imports: [ReactiveFormsModule, DinheiroMaskTsDirective, CommonModule],
+  imports: [ReactiveFormsModule, DinheiroMaskTsDirective, CommonModule, Botao],
   templateUrl: './formulario-venda.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

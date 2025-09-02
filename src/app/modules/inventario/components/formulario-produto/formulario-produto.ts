@@ -10,6 +10,7 @@ import { ProdutoService } from '@modules/inventario';
 import { FornecedorService } from '@modules/cadastros';
 import { NotificacaoService } from '@core';
 import { DinheiroMaskTsDirective } from "../../../../shared/directives/dinheiro-mask";
+import { Botao } from '../../../../shared/components/botao/botao';
 
 // Interface para as opções de acabamento no template
 interface OpcaoAcabamento {
@@ -21,7 +22,7 @@ interface OpcaoAcabamento {
 @Component({
   selector: 'app-formulario-produto',
   standalone: true,
-  imports: [ReactiveFormsModule, NgOptimizedImage, DinheiroMaskTsDirective],
+  imports: [ReactiveFormsModule, NgOptimizedImage, DinheiroMaskTsDirective, Botao],
   templateUrl: './formulario-produto.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

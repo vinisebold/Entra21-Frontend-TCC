@@ -24,11 +24,12 @@ import {
 import { ClienteModel, ClienteService } from '@modules/cadastros';
 import { NotificacaoService } from '@core';
 import { DinheiroMaskTsDirective } from '@shared';
+import { Botao } from '../../../../shared/components/botao/botao';
 
 @Component({
   selector: 'app-registrar-venda',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, DinheiroMaskTsDirective],
+  imports: [CommonModule, ReactiveFormsModule, DinheiroMaskTsDirective, Botao],
   templateUrl: './registrar-venda.html',
   styleUrl: './registrar-venda.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

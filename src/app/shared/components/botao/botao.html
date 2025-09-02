@@ -1,13 +1,21 @@
 <button
-  type="button"
-  class="rounded-full h-12 px-4 flex items-center gap-2 w-full md:w-auto body-large cursor-pointer transition duration-200 bg-primary text-white hover:bg-primary2 active:bg-primary hover:shadow-btn"
-  [class.opacity-50]="disabled()"
-  [class.cursor-not-allowed]="disabled()"
-  [disabled]="disabled()"
+  [attr.type]="type()"
+  class="rounded-full h-11 px-4 inline-flex items-center gap-2 w-full md:w-auto text-sm font-medium cursor-pointer transition duration-200 bg-[var(--color-primary)] text-[var(--color-surface)] hover:bg-[var(--color-primary2)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 active:translate-y-px shadow-[0_2px_0_rgba(0,0,0,0.06)]"
+  [class.opacity-50]="disabled() || loading()"
+  [class.cursor-not-allowed]="disabled() || loading()"
+  [disabled]="disabled() || loading()"
   (click)="onClick()"
 >
-  <svg class="icone" aria-hidden="true" focusable="false">
-    <use [attr.href]="'/sprite.svg#icon-adicionar'"></use>
-  </svg>
-  {{ label() }}
+  @if (!loading()) {
+    <svg class="icone" aria-hidden="true" focusable="false">
+      <use [attr.href]="'/sprite.svg#' + icon()"></use>
+    </svg>
+    {{ label() }}
+  } @else {
+    <svg class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+    <span>{{ loadingLabel() }}</span>
+  }
 </button>

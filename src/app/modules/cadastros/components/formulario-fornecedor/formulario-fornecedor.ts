@@ -15,10 +15,11 @@ import {
 import { FornecedorService, FornecedorModel } from '@modules/cadastros';
 import { TelefoneMask, CnpjMask } from '@shared';
 import { finalize } from 'rxjs';
+import { Botao } from '../../../../shared/components/botao/botao';
 
 @Component({
   selector: 'app-formulario-fornecedor',
-  imports: [ReactiveFormsModule, TelefoneMask, CnpjMask],
+  imports: [ReactiveFormsModule, TelefoneMask, CnpjMask, Botao],
   templateUrl: './formulario-fornecedor.html',
   styleUrl: './formulario-fornecedor.scss',
 })
