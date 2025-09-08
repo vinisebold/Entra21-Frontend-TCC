@@ -16,13 +16,12 @@ export class ListaProdutos {
   produtos = input.required<ProdutoModel[]>();
   isLoading = input<boolean>(false);
   erro = input<string | null>(null);
-  // direção atual da ordenação para exibição do indicador visual
   ordemDataCriacao = input<'asc' | 'desc'>('desc');
-  // evento para o pai alternar a ordenação e recarregar a lista
   toggleOrdenacaoDataCriacao = output<void>();
   mostrarModalVenda = signal(false);
   produtoSelecionado = signal<ProdutoModel | null>(null);
   vendaConcluida = output<VendaResponse>();
+  excluirProduto = output<number>();
 
   acabamentoImagens: Record<AcabamentoProduto, string> = {
     DOURADO: 'assets/acabamentos/dourado.png',
@@ -49,7 +48,17 @@ export class ListaProdutos {
   onClickOrdenarDataCriacao(): void {
     this.toggleOrdenacaoDataCriacao.emit();
   }
-
+  // método chamado ao clicar no botão de excluir
+  onClickExcluir(produto: ProdutoModel): void {
+    if (produto.id == null) {
+      console.warn(
+        'Produto sem id, não foi possível excluir. Objeto:',
+        produto
+      );
+      return;
+    }
+    this.excluirProduto.emit(produto.id);
+  }
   private fromLocalDateTimeArray(arr: any): Date | null {
     if (!Array.isArray(arr) || arr.length < 6) return null;
     const [y, m, d, h, min, s, nano = 0] = arr as number[];

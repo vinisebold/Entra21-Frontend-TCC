@@ -181,4 +181,28 @@ export class PaginaInventario {
       this.carregarProdutos(id);
     }
   }
+
+  async onExcluirProduto(id: number): Promise<void> {
+    if (!id) return;
+    const fornecedorId = this.fornecedorSelecionadoId();
+    try {
+      await import('rxjs').then(({ firstValueFrom }) =>
+        firstValueFrom(this.produtoService.deleteProduto(id))
+      );
+      this.notificacaoService.mostrarNotificacao(
+        'Produto excluído com sucesso!',
+        'success'
+      );
+      this.produtos.update((lista) => lista.filter((p) => p.id !== id));
+      if (fornecedorId !== null) {
+        this.carregarProdutos(fornecedorId);
+      }
+    } catch (error) {
+      this.notificacaoService.mostrarNotificacao(
+        'Erro ao excluir produto.',
+        'error'
+      );
+      console.error('[Inventario] Erro ao excluir produto id', id, error);
+    }
+  }
 }
