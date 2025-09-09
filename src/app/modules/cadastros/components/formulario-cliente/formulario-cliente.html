@@ -1,25 +1,21 @@
-<div class="fixed inset-0 z-50 flex items-end justify-end p-4">
+<div class="fixed inset-0 z-50 flex items-end justify-end p-3">
   <div
     role="dialog"
     aria-modal="true"
     aria-labelledby="dialog-title"
-    class="w-full max-w-md rounded-2xl bg-[#FBFAF7] shadow-[0_12px_30px_rgba(0,0,0,0.15)] ring-1 ring-black/5"
+    class="w-full max-w-md rounded-2xl bg-[var(--color-surface-container)] shadow-[0_12px_30px_rgba(0,0,0,0.15)] ring-1 ring-black/5 overflow-hidden"
   >
     <div class="flex items-center justify-between px-5 py-4">
-      <h2 id="dialog-title" class="text-lg font-semibold text-neutral-800">
+      <h2 id="dialog-title" class="title-medium text-[var(--color-on-surface)]">
         Adicionar Cliente
       </h2>
       <button
         aria-label="Fechar"
         (click)="onFecharClick()"
-        class="inline-flex h-8 w-8 items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 hover:text-neutral-700 focus:outline-none focus:ring-2 focus:ring-neutral-300"
+        class="inline-flex h-8 w-8 items-center justify-center rounded-full text-[var(--color-on-surface-variant)] hover:bg-[var(--color-surface-container2)] hover:text-[var(--color-on-surface)] focus:outline-none focus:ring-2 focus:ring-[var(--color-outline)]/30"
       >
-        <svg
-          class="icone text-on-surface-variant"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <use [attr.href]="'/sprite.svg#icon-cancel'"></use>
+        <svg class="icone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
@@ -160,7 +156,7 @@
             type="button"
             (click)="onFecharClick()"
             [disabled]="isLoading()"
-            class="px-4 py-2 text-sm font-medium text-neutral-500 hover:text-neutral-700 disabled:opacity-50"
+            class="px-4 py-2 text-sm font-medium text-[var(--color-on-surface-variant)] hover:text-[var(--color-on-surface)] transition disabled:opacity-50"
           >
             Cancelar
           </button>
