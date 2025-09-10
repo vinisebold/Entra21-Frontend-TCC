@@ -36,6 +36,7 @@ export interface VendaResponse {
   status: StatusVenda;
   totalParcelas: number;
   parcelasPagas: number;
+  valorTotalParcelasPagas: number;
   dataVencimento: string | null;
   dataCriacao: string;
 }

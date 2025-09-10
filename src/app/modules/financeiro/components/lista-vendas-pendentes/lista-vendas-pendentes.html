@@ -104,7 +104,7 @@
             </svg>
             <span
               class="inline-flex items-center gap-1.5 body-large text-on-surface-variant bg-secundary p-1 rounded-xl border-1 border-primary"
-              >{{ v.dataVencimento || "-" }}
+              >Pago: R$ {{ v.valorTotalParcelasPagas | number : '1.2-2' }}
             </span>
           </span>
         </div>
