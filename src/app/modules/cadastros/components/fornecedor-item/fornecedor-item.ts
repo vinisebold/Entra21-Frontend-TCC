@@ -32,10 +32,7 @@ import { FornecedorModel } from '@modules/cadastros';
     </div>
     @if (fornecedor().dataAtualizacao) {
       <div class="absolute bottom-4 right-4 text-xs text-on-surface-variant opacity-70 pointer-events-none select-none inline-flex items-center gap-1.5">
-        <svg class="w-4 h-4" aria-hidden="true" focusable="false">
-          <use [attr.href]="'/sprite.svg#icon-editar'"></use>
-        </svg>
-        {{ fornecedor().dataAtualizacao | date: 'dd/MM/yy HH:mm' }}
+        Editado em: {{ fornecedor().dataAtualizacao | date: 'dd/MM/yy HH:mm' }}
       </div>
     }
   `,
