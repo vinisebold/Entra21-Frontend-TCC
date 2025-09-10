@@ -32,7 +32,7 @@
     @if (carregando()) {
     <ul
       role="list"
-      style="max-height: calc(100vh - 250px); scrollbar-gutter: stable"
+      style="max-height: calc(100vh - 200px); scrollbar-gutter: stable"
       class="flex flex-col overflow-y-auto"
       aria-label="Carregando clientes"
     >
@@ -68,7 +68,7 @@
     } @else {
     <ul
       role="list"
-      style="max-height: calc(100vh - 250px); scrollbar-gutter: stable"
+      style="max-height: calc(100vh - 200px); scrollbar-gutter: stable"
       class="flex flex-col overflow-y-auto transition-opacity duration-200"
       [class.opacity-0]="carregando()"
       [class.opacity-100]="!carregando()"
