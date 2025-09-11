@@ -5,6 +5,8 @@
 @use "@fontsource/inter/400.css" as *;
 @use "@fontsource/inter/200.css" as *;
 
+@import "flatpickr/dist/flatpickr.min.css";
+
 @theme {
   // Cores
   --color-primary: #9fa86d;
@@ -114,4 +116,38 @@ body {
 
 *::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.flatpickr-calendar {
+  font-family: "Inter", sans-serif;
+  background: var(--color-surface);
+  border: 1px solid var(--color-surface-container2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .15);
+}
+
+.flatpickr-day:hover {
+  background: var(--color-secundary);
+}
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.flatpickr-day.today:not(.selected) {
+  border-color: var(--color-outline);
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-weekday {
+  color: var(--color-on-surface-variant);
+}
+
+.flatpickr-time input:hover,
+.flatpickr-time .flatpickr-time-separator,
+.flatpickr-time .flatpickr-am-pm {
+  color: var(--color-on-surface);
 }

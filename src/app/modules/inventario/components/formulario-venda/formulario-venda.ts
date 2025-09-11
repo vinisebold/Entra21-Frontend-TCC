@@ -7,6 +7,10 @@ import {
   OnInit,
   output,
   signal,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+  OnDestroy,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -31,15 +35,20 @@ import { NotificacaoService } from '@core';
 import { DinheiroMaskTsDirective } from '@shared';
 import { CommonModule } from '@angular/common';
 import { Botao } from '../../../../shared/components/botao/botao';
+import flatpickr from 'flatpickr';
+import { Portuguese } from 'flatpickr/dist/l10n/pt.js';
+import { NumeroStepperComponent } from '@shared';
 
 @Component({
   selector: 'app-formulario-venda',
   standalone: true,
-  imports: [ReactiveFormsModule, DinheiroMaskTsDirective, CommonModule, Botao],
+  imports: [ReactiveFormsModule, DinheiroMaskTsDirective, CommonModule, Botao, NumeroStepperComponent],
   templateUrl: './formulario-venda.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormularioVenda implements OnInit {
+export class FormularioVenda
+  implements OnInit, AfterViewInit, OnDestroy
+{
   // --- Entradas e Saídas ---
   produtoParaVender = input.required<ProdutoModel>();
   fechar = output<void>();
@@ -63,15 +72,23 @@ export class FormularioVenda implements OnInit {
   ];
 
   opcoesPagamento = [
-  { nome: 'PIX', id: 'PIX', icon: 'icon-pix' },
-  { nome: 'Dinheiro', id: 'DINHEIRO', icon: 'icon-dinheiro' },
-  { nome: 'Cartão de Crédito', id: 'CARTAO_CREDITO', icon: 'icon-card' },
-  { nome: 'Cartão de Débito', id: 'CARTAO_DEBITO', icon: 'icon-card' },
+    { nome: 'PIX', id: 'PIX', icon: 'icon-pix' },
+    { nome: 'Dinheiro', id: 'DINHEIRO', icon: 'icon-dinheiro' },
+    { nome: 'Cartão de Crédito', id: 'CARTAO_CREDITO', icon: 'icon-card' },
+    { nome: 'Cartão de Débito', id: 'CARTAO_DEBITO', icon: 'icon-card' },
   ];
 
   isCredito = computed(
     () => this.vendaForm.get('formaPagamento')?.value === 'CARTAO_CREDITO'
   );
+
+  situacaoAtual = computed(() => this.vendaForm.get('situacao')?.value as 'PENDENTE' | 'PAGO');
+  isPago = computed(() => this.situacaoAtual() === 'PAGO');
+  isPendente = computed(() => this.situacaoAtual() === 'PENDENTE');
+
+  isSituacao(id: string): boolean {
+    return this.vendaForm.get('situacao')?.value === id;
+  }
 
   // --- Formulário Reativo ---
   vendaForm: FormGroup = this.fb.group({
@@ -79,12 +96,16 @@ export class FormularioVenda implements OnInit {
     situacao: ['PENDENTE', Validators.required],
     formaPagamento: ['PIX', Validators.required],
     precoVenda: [0, [Validators.required, Validators.min(0.01)]],
-  parcelas: [1, [Validators.required, Validators.min(1)]],
-  dataVencimento: [null],
+    parcelas: [1, [Validators.required, Validators.min(1)]],
+    dataVencimento: [null],
   });
 
   // Data mínima de vencimento (hoje)
   readonly todayStr = this.formatDate(new Date());
+
+  @ViewChild('dataVencimentoInput', { static: false })
+  dataVencimentoInput?: ElementRef<HTMLInputElement>;
+  private fpInstance?: flatpickr.Instance; // referência para destruir depois
 
   ngOnInit(): void {
     this.carregarClientes();
@@ -106,6 +127,29 @@ export class FormularioVenda implements OnInit {
       }
       ctrl.updateValueAndValidity({ emitEvent: false });
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.dataVencimentoInput) {
+      this.fpInstance = flatpickr(this.dataVencimentoInput.nativeElement, {
+        locale: Portuguese,
+        dateFormat: 'Y-m-d', // valor enviado ao form (ISO simplificado)
+        altInput: true,
+        altFormat: 'd/m/Y', // mostrado ao usuário
+        minDate: this.todayStr,
+        disableMobile: true, // força o flatpickr em mobile se quiser UI unificada
+        allowInput: true,
+        onChange: (selectedDates, dateStr) => {
+          this.vendaForm.get('dataVencimento')?.setValue(dateStr || null);
+        },
+      });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.fpInstance) {
+      this.fpInstance.destroy();
+    }
   }
 
   async carregarClientes(): Promise<void> {
@@ -159,7 +203,6 @@ export class FormularioVenda implements OnInit {
       return;
     }
 
-
     const parseMoney = (val: unknown): number => {
       if (typeof val === 'number') return val;
       if (typeof val === 'string') {
@@ -210,6 +253,10 @@ export class FormularioVenda implements OnInit {
 
   onFecharClick(): void {
     this.fechar.emit();
+  }
+
+  onStepperChange(n: number) {
+    this.vendaForm.get('parcelas')?.setValue(n);
   }
 
   private formatDate(d: Date): string {

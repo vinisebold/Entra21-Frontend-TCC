@@ -79,7 +79,12 @@
               >Situação</label
             >
             <div
-              class="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--color-surface)] p-1"
+              class="grid grid-cols-2 gap-2 rounded-2xl p-2 transition-colors duration-500 ease-in-out"
+              [style.background]="
+                vendaForm.get('situacao')?.value === 'PAGO'
+                  ? 'var(--color-secundary)'
+                  : 'var(--color-surface)'
+              "
             >
               @for (situacao of opcoesSituacao; track situacao.id) {
               <label class="block">
@@ -90,7 +95,24 @@
                   class="peer sr-only"
                 />
                 <span
-                  class="block cursor-pointer select-none rounded-[10px] py-2.5 text-center text-sm font-medium text-[var(--color-on-surface-variant)] transition-colors peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]"
+                  class="block cursor-pointer select-none rounded-[14px] px-8 py-2.5 text-center text-sm font-medium transition-all duration-400 ease-out will-change-transform will-change-auto"
+                  [style.transition]="
+                    'background-color 0.4s ease, color 0.3s ease, box-shadow 0.35s ease, transform 0.35s ease'
+                  "
+                  [style.background]="
+                    vendaForm.get('situacao')?.value === situacao.id
+                      ? situacao.id === 'PAGO'
+                        ? 'var(--color-primary)'
+                        : 'var(--color-surface-container2)'
+                      : 'transparent'
+                  "
+                  [style.color]="
+                    vendaForm.get('situacao')?.value === situacao.id
+                      ? situacao.id === 'PAGO'
+                        ? 'var(--color-surface)'
+                        : 'var(--color-on-surface-variant)'
+                      : 'var(--color-on-surface-variant)'
+                  "
                 >
                   {{ situacao.nome }}
                 </span>
@@ -105,7 +127,7 @@
               >Forma de Pagamento</label
             >
             <div
-              class="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--color-surface)] p-1"
+              class="grid grid-cols-2 gap-2 rounded-2xl bg-[var(--color-surface)] p-2"
             >
               @for (pagamento of opcoesPagamento; track pagamento.id) {
               <label class="block">
@@ -116,7 +138,7 @@
                   class="peer sr-only"
                 />
                 <span
-                  class="flex items-center justify-center gap-2 cursor-pointer select-none rounded-[10px] py-2.5 text-center text-sm font-medium text-[var(--color-on-surface-variant)] transition-colors peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]"
+                  class="flex items-center justify-center gap-2 cursor-pointer select-none rounded-[10px] py-2 text-center text-sm font-medium text-[var(--color-on-surface-variant)] transition-colors peer-checked:bg-[var(--color-primary)] peer-checked:text-[var(--color-surface)]"
                 >
                   <svg class="w-5 h-5" aria-hidden="true">
                     <use [attr.href]="'/sprite.svg#' + pagamento.icon"></use>
@@ -154,34 +176,37 @@
             </div>
 
             <!-- Parcelas -->
-            <div class="space-y-2">
-              <label class="label-large text-[var(--color-on-surface-variant)]"
+            <div class="flex flex-col space-y-2 justify-self-end items-start w-fit">
+              <label
+                class="label-large text-[var(--color-on-surface-variant)]"
                 >Parcelas</label
               >
-              <div
-                class="relative flex items-center overflow-hidden rounded-xl ring-1 ring-[var(--color-surface-container2)] bg-[var(--color-surface)]"
-              >
-                <input
-                  formControlName="parcelas"
-                  type="number"
-                  min="1"
-                  max="12"
-                  step="1"
-                  placeholder="0"
-                  class="h-10 w-full min-w-0 px-3 pr-10 text-sm bg-transparent outline-none"
-                />
+              <div class="h-8 flex items-center">
+                <app-numero-stepper
+                  [valor]="vendaForm.get('parcelas')?.value || 1"
+                  [min]="1"
+                  [max]="12"
+                  (valorChange)="onStepperChange($event)"
+                  [disabled]="isLoading()"
+                ></app-numero-stepper>
               </div>
             </div>
 
             <!-- Data de Vencimento -->
             <div class="space-y-2 col-span-2">
-              <label class="label-large text-[var(--color-on-surface-variant)]">Data de Vencimento</label>
-              <div class="relative flex items-center overflow-hidden rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]">
+              <label class="label-large text-[var(--color-on-surface-variant)]"
+                >Data de Vencimento</label
+              >
+              <div
+                class="relative flex items-center overflow-hidden rounded-full border border-[var(--color-surface-container2)] bg-[var(--color-surface)]"
+              >
                 <input
+                  #dataVencimentoInput
                   formControlName="dataVencimento"
-                  type="date"
-                  [min]="todayStr"
+                  type="text"
                   class="h-11 w-full appearance-none bg-transparent pl-4 pr-10 text-sm text-[var(--color-on-surface)] outline-none"
+                  placeholder="Selecionar data"
+                  autocomplete="off"
                 />
                 <svg
                   aria-hidden="true"

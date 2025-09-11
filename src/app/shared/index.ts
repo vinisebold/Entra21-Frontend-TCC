@@ -3,6 +3,7 @@ export * from './components/modal/modal';
 export * from './components/nav-bar/nav-bar';
 export * from './components/barra-pesquisa/barra-pesquisa';
 export * from './components/notificacao-toast/notificacao-toast';
+export * from './components/numero-stepper/numero-stepper';
 export * from './directives/cnpj-mask';
 export * from './directives/cpf-mask';
 export * from './directives/cpf-cnpj-mask';
