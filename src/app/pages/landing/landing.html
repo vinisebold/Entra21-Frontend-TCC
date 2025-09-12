@@ -1,89 +1,294 @@
-<div class="bg-white text-gray-700 font-sans min-h-screen">
+<div class="bg-white text-gray-700 font-sans min-h-screen flex flex-col">
   <!-- Header -->
-  <header class="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm">
-    <div class="flex items-center justify-between px-6 h-20 w-full">
+  <header
+    class="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#b7c46d]/20"
+  >
+    <div
+      class="flex items-center justify-between px-6 lg:px-10 h-20 w-full max-w-7xl mx-auto"
+    >
       <!-- Logo -->
-      <a class="flex items-center" routerLink="/">
-        <img ngSrc="assets/logo.png" width="132" height="44" alt="Gleam logo" class="h-11 w-auto" />
+      <a class="flex items-center gap-2 group" routerLink="/">
+        <img
+          ngSrc="assets/logo.png"
+          width="132"
+          height="44"
+          alt="Gleam logo"
+          class="h-11 w-auto transition-transform group-hover:scale-[1.03]"
+        />
       </a>
 
-      <!-- Menu central -->
-      <nav class="hidden md:flex gap-16 text-[#b7c46d] font-semibold text-sm">
-        <a href="#contato" class="hover:opacity-80">Fale conosco</a>
-        <a href="#sobre" class="hover:opacity-80">Sobre nós</a>
+      <!-- Menu desktop -->
+      <nav class="hidden md:flex gap-10 text-[#b7c46d] font-semibold text-sm">
+        <a href="#recursos" class="hover:opacity-80 transition">Recursos</a>
+        <a href="#equipe" class="hover:opacity-80 transition">Equipe</a>
       </nav>
 
       <!-- Ações à direita -->
-      <div class="flex items-center gap-6">
-        <a routerLink="/inicio" class="bg-[#b7c46d] text-white font-bold px-4 py-2 rounded-xl rounded-tr-none shadow-md hover:shadow-lg transition">Entrar</a>
+      <div class="flex items-center gap-4">
+        <a
+          routerLink="/inicio"
+          class="bg-[#b7c46d] text-white font-bold px-5 py-2.5 rounded-xl rounded-tr-none shadow-md hover:shadow-lg hover:bg-[#a8b65f] active:scale-[.97] transition"
+          >Entrar</a
+        >
       </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <main class="pt-20">
-    <section class="flex items-center justify-center min-h-[calc(100vh-5rem)] px-6 text-center">
-      <div class="max-w-3xl">
-        <h1 class="text-[#b7c46d] font-extrabold text-4xl sm:text-5xl lg:text-6xl mb-6 leading-tight">
+  <!-- MAIN CONTENT -->
+  <main class="flex-1">
+    <!-- Hero -->
+    <section
+      class="flex items-center justify-center min-h-[calc(100vh-5rem)] px-6 md:px-10 text-center bg-gradient-to-b from-white to-[#f5f7ee]"
+    >
+      <div class="max-w-3xl mx-auto">
+        <h1
+          class="text-[#b7c46d] font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl mb-6 leading-tight"
+        >
           Gerencie seu negócio com eficiência
         </h1>
-        <p class="text-[#b7c46d]/90 text-base sm:text-lg font-light leading-relaxed">
-          Transforme seu pequeno negócio com nosso site de administração e gerenciamento:
-          simplicidade, eficiência e crescimento ao seu alcance!
+        <p
+          class="text-[#8a9550] text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto"
+        >
+          Centralize estoque, vendas e cadastros em uma plataforma intuitiva e
+          preparada para o crescimento do seu negócio.
         </p>
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#recursos"
+            class="rounded-xl rounded-tr-none bg-[#b7c46d] text-white font-semibold px-8 py-3 shadow-md hover:shadow-lg hover:bg-[#a8b65f] active:scale-[.97] transition"
+            >Ver recursos</a
+          >
+          <a
+            routerLink="/inicio"
+            class="rounded-xl rounded-tr-none border border-[#b7c46d] text-[#b7c46d] font-semibold px-8 py-3 hover:bg-[#b7c46d] hover:text-white transition"
+            >Começar agora</a
+          >
+        </div>
       </div>
+    </section>
+
+    <!-- Recursos / Features -->
+    <section id="recursos" class="py-20 bg-white relative">
+      <div class="mx-auto max-w-7xl px-6 md:px-10">
+        <div class="text-center max-w-3xl mx-auto">
+          <h2
+            class="text-3xl md:text-5xl font-extrabold text-[#b7c46d] tracking-tight"
+          >
+            Nossos recursos
+          </h2>
+          <p class="mt-4 text-[#8a9550] max-w-2xl mx-auto text-sm sm:text-base">
+            Ferramentas criadas para simplificar processos, reduzir erros e
+            maximizar seus resultados.
+          </p>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Card -->
+          <article
+            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-[#b7c46d]">
+                Controle de Estoque
+              </h3>
+              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                Acompanhe entradas, saídas e níveis críticos em tempo real.
+              </p>
+            </div>
+            <div class="mt-5">
+              <span
+                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
+                >Saiba mais</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-[#b7c46d]">
+                Gestão de Vendas
+              </h3>
+              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                Visão clara de performance e análise por categoria ou período.
+              </p>
+            </div>
+            <div class="mt-5">
+              <span
+                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
+                >Saiba mais</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-[#b7c46d]">
+                Integração com Fornecedores
+              </h3>
+              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                Catálogo e custos sempre atualizados para decisões rápidas.
+              </p>
+            </div>
+            <div class="mt-5">
+              <span
+                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
+                >Saiba mais</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-[#b7c46d]">
+                Relatórios Inteligentes
+              </h3>
+              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                Indicadores essenciais para acompanhar crescimento e margens.
+              </p>
+            </div>
+            <div class="mt-5">
+              <span
+                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
+                >Saiba mais</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-[#b7c46d]">
+                Clientes & Fornecedores
+              </h3>
+              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                Cadastre e gerencie relações comerciais de forma organizada.
+              </p>
+            </div>
+            <div class="mt-5">
+              <span
+                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
+                >Saiba mais</span
+              >
+            </div>
+          </article>
+
+          <article
+            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
+          >
+            <div>
+              <h3 class="text-lg font-semibold text-[#b7c46d]">
+                Fluxo Financeiro
+              </h3>
+              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
+                Acompanhe vendas pendentes e quitadas com clareza.
+              </p>
+            </div>
+            <div class="mt-5">
+              <span
+                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
+                >Saiba mais</span
+              >
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipe -->
+    <section id="equipe" class="py-24 bg-[#f5f7ee] relative overflow-hidden">
+      <!-- Fundo sutil com padrão -->
+      <div
+        class="pointer-events-none absolute inset-0 opacity-[0.35] mix-blend-multiply"
+        style="
+          background-image: radial-gradient(
+            circle at 1px 1px,
+            #b7c46d33 1px,
+            transparent 0
+          );
+          background-size: 22px 22px;
+        "
+      ></div>
+
+      <div class="relative mx-auto max-w-7xl px-6 md:px-10">
+        <div class="text-center max-w-2xl mx-auto">
+          <span
+            class="block w-16 h-1 mx-auto bg-[#b7c46d] rounded-full mb-6"
+          ></span>
+          <h2
+            class="text-3xl md:text-5xl font-extrabold text-[#b7c46d] tracking-tight"
+          >
+            Nossa equipe
+          </h2>
+          <p class="mt-5 text-[#8a9550] text-sm sm:text-base leading-relaxed">
+            Um time multidisciplinar comprometido em entregar experiência
+            simples, confiável e escalável para o seu negócio.
+          </p>
+        </div>
+
+        <div class="mt-16 space-y-10">
+          <!-- Primeira linha: 2 cards -->
+          <div class="grid gap-8 sm:grid-cols-2">
+            @for (m of membros().slice(0,2); track m.nome) {
+            <app-card-pessoa
+              [nome]="m.nome"
+              [email]="m.email"
+              [telefone]="m.telefone"
+              [avatar]="m.avatar"
+              [githubUrl]="m.githubUrl"
+              [linkedinUrl]="m.linkedinUrl"
+              [contribuicoes]="m.contribuicoes"
+            ></app-card-pessoa>
+            }
+          </div>
+          <!-- Segunda linha: 3 cards -->
+          <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            @for (m of membros().slice(2); track m.nome) {
+            <app-card-pessoa
+              [nome]="m.nome"
+              [email]="m.email"
+              [telefone]="m.telefone"
+              [avatar]="m.avatar"
+              [githubUrl]="m.githubUrl"
+              [linkedinUrl]="m.linkedinUrl"
+              [contribuicoes]="m.contribuicoes"
+            ></app-card-pessoa>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Glow decorativo -->
+      <div
+        class="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full opacity-40 blur-3xl"
+        style="
+          background: radial-gradient(
+            circle at center,
+            #b7c46d33,
+            transparent 70%
+          );
+        "
+      ></div>
     </section>
   </main>
 
-  <!-- FEATURES -->
-  <section id="features" class="py-16 bg-white">
-    <div class="mx-auto max-w-7xl px-6">
-      <h2 class="text-4xl md:text-5xl font-extrabold text-[#b7c46d] text-center">
-        Nossos recursos
-      </h2>
-      <p class="mt-4 text-center text-[#b7c46d]/80 max-w-2xl mx-auto">
-        Elementos projetados para facilitar sua gestão, com simplicidade e eficiência.
-      </p>
-
-      <div class="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Card 1 -->
-        <article class="rounded-xl bg-white shadow-md hover:shadow-lg ring-1 ring-[#b7c46d]/20 transition-all">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-[#b7c46d]">Controle de Estoque</h3>
-            <p class="mt-2 text-gray-600">Acompanhe entradas e saídas em tempo real.</p>
-            <div class="mt-4 flex gap-3">
-              <a href="#cta" class="rounded-full bg-[#b7c46d] hover:bg-[#9daa55] text-white text-sm px-4 py-2 font-medium">Conhecer</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 2 -->
-        <article class="rounded-xl bg-white shadow-md hover:shadow-lg ring-1 ring-[#b7c46d]/20 transition-all">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-[#b7c46d]">Gestão de Vendas</h3>
-            <p class="mt-2 text-gray-600">Relatórios claros e desempenho por coleção.</p>
-            <div class="mt-4 flex gap-3">
-              <a href="#cta" class="rounded-full bg-[#b7c46d] hover:bg-[#9daa55] text-white text-sm px-4 py-2 font-medium">Conhecer</a>
-            </div>
-          </div>
-        </article>
-
-        <!-- Card 3 -->
-        <article class="rounded-xl bg-white shadow-md hover:shadow-lg ring-1 ring-[#b7c46d]/20 transition-all">
-          <div class="p-6">
-            <h3 class="text-xl font-semibold text-[#b7c46d]">Integração com Fornecedores</h3>
-            <p class="mt-2 text-gray-600">Atualização de custos e catálogo sincronizado.</p>
-            <div class="mt-4 flex gap-3">
-              <a href="#cta" class="rounded-full bg-[#b7c46d] hover:bg-[#9daa55] text-white text-sm px-4 py-2 font-medium">Conhecer</a>
-            </div>
-          </div>
-        </article>
+  <!-- Footer -->
+  <footer class="mt-auto bg-[#f5f7ee] border-t border-[#b7c46d]/20">
+    <div
+      class="max-w-7xl mx-auto px-6 md:px-10 py-10 flex flex-col md:flex-row gap-6 md:gap-0 items-center justify-between text-sm"
+    >
+      <p class="text-[#8a9550]">Equipe Gleam.</p>
+      <div class="flex gap-6 text-[#b7c46d] font-medium">
+        <a href="#recursos" class="hover:opacity-80">Recursos</a>
+        <a href="#equipe" class="hover:opacity-80">Equipe</a>
+        <a routerLink="/inicio" class="hover:opacity-80">Entrar</a>
       </div>
     </div>
-  </section>
-
-  <!-- Anchor sections -->
-  <section id="contato" class="hidden"></section>
-  <section id="sobre" class="hidden"></section>
-  <section id="cta" class="hidden"></section>
+  </footer>
 </div>

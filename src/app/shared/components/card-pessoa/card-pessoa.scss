@@ -1,0 +1,83 @@
+// Estilos específicos do card de pessoa alinhados à estética da landing
+:host {
+  display: block;
+}
+
+.card-pessoa {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, #ffffff 0%, #f9fbea 120%);
+}
+
+.card-pessoa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, #b7c46d15, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.card-pessoa:hover::before {
+  opacity: 1;
+}
+
+.foto-wrapper {
+  position: relative;
+  border-radius: 1.2rem; /* mantém quadrada com cantos suaves */
+  background: linear-gradient(135deg, #b7c46d 0%, #d5e08a 100%);
+  padding: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 22px -6px rgba(183, 196, 109, 0.35),
+    0 2px 6px -2px rgba(0, 0, 0, 0.15);
+  transition: transform 0.6s cubic-bezier(0.16, 0.8, 0.24, 1),
+    box-shadow 0.5s ease;
+}
+.card-pessoa:hover .foto-wrapper {
+  transform: translateY(-4px) rotateX(8deg) rotateY(-6deg) scale(1.02);
+  box-shadow: 0 10px 30px -8px rgba(183, 196, 109, 0.45),
+    0 4px 10px -2px rgba(0, 0, 0, 0.2);
+}
+
+.foto-wrapper img {
+  border-radius: 0.9rem; /* imagem continua quadrada mas suavizada */
+  filter: saturate(1.05) contrast(1.05);
+  transition: transform 0.9s ease, filter 0.5s ease;
+}
+.card-pessoa:hover .foto-wrapper img {
+  transform: scale(1.06);
+  filter: saturate(1.15) contrast(1.08);
+}
+
+/* Bullet custom */
+.bullet {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 0.55rem;
+  background: radial-gradient(circle at 30% 30%, #b7c46d, #8a9550);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px #b7c46d22;
+}
+
+/* Acessibilidade hover/focus */
+.card-pessoa a:focus-visible {
+  outline: 2px solid #b7c46d;
+  outline-offset: 3px;
+  border-radius: 0.75rem;
+}
+
+/* Animação de entrada opcional */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+:host .card-pessoa {
+  animation: fade-in-up 0.8s ease both;
+}

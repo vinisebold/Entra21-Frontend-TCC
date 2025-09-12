@@ -71,7 +71,8 @@ html {
   background-size: 1200px;
   pointer-events: none;
   z-index: 0; /* acima do fundo preto */
-  filter: brightness(0.7) contrast(1.2) saturate(1.2) sepia(0.2) hue-rotate(40deg);
+  filter: brightness(0.7) contrast(1.2) saturate(1.2) sepia(0.2)
+    hue-rotate(40deg);
   mask-image: radial-gradient(
     circle 200px at center,
     rgba(0, 0, 0, 0.15) 10%,
@@ -97,7 +98,10 @@ html {
   image-rendering: crisp-edges;
 }
 
-header, nav#mobileMenu, section, footer {
+header,
+nav#mobileMenu,
+section,
+footer {
   position: relative;
   z-index: 2; /* conteúdo acima dos efeitos */
 }
