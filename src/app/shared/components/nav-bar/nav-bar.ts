@@ -10,10 +10,10 @@ import { NgOptimizedImage } from '@angular/common';
   styleUrl: './nav-bar.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-  class: 'block bg-[#F4F3F1] h-full transition-all duration-300 ease-out',
+    class: 'block bg-[#F4F3F1] h-full transition-all duration-300 ease-out',
     '[class.w-56]': '!collapsed()',
     '[class.w-18]': 'collapsed()',
-  '[class.is-collapsed]': 'collapsed()',
+    '[class.is-collapsed]': 'collapsed()',
   },
 })
 export class NavBar {

@@ -1,21 +1,22 @@
 <nav
-  class="h-full overflow-hidden"
+  class="h-full overflow-hidden flex flex-col"
   (click)="expandOnBackgroundClick()"
   [class.cursor-e-resize]="collapsed()"
 >
   <div class="flex items-center justify-between p-3 mt-2 mb-8">
     <div class="flex items-center space-x-2">
       <button
-        class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 hover:bg-surface-container2 transition-colors"
-        (click)="$event.stopPropagation(); collapsed() && toggle()"
+        [routerLink]="!collapsed() ? '/' : null"
+        class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 hover:bg-surface-container2 transition-colors cursor-pointer"
+        (click)="$event.stopPropagation(); collapsed() ? toggle() : null"
         (mouseenter)="logoHovered.set(true)"
         (mouseleave)="logoHovered.set(false)"
         [attr.aria-pressed]="collapsed()"
         [attr.aria-label]="
-          collapsed() ? 'Expandir sidebar' : 'Logo da Aplicação'
+          collapsed() ? 'Expandir sidebar' : 'Ir para a página inicial'
         "
-        [title]="collapsed() ? 'Expandir sidebar' : 'Logo da Aplicação'"
-        [class.cursor-e-resize]="collapsed()"
+        [title]="collapsed() ? 'Expandir sidebar' : 'Ir para a página inicial'"
+        [class.cursor-pointer]="true"
       >
         @if (collapsed() && logoHovered()) {
         <svg
@@ -36,7 +37,10 @@
         }
       </button>
 
-      <span class="nav-label text-on-surface title-medium" [attr.aria-hidden]="collapsed()">
+      <span
+        class="nav-label text-on-surface title-medium"
+        [attr.aria-hidden]="collapsed()"
+      >
         {{ userName() }}
       </span>
     </div>
@@ -44,7 +48,7 @@
     @if (!collapsed()) {
     <button
       type="button"
-      class="h-10 w-10 flex items-center justify-center cursor-e-resize rounded-xl font-medium hover:bg-surface-container2"
+      class="h-12 w-12 flex items-center justify-center cursor-e-resize rounded-xl font-medium hover:bg-surface-container2"
       (click)="$event.stopPropagation(); toggle()"
       aria-label="Colapsar sidebar"
       title="Alternar sidebar"
@@ -73,18 +77,42 @@
         matrixParams: 'subset',
         fragment: 'ignored'
       }"
-  [class.justify-between]="!collapsed()"
-  [class.w-14]="collapsed()"
-  [class.mx-auto]="collapsed()"
-  [class.justify-center]="collapsed()"
+      [class.justify-between]="!collapsed()"
+      [class.w-14]="collapsed()"
+      [class.mx-auto]="collapsed()"
+      [class.justify-center]="collapsed()"
       [attr.aria-label]="collapsed() ? item.label : null"
       [attr.title]="collapsed() ? item.label : null"
     >
-  <span class="nav-label title-medium" [attr.aria-hidden]="collapsed()">{{ item.label }}</span>
+      <span class="nav-label title-medium" [attr.aria-hidden]="collapsed()">{{
+        item.label
+      }}</span>
       <svg class="icone w-6 h-6 shrink-0" aria-hidden="true" focusable="false">
         <use [attr.href]="item.icon"></use>
       </svg>
     </a>
     }
+  </div>
+
+  <!-- Botão Retornar (inferior) -->
+  <div
+    class="mt-auto p-2 flex"
+    [class.justify-end]="!collapsed()"
+    [class.justify-center]="collapsed()"
+  >
+    <a
+      routerLink="/"
+      class="mb-2 nav-item flex items-center rounded-xl cursor-pointer transition-colors text-on-surface-variant [&:not(.bg-primary)]:hover:bg-surface-container2"
+      (click)="$event.stopPropagation()"
+      [class.w-14]="collapsed()"
+      [class.mx-auto]="collapsed()"
+      [class.justify-center]="collapsed()"
+      [attr.aria-label]="collapsed() ? 'Retornar para página inicial' : null"
+      [attr.title]="collapsed() ? 'Retornar para página inicial' : null"
+    >
+      <svg class="icone w-6 h-6 shrink-0" aria-hidden="true" focusable="false">
+        <use [attr.href]="'/sprite.svg#icon-retornar'"></use>
+      </svg>
+    </a>
   </div>
 </nav>
