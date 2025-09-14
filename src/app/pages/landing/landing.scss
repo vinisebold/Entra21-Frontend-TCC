@@ -9,6 +9,82 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Fade lateral existente + novo fade inferior */
+#carousel-container::before,
+#carousel-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 3;
+  pointer-events: none;
+}
+#carousel-container::before {
+  left: 0;
+  background: linear-gradient(to right, #f5f7ee, transparent);
+}
+#carousel-container::after {
+  right: 0;
+  background: linear-gradient(to left, #f5f7ee, transparent);
+}
+
+/* Fade inferior separado para evitar conflito com os fades laterais */
+#carousel-container .bottom-fade-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 160px;
+  pointer-events: none;
+  z-index: 4;
+  background: linear-gradient(to bottom, rgba(245,247,238,0) 0%, #f5f7ee 60%, #f5f7ee 100%);
+}
+
+/* Hero section fade para transição com a próxima seção */
+#hero-section {
+  position: relative;
+}
+#hero-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(245,247,238,0) 0%, #f5f7ee 55%, #f5f7ee 100%);
+  z-index: 1; /* abaixo do conteúdo mas acima do fundo */
+}
+
+/* Suavização do encontro com a seção de recursos */
+#recursos {
+  position: relative;
+  background: #ffffff;
+  /* Afasta levemente para sobrepor o fade do hero sem criar linha */
+  margin-top: -40px;
+  padding-top: 70px; /* compensa o margin-top negativo */
+  z-index: 2;
+}
+#recursos::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  left: 0;
+  right: 0;
+  height: 120px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, #f5f7ee 0%, #ffffff 80%);
+  z-index: 1;
+}
+
+/* Suavização adicional para melhor performance */
+.carousel-item img {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;

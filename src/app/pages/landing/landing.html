@@ -9,7 +9,7 @@
       <!-- Logo -->
       <a class="flex items-center gap-2 group" routerLink="/">
         <img
-          ngSrc="assets/logo.png"
+          ngSrc="assets/logotipo.png"
           width="132"
           height="44"
           alt="Gleam logo"
@@ -38,167 +38,335 @@
   <main class="flex-1">
     <!-- Hero -->
     <section
-      class="flex items-center justify-center min-h-[calc(100vh-5rem)] px-6 md:px-10 text-center bg-gradient-to-b from-white to-[#f5f7ee]"
+      class="relative min-h-[124vh] flex flex-col justify-center bg-gradient-to-b from-white to-[#f5f7ee] py-32"
+      id="hero-section"
     >
-      <div class="max-w-3xl mx-auto">
-        <h1
-          class="text-[#b7c46d] font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl mb-6 leading-tight"
-        >
-          Gerencie seu negócio com eficiência
-        </h1>
-        <p
-          class="text-[#8a9550] text-base sm:text-lg font-light leading-relaxed max-w-2xl mx-auto"
-        >
-          Centralize estoque, vendas e cadastros em uma plataforma intuitiva e
-          preparada para o crescimento do seu negócio.
-        </p>
-        <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="#recursos"
-            class="rounded-xl rounded-tr-none bg-[#b7c46d] text-white font-semibold px-8 py-3 shadow-md hover:shadow-lg hover:bg-[#a8b65f] active:scale-[.97] transition"
-            >Ver recursos</a
+      <!-- Decorativos -->
+      <div class="pointer-events-none absolute inset-0 opacity-40">
+        <div
+          class="absolute -top-40 -left-32 w-[540px] h-[540px] bg-[#b7c46d]/10 rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute -bottom-40 -right-32 w-[560px] h-[560px] bg-[#b7c46d]/10 rounded-full blur-3xl"
+        ></div>
+      </div>
+
+      <div class="mx-auto w-full max-w-[112rem] px-6 lg:px-10 relative flex-1 flex flex-col justify-center">
+        <!-- Texto ocupa toda a largura -->
+        <div class="text-center mb-16">
+          <h1
+            class="text-[#b7c46d] font-extrabold tracking-tight text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6"
           >
-          <a
-            routerLink="/inicio"
-            class="rounded-xl rounded-tr-none border border-[#b7c46d] text-[#b7c46d] font-semibold px-8 py-3 hover:bg-[#b7c46d] hover:text-white transition"
-            >Começar agora</a
+            Gerencie seu negócio com eficiência
+          </h1>
+          <p
+            class="text-[#8a9550] text-base sm:text-lg font-light leading-relaxed max-w-3xl mx-auto mb-10"
           >
+            Centralize estoque, vendas e cadastros em uma plataforma intuitiva
+            e preparada para o crescimento do seu negócio.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center"
+          >
+            <a
+              href="#recursos"
+              class="rounded-xl rounded-tr-none bg-[#b7c46d] text-white font-semibold px-8 py-3 shadow-md hover:shadow-lg hover:bg-[#a8b65f] active:scale-[.97] transition"
+              >Ver recursos</a
+            >
+            <a
+              routerLink="/inicio"
+              class="rounded-xl rounded-tr-none border border-[#b7c46d] text-[#b7c46d] font-semibold px-8 py-3 hover:bg-[#b7c46d] hover:text-white transition"
+              >Começar agora</a
+            >
+          </div>
         </div>
+
+        <!-- Carrossel horizontal de imagens -->
+        <app-carousel-scroll></app-carousel-scroll>
       </div>
     </section>
 
-    <!-- Recursos / Features -->
-    <section id="recursos" class="py-20 bg-white relative">
-      <div class="mx-auto max-w-7xl px-6 md:px-10">
-        <div class="text-center max-w-3xl mx-auto">
+    <!-- Módulos -->
+    <section id="recursos" class="py-24 bg-white relative overflow-hidden">
+      <div class="mx-auto w-full max-w-[90rem] px-6 lg:px-10">
+        <!-- Cabeçalho -->
+        <div class="text-center max-w-3xl mx-auto mb-20">
           <h2
             class="text-3xl md:text-5xl font-extrabold text-[#b7c46d] tracking-tight"
           >
-            Nossos recursos
+            Nossos módulos
           </h2>
-          <p class="mt-4 text-[#8a9550] max-w-2xl mx-auto text-sm sm:text-base">
-            Ferramentas criadas para simplificar processos, reduzir erros e
-            maximizar seus resultados.
+          <p
+            class="mt-4 text-[#8a9550] max-w-2xl mx-auto text-sm sm:text-base leading-relaxed"
+          >
+            Cada parte do sistema foi pensada para tornar sua operação mais
+            simples, rápida e escalável.
           </p>
         </div>
 
-        <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Card -->
-          <article
-            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
-          >
-            <div>
-              <h3 class="text-lg font-semibold text-[#b7c46d]">
-                Controle de Estoque
-              </h3>
-              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
-                Acompanhe entradas, saídas e níveis críticos em tempo real.
-              </p>
-            </div>
-            <div class="mt-5">
+        <!-- Lista de módulos -->
+        <div class="grid gap-y-32">
+          <!-- Módulo Início -->
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="order-2 lg:order-1 text-center lg:text-left">
               <span
-                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
-                >Saiba mais</span
+                class="inline-block text-xs tracking-widest font-semibold text-[#b7c46d]/80 mb-3 uppercase"
+                >Visão Geral</span
               >
+              <h3 class="text-2xl md:text-3xl font-bold text-[#b7c46d] mb-5">
+                Módulo Início
+              </h3>
+              <p
+                class="text-sm sm:text-base text-gray-600 leading-relaxed mb-6"
+              >
+                Painel inicial com visão consolidada de desempenho, métricas e
+                atalhos estratégicos para agilizar decisões diárias.
+              </p>
+              <ul class="text-left inline-grid gap-2 text-[#8a9550] text-sm">
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Resumo rápido de vendas e estoque.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Indicadores de lucro e performance.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Atalhos para módulos críticos.
+                </li>
+              </ul>
             </div>
-          </article>
+            <div
+              class="order-1 lg:order-2 relative group max-w-xl mx-auto w-full"
+            >
+              <figure
+                class="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white transition-transform duration-700 group-hover:scale-[1.015]"
+              >
+                <img
+                  ngSrc="assets/img-modules/inicio.png"
+                  width="1280"
+                  height="720"
+                  alt="Tela do módulo Início"
+                  class="w-full h-auto object-cover select-none"
+                />
+              </figure>
+            </div>
+          </div>
 
-          <article
-            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
-          >
-            <div>
-              <h3 class="text-lg font-semibold text-[#b7c46d]">
-                Gestão de Vendas
-              </h3>
-              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
-                Visão clara de performance e análise por categoria ou período.
-              </p>
-            </div>
-            <div class="mt-5">
-              <span
-                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
-                >Saiba mais</span
+          <!-- Módulo Inventário -->
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="relative group max-w-xl mx-auto w-full">
+              <figure
+                class="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white transition-transform duration-700 group-hover:scale-[1.015]"
               >
+                <img
+                  ngSrc="assets/img-modules/inventario.png"
+                  width="1280"
+                  height="720"
+                  alt="Tela do módulo Inventário"
+                  class="w-full h-auto object-cover select-none"
+                />
+              </figure>
+              <!-- Modal adicionar peça -->
+              <figure
+                class="hidden md:block absolute top-28 left-92 w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-[#b7c46d]/25 bg-white/80 backdrop-blur-sm transition-all duration-500 origin-top-left"
+                [class.opacity-0]="inventarioModalIndex() !== 0"
+                [class.scale-95]="inventarioModalIndex() !== 0"
+                [class.pointer-events-none]="inventarioModalIndex() !== 0"
+              >
+                <img
+                  ngSrc="assets/img-modules/inventario-adicionar-peca.png"
+                  width="600"
+                  height="420"
+                  alt="Modal de adicionar peça"
+                  class="w-full h-auto"
+                />
+              </figure>
+              <!-- Modal registrar vendas -->
+              <figure
+                class="hidden md:block absolute top-22 left-92 w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-[#b7c46d]/25 bg-white/80 backdrop-blur-sm transition-all duration-500 origin-top-left"
+                [class.opacity-0]="inventarioModalIndex() !== 1"
+                [class.scale-95]="inventarioModalIndex() !== 1"
+                [class.pointer-events-none]="inventarioModalIndex() !== 1"
+              >
+                <img
+                  ngSrc="assets/img-modules/inventario-registrar-modal.png"
+                  width="600"
+                  height="420"
+                  alt="Modal de registrar vendas"
+                  class="w-full h-auto"
+                />
+              </figure>
             </div>
-          </article>
+            <div class="text-center lg:text-left max-w-xl mx-auto">
+              <span
+                class="inline-block text-xs tracking-widest font-semibold text-[#b7c46d]/80 mb-3 uppercase"
+                >Controle</span
+              >
+              <h3 class="text-2xl md:text-3xl font-bold text-[#b7c46d] mb-5">
+                Módulo Inventário
+              </h3>
+              <p
+                class="text-sm sm:text-base text-gray-600 leading-relaxed mb-6"
+              >
+                Controle detalhado de produtos, movimentações e níveis críticos
+                para evitar rupturas e excesso de estoque.
+              </p>
+              <ul class="text-left inline-grid gap-2 text-[#8a9550] text-sm">
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Cadastro e edição de itens.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Registro rápido de entradas e saídas.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Visão de movimentações recentes.
+                </li>
+              </ul>
+            </div>
+          </div>
 
-          <article
-            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
-          >
-            <div>
-              <h3 class="text-lg font-semibold text-[#b7c46d]">
-                Integração com Fornecedores
-              </h3>
-              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
-                Catálogo e custos sempre atualizados para decisões rápidas.
-              </p>
-            </div>
-            <div class="mt-5">
+          <!-- Módulo Cadastros -->
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div
+              class="order-2 lg:order-1 text-center lg:text-left max-w-xl mx-auto"
+            >
               <span
-                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
-                >Saiba mais</span
+                class="inline-block text-xs tracking-widest font-semibold text-[#b7c46d]/80 mb-3 uppercase"
+                >Relacionamentos</span
               >
+              <h3 class="text-2xl md:text-3xl font-bold text-[#b7c46d] mb-5">
+                Módulo Cadastros
+              </h3>
+              <p
+                class="text-sm sm:text-base text-gray-600 leading-relaxed mb-6"
+              >
+                Gestão estruturada de clientes e fornecedores para fortalecer
+                operações e negociações estratégicas.
+              </p>
+              <ul class="text-left inline-grid gap-2 text-[#8a9550] text-sm">
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Ficha completa de clientes e fornecedores.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Busca rápida e filtros inteligentes.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Cadastro simplificado via modal.
+                </li>
+              </ul>
             </div>
-          </article>
+            <div class="order-1 lg:order-2 relative max-w-xl mx-auto w-full">
+              <figure
+                class="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white transition-transform duration-700 group-hover:scale-[1.015]"
+              >
+                <img
+                  ngSrc="assets/img-modules/cadastro.png"
+                  width="1280"
+                  height="720"
+                  alt="Tela do módulo Cadastros"
+                  class="w-full h-auto object-cover select-none"
+                />
+              </figure>
+              <!-- Modal adicionar cliente -->
+              <figure
+                class="hidden md:block absolute top-28 left-92 w-56 rounded-xl overflow-hidden shadow-lg ring-1 ring-[#b7c46d]/25 bg-white/80 backdrop-blur-sm transition-all duration-500 origin-top-right"
+                [class.opacity-0]="cadastrosModalIndex() !== 0"
+                [class.scale-95]="cadastrosModalIndex() !== 0"
+                [class.pointer-events-none]="cadastrosModalIndex() !== 0"
+              >
+                <img
+                  ngSrc="assets/img-modules/cadastro-adicionar-cliente.png"
+                  width="640"
+                  height="420"
+                  alt="Modal de adicionar cliente"
+                  class="w-full h-auto"
+                />
+              </figure>
+              <!-- Modal adicionar fornecedor -->
+              <figure
+                class="hidden md:block absolute top-48 left-62 w-86 rounded-xl overflow-hidden shadow-lg ring-1 ring-[#b7c46d]/25 bg-white/80 backdrop-blur-sm transition-all duration-500 origin-top-right"
+                [class.opacity-0]="cadastrosModalIndex() !== 1"
+                [class.scale-95]="cadastrosModalIndex() !== 1"
+                [class.pointer-events-none]="cadastrosModalIndex() !== 1"
+              >
+                <img
+                  ngSrc="assets/img-modules/cadastro-adicionar-fornecedor-modal.png"
+                  width="840"
+                  height="620"
+                  alt="Modal de adicionar fornecedor"
+                  class="w-full h-auto"
+                />
+              </figure>
+            </div>
+          </div>
 
-          <article
-            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
-          >
-            <div>
-              <h3 class="text-lg font-semibold text-[#b7c46d]">
-                Relatórios Inteligentes
-              </h3>
-              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
-                Indicadores essenciais para acompanhar crescimento e margens.
-              </p>
-            </div>
-            <div class="mt-5">
-              <span
-                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
-                >Saiba mais</span
+          <!-- Módulo Financeiro -->
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="relative group max-w-xl mx-auto w-full">
+              <figure
+                class="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white transition-transform duration-700 group-hover:scale-[1.015]"
               >
+                <img
+                  ngSrc="assets/img-modules/financeiro.png"
+                  width="1280"
+                  height="720"
+                  alt="Tela do módulo Financeiro"
+                  class="w-full h-auto object-cover select-none"
+                />
+              </figure>
             </div>
-          </article>
-
-          <article
-            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
-          >
-            <div>
-              <h3 class="text-lg font-semibold text-[#b7c46d]">
-                Clientes & Fornecedores
-              </h3>
-              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
-                Cadastre e gerencie relações comerciais de forma organizada.
-              </p>
-            </div>
-            <div class="mt-5">
+            <div class="text-center lg:text-left max-w-xl mx-auto">
               <span
-                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
-                >Saiba mais</span
+                class="inline-block text-xs tracking-widest font-semibold text-[#b7c46d] /80 mb-3 uppercase"
+                >Resultados</span
               >
-            </div>
-          </article>
-
-          <article
-            class="group rounded-2xl bg-white shadow-md hover:shadow-xl ring-1 ring-[#b7c46d]/20 hover:ring-[#b7c46d]/40 transition p-6 flex flex-col"
-          >
-            <div>
-              <h3 class="text-lg font-semibold text-[#b7c46d]">
-                Fluxo Financeiro
+              <h3 class="text-2xl md:text-3xl font-bold text-[#b7c46d] mb-5">
+                Módulo Financeiro
               </h3>
-              <p class="mt-2 text-gray-600 text-sm leading-relaxed">
-                Acompanhe vendas pendentes e quitadas com clareza.
-              </p>
-            </div>
-            <div class="mt-5">
-              <span
-                class="inline-block text-xs font-medium tracking-wide text-[#b7c46d] group-hover:underline"
-                >Saiba mais</span
+              <p
+                class="text-sm sm:text-base text-gray-600 leading-relaxed mb-6"
               >
+                Acompanhe vendas pendentes, recebimentos e fluxo de caixa para
+                manter a saúde financeira sob controle.
+              </p>
+              <ul class="text-left inline-grid gap-2 text-[#8a9550] text-sm">
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Painel comparativo de vendas.
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Classificação por status (pendente / quitada).
+                </li>
+                <li class="flex items-start gap-2">
+                  <span class="mt-1 w-2 h-2 rounded-full bg-[#b7c46d]"></span
+                  >Organização temporal e previsibilidade.
+                </li>
+              </ul>
             </div>
-          </article>
+          </div>
         </div>
       </div>
+      <!-- Elementos decorativos de fundo -->
+      <div
+        class="pointer-events-none absolute inset-0 opacity-[0.18] mix-blend-multiply"
+        style="
+          background-image: radial-gradient(
+            circle at 1px 1px,
+            #b7c46d22 1px,
+            transparent 0
+          );
+          background-size: 26px 26px;
+        "
+      ></div>
     </section>
 
     <!-- Equipe -->
@@ -216,7 +384,7 @@
         "
       ></div>
 
-      <div class="relative mx-auto max-w-7xl px-6 md:px-10">
+      <div class="relative mx-auto max-w-[90rem] px-6 md:px-10">
         <div class="text-center max-w-2xl mx-auto">
           <span
             class="block w-16 h-1 mx-auto bg-[#b7c46d] rounded-full mb-6"

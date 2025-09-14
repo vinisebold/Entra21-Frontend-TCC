@@ -1,8 +1,18 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  signal,
+  afterNextRender,
+  Renderer2,
+  inject,
+  ElementRef,
+} from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CardPessoa } from '@app/shared/components/card-pessoa/card-pessoa';
-import { signal } from '@angular/core';
+import { CarouselScroll } from '@app/shared/components/carousel-scroll/carousel-scroll';
 
 interface Membro {
   nome: string;
@@ -16,12 +26,15 @@ interface Membro {
 
 @Component({
   selector: 'app-landing',
-  imports: [NgOptimizedImage, RouterLink, CardPessoa],
+  imports: [NgOptimizedImage, RouterLink, CardPessoa, CarouselScroll],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Landing {
+export class Landing implements OnInit, OnDestroy {
+  private renderer = inject(Renderer2);
+  private elementRef = inject(ElementRef);
+
   readonly currentYear = new Date().getFullYear();
 
   readonly membros = signal<Membro[]>([
@@ -94,4 +107,34 @@ export class Landing {
       ],
     },
   ]);
+
+  // Controle de modais dinâmicos
+  readonly inventarioModalIndex = signal(0); // 0 = adicionar peça, 1 = registrar vendas
+  readonly cadastrosModalIndex = signal(0); // 0 = adicionar cliente, 1 = adicionar fornecedor
+
+  private inventarioIntervalId?: any;
+  private cadastrosIntervalId?: any;
+  private scrollListener?: () => void; // TODO: remover se não mais usado
+
+  constructor() {
+    // remove chamada de init do carrossel (agora no componente filho)
+  }
+
+  ngOnInit(): void {
+    this.inventarioIntervalId = setInterval(() => {
+      this.inventarioModalIndex.update((i) => (i + 1) % 2);
+    }, 3000);
+
+    this.cadastrosIntervalId = setInterval(() => {
+      this.cadastrosModalIndex.update((i) => (i + 1) % 2);
+    }, 4000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.inventarioIntervalId) clearInterval(this.inventarioIntervalId);
+    if (this.cadastrosIntervalId) clearInterval(this.cadastrosIntervalId);
+    // listener antigo não usado
+  }
+
+  private initializeCarouselScrollEffect(): void { /* deprecated: lógica movida para CarouselScroll */ }
 }

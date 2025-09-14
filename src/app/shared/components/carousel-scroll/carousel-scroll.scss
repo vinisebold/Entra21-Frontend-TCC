@@ -1,0 +1,99 @@
+/* Estilos 100% baseados no Google Chrome Mosaic */
+:host {
+  display: block;
+  position: relative;
+  height: clamp(600px, 80vh, 800px);
+  overflow: visible;
+}
+
+#carousel-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  padding-bottom: 4rem;
+  overflow: visible;
+}
+
+#carousel-container::before,
+#carousel-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 3;
+  pointer-events: none;
+}
+#carousel-container::before { left: 0; background: linear-gradient(to right, rgba(245,247,238,0.15), transparent); }
+#carousel-container::after { right: 0; background: linear-gradient(to left, rgba(245,247,238,0.15), transparent); }
+
+#carousel-container .bottom-fade-overlay {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 160px;
+  pointer-events: none;
+  z-index: 4;
+  background: linear-gradient(to bottom, rgba(245,247,238,0) 0%, #f5f7ee 60%, #f5f7ee 100%);
+}
+
+.carousel-track {
+  display: flex;
+  align-items: flex-end;
+  gap: 2rem;
+  padding: 0 4rem 2rem;
+  width: max-content;
+  min-width: 100%;
+  will-change: transform;
+  /* Estado inicial controlado pelo JavaScript */
+  transform: translate(0px, 0);
+  /* Centralizar o conjunto de imagens */
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.carousel-item { 
+  flex-shrink: 0; 
+  position: relative; 
+  will-change: transform, opacity;
+  /* Estado inicial controlado pelo JavaScript (igual ao Chrome) */
+  transform: translate(0%, 0%) scale(1);
+  opacity: 1;
+}
+
+/* Borda especial para itens portrait (igual ao Chrome) */
+.carousel-item--border .uniform-carousel-img {
+  border: 2px solid rgba(183, 196, 109, 0.15);
+}
+
+/* Variações de altura removidas - layout controlado pelo JS */
+
+.uniform-carousel-img { 
+  height: clamp(340px, 50vh, 540px); 
+  object-fit: cover; 
+  display: block;
+  /* Otimizações de performance (iguais ao Chrome) */
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Responsividade igual ao original */
+@media (max-width: 1024px) {
+  :host { height: clamp(420px, 62vh, 600px); }
+  .uniform-carousel-img { height: clamp(320px, 48vh, 500px); }
+}
+
+@media (max-width: 768px) {
+  :host { height: clamp(380px, 58vh, 540px); }
+  .uniform-carousel-img { height: clamp(300px, 50vh, 480px); }
+}
+
+@media (max-width: 480px) {
+  :host { height: clamp(340px, 54vh, 500px); }
+  .uniform-carousel-img { height: clamp(280px, 48vh, 440px); }
+}

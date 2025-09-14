@@ -1,0 +1,64 @@
+<!-- Carrossel horizontal de imagens baseado 100% no Google Chrome Mosaic -->
+<div class="relative h-[60vh] pt-32" id="carousel-container">
+  <div
+    class="carousel-track flex items-end gap-6 h-full will-change-transform"
+    id="carousel-track"
+  >
+    <!-- Item 1: Landscape ESQUERDA - Tela início (posição fixa: x: 25.5/23, y: -22) -->
+    <figure class="carousel-item flex-shrink-0 relative">
+      <img
+        ngSrc="assets/img-modules/inicio.png"
+        width="727"
+        height="424"
+        alt="Tela inicial da aplicação"
+        class="uniform-carousel-img w-auto object-cover rounded-2xl shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white"
+        fetchpriority="high"
+      />
+    </figure>
+
+    <!-- Item 2: Modal CENTRO - Surge de baixo (posição: x: 0, y: 50, opacity: 0 -> aparece) -->
+    <figure class="carousel-item carousel-item--border flex-shrink-0 relative">
+      <img
+        ngSrc="assets/img-modules/inventario-adicionar-peca.png"
+        width="220"
+        height="424"
+        alt="Modal de adicionar peça"
+        class="uniform-carousel-img w-auto object-cover rounded-xl shadow-xl ring-1 ring-[#b7c46d]/25 bg-white border-2 border-[#b7c46d]/10"
+      />
+    </figure>
+
+    <!-- Item 3: Landscape CENTRO - Posição central (posição: x: 0, y: 8, scale: 1.15) -->
+    <figure class="carousel-item flex-shrink-0 relative">
+      <img
+        ngSrc="assets/img-modules/cadastro.png"
+        width="727"
+        height="424"
+        alt="Tela do módulo Cadastros"
+        class="uniform-carousel-img w-auto object-cover rounded-2xl shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white"
+      />
+    </figure>
+
+    <!-- Item 4: Modal DIREITA - Um pouco acima (posição: x: 44/52, y: -26, scale: 1.25) -->
+    <figure class="carousel-item carousel-item--border flex-shrink-0 relative">
+      <img
+        ngSrc="assets/img-modules/inventario-registrar-modal.png"
+        width="220"
+        height="424"
+        alt="Modal de registro de inventário"
+        class="uniform-carousel-img w-auto object-cover rounded-xl shadow-xl ring-1 ring-[#b7c46d]/25 bg-white border-2 border-[#b7c46d]/10"
+      />
+    </figure>
+
+    <!-- Item 5: Landscape DIREITA - Surge depois (posição: x: 23/24, y: 10) -->
+    <figure class="carousel-item flex-shrink-0 relative">
+      <img
+        ngSrc="assets/img-modules/financeiro.png"
+        width="727"
+        height="424"
+        alt="Tela do módulo Financeiro"
+        class="uniform-carousel-img w-auto object-cover rounded-2xl shadow-2xl ring-1 ring-[#b7c46d]/20 bg-white"
+      />
+    </figure>
+  </div>
+  <div class="bottom-fade-overlay"></div>
+</div>
