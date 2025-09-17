@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavBar } from "@shared";
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-layout',
@@ -9,5 +10,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './layout.scss'
 })
 export class Layout {
+  private authService = inject(AuthService);
 
+  ngOnInit(): void {
+    this.authService.fetchCurrentUser().subscribe();
+  }
 }

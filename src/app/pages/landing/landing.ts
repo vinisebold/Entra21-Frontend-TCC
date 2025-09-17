@@ -13,6 +13,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { CardPessoa } from '@app/shared/components/card-pessoa/card-pessoa';
 import { CarouselScroll } from '@app/shared/components/carousel-scroll/carousel-scroll';
+import { environment } from '@env/environment';
 
 interface Membro {
   nome: string;
@@ -26,7 +27,7 @@ interface Membro {
 
 @Component({
   selector: 'app-landing',
-  imports: [NgOptimizedImage, RouterLink, CardPessoa, CarouselScroll],
+  imports: [ NgOptimizedImage, RouterLink, CardPessoa, CarouselScroll ],
   templateUrl: './landing.html',
   styleUrl: './landing.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +35,7 @@ interface Membro {
 export class Landing implements OnInit, OnDestroy {
   private renderer = inject(Renderer2);
   private elementRef = inject(ElementRef);
+  readonly loginUrl = `${environment.apiUrl}/../oauth2/authorization/google`;
 
   readonly currentYear = new Date().getFullYear();
 

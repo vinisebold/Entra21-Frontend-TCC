@@ -103,7 +103,7 @@
     <a
       routerLink="/"
       class="mb-2 nav-item flex items-center rounded-xl cursor-pointer transition-colors text-on-surface-variant [&:not(.bg-primary)]:hover:bg-surface-container2"
-      (click)="$event.stopPropagation()"
+      (click)="logout(); $event.stopPropagation()"
       [class.w-14]="collapsed()"
       [class.mx-auto]="collapsed()"
       [class.justify-center]="collapsed()"
